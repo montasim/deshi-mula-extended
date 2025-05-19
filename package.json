@@ -1,0 +1,49 @@
+{
+  "name": "deshi-mula-extended",
+  "version": "1.0.0",
+  "description": "Decodes 1337 / Leet Speak text on deshi mula webpages and converts it to readable English.",
+  "main": "dist/content.js",
+  "scripts": {
+    "lint:check": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "prettier:check": "prettier . --check",
+    "prettier:fix": "prettier . --write",
+    "build": "pnpm lint:fix && pnpm prettier:fix && tsc && pnpm copy:assets",
+    "watch": "tsc --watch",
+    "copy:assets": "cpx \"manifest.json\" dist && cpx \"icon.png\" dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Deshi Mula",
+    "Deshi Mula Extended",
+    "Deshi Mula Extension",
+    "chrome-extension",
+    "leet",
+    "1337",
+    "decoder",
+    "typescript"
+  ],
+  "author": {
+    "name": "Mohammad Montasim -Al- Mamun Shuvo",
+    "portfolio": "https://montasim-dev.web.app/",
+    "contact": {
+      "email": "montasimmamun@gmail.com"
+    },
+    "social": {
+      "linkedIn": "https://www.linkedin.com/in/montasim",
+      "gitHub": "https://github.com/montasim"
+    }
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "cpx": "^1.5.0",
+    "eslint": "^9.27.0",
+    "jiti": "^2.4.2",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
+  }
+}
