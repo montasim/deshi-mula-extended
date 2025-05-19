@@ -2,13 +2,14 @@
   "name": "deshi-mula-extended",
   "version": "1.0.0",
   "description": "Decodes 1337 / Leet Speak text on deshi mula webpages and converts it to readable English.",
-  "main": "dist/content.js",
+  "main": "src/content.js",
+  "type": "module",
   "scripts": {
     "lint:check": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "prettier:check": "prettier . --check",
     "prettier:fix": "prettier . --write",
-    "build": "pnpm lint:fix && pnpm prettier:fix && tsc && pnpm copy:assets",
+    "build": "pnpm lint:fix && pnpm prettier:fix && pnpx rollup -c && pnpm copy:assets && echo 🧩 Build completed: dist/bundle.js",
     "watch": "tsc --watch",
     "copy:assets": "cpx \"manifest.json\" dist && cpx \"icon.png\" dist",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,12 +38,16 @@
   "license": "MIT",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "cpx": "^1.5.0",
     "eslint": "^9.27.0",
     "jiti": "^2.4.2",
     "prettier": "^3.5.3",
+    "rollup": "^4.41.0",
+    "tslib": "^2.8.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1"
   }

@@ -4,14 +4,13 @@
   "version": "1.0",
   "description": "Decodes 1337 / Leet Speak text on deshi mula webpages and converts it to readable English.",
   "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["<all_urls>"],
   "icons": {
     "128": "icon.png"
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "matches": ["https://deshimula.com/ *"],
+      "js": ["bundle.js"]
     }
   ]
 }

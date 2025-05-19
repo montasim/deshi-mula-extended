@@ -1,0 +1,46 @@
+[
+  {
+    "pattern": "1",
+    "replacement": "i"
+  },
+  {
+    "pattern": "3",
+    "replacement": "e"
+  },
+  {
+    "pattern": "4",
+    "replacement": "a"
+  },
+  {
+    "pattern": "0",
+    "replacement": "o"
+  },
+  {
+    "pattern": "7",
+    "replacement": "t"
+  },
+  {
+    "pattern": "\\$",
+    "replacement": "s"
+  },
+  {
+    "pattern": "@",
+    "replacement": "a"
+  },
+  {
+    "pattern": "5",
+    "replacement": "s"
+  },
+  {
+    "pattern": "!",
+    "replacement": "i"
+  },
+  {
+    "pattern": ">k",
+    "replacement": "x"
+  },
+  {
+    "pattern": "\\|_\\|",
+    "replacement": "k"
+  }
+]

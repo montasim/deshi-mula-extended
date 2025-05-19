@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "ES2020",
     "module": "ESNext",
-    "lib": ["dom", "es2021"],
+    "moduleResolution": "Node",
     "strict": true,
-    "noImplicitAny": false,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "outDir": "./dist"
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "sourceMap": false,
+    "lib": ["DOM", "ES2020"]
   },
-  "include": ["**/*.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist", "eslint.config.js"]
 }
