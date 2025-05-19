@@ -10,7 +10,7 @@
     "prettier:fix": "prettier . --write",
     "build": "pnpm lint:fix && pnpm prettier:fix && tsc && pnpm copy:assets",
     "watch": "tsc --watch",
-    "copy:assets": "cpx \"manifest.json\" dist && cpx \"icon.png\" dist",
+    "copy:assets": "cpx \"manifest.json\" dist && cpx \"icon.png\" dist && cpx \"styles.css\" dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

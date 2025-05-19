@@ -1,0 +1,91 @@
+/* styles.css */
+.company-name {
+    cursor: pointer;
+}
+
+.visit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 11px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6b7280;
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    text-decoration: none;
+}
+.visit-badge:hover {
+    background-color: #e5e7eb;
+}
+.visit-badge svg {
+    width: 1rem;
+    height: 1rem;
+    stroke: currentColor;
+}
+
+.visit-social-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem; /* space between badges */
+    width: 32px; /* badge diameter */
+    height: 32px; /* badge diameter */
+    background-color: #f0f0f0; /* light bg – tweak to your theme */
+    color: #555; /* icon color */
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.visit-social-badge svg {
+    width: 16px; /* icon size */
+    height: 16px;
+}
+
+.visit-social-badge.rounded-full {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.visit-social-badge:hover {
+    background-color: #e0e0e0;
+}
+
+/* sentiment badges */
+.sentiment-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 12px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    border-radius: 9999px;
+}
+.sentiment-positive {
+    background-color: rgba(25, 135, 84);
+}
+.sentiment-negative {
+    background-color: rgba(220, 53, 69);
+}
+.sentiment-mixed {
+    background-color: rgba(13, 202, 240);
+}
+.sentiment-badge svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke: white;
+}
+
+.hover-preview {
+    position: absolute;
+    z-index: 9999;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    max-width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
