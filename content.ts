@@ -1,3 +1,9 @@
+/**
+ * A Map of leet speak patterns to their decoded replacements.
+ * Includes both regular expressions and string mappings.
+ *
+ * @constant {Map<string | RegExp, string>}
+ */
 const LEET_CHARACTER_MAP = new Map<string | RegExp, string>([
     // multi-char / special first
     [/></g, 'x'], // you already had Technone><T → TechnonextT
@@ -23,21 +29,56 @@ const LEET_CHARACTER_MAP = new Map<string | RegExp, string>([
     [/@/g, 'a'],
     [/!/g, 'i'],
 ]);
-const SEARCH_ENGINE_URL = 'https://duckduckgo.com/?q=';
+
+/**
+ * The base URL for the search engine to generate company website links.
+ *
+ * @constant {string}
+ */
+const SEARCH_ENGINE_URL = 'https://duckduckgo.com/?q=' as const;
+
+/**
+ * SVG icons for web links and sentiment badges.
+ *
+ * @constant {Object}
+ */
 const ICONS = {
+    /**
+     * SVG icon for website links.
+     *
+     * @type {string}
+     */
     WEB: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
 
-    // 👍 thumb-up icon
+    /**
+     * SVG icon for positive sentiment (thumbs-up).
+     *
+     * @type {string}
+     */
     POSITIVE:
         '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thumbs-up-icon lucide-thumbs-up"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>',
 
-    // 👎 thumb-down icon
+    /**
+     * SVG icon for negative sentiment (thumbs-down).
+     *
+     * @type {string}
+     */
     NEGATIVE:
         '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thumbs-down-icon lucide-thumbs-down"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg>',
 
-    // ↕️ mixed: up+down arrows
+    /**
+     * SVG icon for mixed sentiment (up/down arrows).
+     *
+     * @type {string}
+     */
     MIXED: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flip-vertical2-icon lucide-flip-vertical-2"><path d="m17 3-5 5-5-5h10"/><path d="m17 21-5-5-5 5h10"/><path d="M4 12H2"/><path d="M10 12H8"/><path d="M16 12h-2"/><path d="M22 12h-2"/></svg>',
-};
+} as const;
+
+/**
+ * CSS selectors for elements containing leet-speak text to decode.
+ *
+ * @constant {string[]}
+ */
 const SELECTORS_TO_DECODE = [
     '.company-name span',
     '.post-title',
@@ -49,21 +90,37 @@ const SELECTORS_TO_DECODE = [
     'tr.k-master-row td > a.k-link.text-primary.fw-semibold',
 ];
 
+/**
+ * Supported text casing styles.
+ */
 type TCaseStyle = 'sentence' | 'title' | 'upper';
 
+/**
+ * Converts a string to sentence case (first letter capitalized, rest lowercase).
+ *
+ * @param {string} str - The input string.
+ * @returns {string} The string in sentence case.
+ */
 const toSentenceCase = (str: string): string => {
     str = str.toLowerCase();
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
+/**
+ * Converts a string to title case (first letter of each word capitalized).
+ *
+ * @param {string} str - The input string.
+ * @returns {string} The string in title case.
+ */
 const toTitleCase = (str: string): string =>
     str.toLowerCase().replace(/\b([a-z])/g, (_, c) => c.toUpperCase());
 
 /**
- * Decode leet speak text to plain English, then apply casing.
+ * Decodes leet-speak text to plain English and applies the specified casing.
  *
- * @param text    The input leet-speak string
- * @param style   'sentence' | 'title' | 'upper' (defaults to 'title')
+ * @param {string} text - The leet-speak input string.
+ * @param {TCaseStyle} [style='title'] - The casing style ('sentence', 'title', or 'upper').
+ * @returns {string} The decoded string with applied casing.
  */
 const decodeLeet = (text: string, style: TCaseStyle = 'title'): string => {
     let result = text;
@@ -86,9 +143,10 @@ const decodeLeet = (text: string, style: TCaseStyle = 'title'): string => {
 };
 
 /**
- * Recursively decode all leet-speak in text nodes,
- * but *preserve* the original font style by simply updating
- * the textContent in place rather than swapping in a new <span>.
+ * Recursively walks through DOM nodes and decodes leet-speak in text nodes.
+ * Preserves original font styling by modifying textContent directly.
+ *
+ * @param {Node} node - The current DOM node being processed.
  */
 const walkTextNode = (node: Node): void => {
     if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
@@ -102,8 +160,10 @@ const walkTextNode = (node: Node): void => {
 };
 
 /**
- * Decode text nodes for one or more selectors in a single pass.
- * @param selectors  A selector string or array of selector strings
+ * Decodes leet-speak text for elements matching the provided selectors.
+ * Adds mouseenter/mouseleave event listeners to show/hide badges.
+ *
+ * @param {string | string[]} selectors - A single selector or array of selectors.
  */
 const decodeSelected = (selectors: string | string[]): void => {
     // Normalize to a comma-separated string so querySelectorAll runs only once
@@ -132,8 +192,8 @@ const decodeSelected = (selectors: string | string[]): void => {
 };
 
 /**
- * Find all leet-encoded company names, decode them,
- * update the DOM, and insert a search link.
+ * Finds company names encoded in leet-speak, decodes them,
+ * updates the DOM, and inserts a DuckDuckGo search link.
  */
 const insertCompanyWebsite = () => {
     document
@@ -166,8 +226,8 @@ const insertCompanyWebsite = () => {
 };
 
 /**
- * Insert a sentiment badge (Positive/Negative/Mixed)
- * next to the other badges based on up/down vote counts.
+ * Inserts a sentiment badge (Positive/Negative/Mixed) next to other badges
+ * based on vote counts.
  */
 const insertSentimentBadges = () => {
     document
@@ -228,9 +288,12 @@ const insertSentimentBadges = () => {
 // decodeSelected('a.k-link.text-primary.fw-semibold');
 // decodeSelected('tr.k-master-row td > a.k-link.text-primary.fw-semibold');
 
+// Execute decoding and badge insertion on load
+// Decode company names, post titles, and reviews on load
 decodeSelected(SELECTORS_TO_DECODE);
 
 // Decode company names and insert links
 insertCompanyWebsite();
 
+// Insert sentiment badges
 insertSentimentBadges();
