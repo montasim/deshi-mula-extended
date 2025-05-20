@@ -79,7 +79,7 @@ The script runs automatically on page load:
 - Assumes a valid Gemini API key is stored in `chrome.storage.local`.
 - Badges are hidden by default and shown on `mouseenter` events.
 - If no company details are found, a DuckDuckGo search link or a “Research Manually” button is provided.
-- Sentiment badges are computed from vote counts in `.fw-bold` elements within `.col-12` footers.  
+- Sentiment badges are computed from vote counts in `.fw-bold` elements within `.col-12` footers.
 
 ## License
 

@@ -538,6 +538,87 @@ const insertCompanyWebsite = () => {
                 }
             });
         });
+
+    // 1) Define which badges should always show company info:
+    const ALWAYS_SHOW = 'h4.soft.fw-bold.me-2.font-14';
+
+    // 2) On load, decode them and immediately fetch+insert links:
+    document
+        .querySelectorAll<HTMLElement>(ALWAYS_SHOW)
+        .forEach(async (badgeElem) => {
+            const raw = badgeElem.textContent?.trim();
+            if (!raw) return;
+
+            // decode leet-speak (optional):
+            const decoded = decodeLeet(raw);
+            badgeElem.textContent = decoded;
+
+            // grab API data:
+            const details = await fetchCompanyDetailsViaGemini(decoded);
+
+            // find a container to append into (adjust as needed):
+            const container = badgeElem.closest('div');
+            if (!container) return;
+
+            // insert each link if present:
+            if (details.website) {
+                addLinkElement(
+                    container,
+                    details.website,
+                    ICONS.WEB,
+                    null,
+                    'visit-story-social-badge'
+                );
+            }
+            if (details.linkedin) {
+                addLinkElement(
+                    container,
+                    details.linkedin,
+                    ICONS.LINKEDIN,
+                    null,
+                    'visit-story-social-badge'
+                );
+            }
+            if (details.facebook) {
+                addLinkElement(
+                    container,
+                    details.facebook,
+                    ICONS.FACEBOOK,
+                    null,
+                    'visit-story-social-badge'
+                );
+            }
+            if (details.github) {
+                addLinkElement(
+                    container,
+                    details.github,
+                    ICONS.GITHUB,
+                    null,
+                    'visit-story-social-badge'
+                );
+            }
+            if (details.email) {
+                addLinkElement(
+                    container,
+                    `mailto:${details.email}`,
+                    ICONS.EMAIL,
+                    null,
+                    'visit-story-social-badge'
+                );
+            }
+
+            // fallback: if nothing found, you could add a DuckDuckGo search badge
+            if (!Object.values(details).some(Boolean)) {
+                const ddg = `${SEARCH_ENGINE_URL}${encodeURIComponent(decoded + ' official site')}`;
+                addLinkElement(
+                    container,
+                    ddg,
+                    ICONS.SEARCH,
+                    'Search',
+                    'visit-badge'
+                );
+            }
+        });
 };
 
 /**

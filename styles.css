@@ -26,6 +26,7 @@
     --sentiment-icon-size: 1.25rem;
 
     --social-badge-size: 32px;
+    --social-story-badge-size: 22px;
     --social-icon-size: 22px;
 
     /* Transitions */
@@ -71,6 +72,19 @@
     margin-left: 0.5rem;
     width: var(--social-badge-size);
     height: var(--social-badge-size);
+    background-color: var(--color-social-bg);
+    color: var(--color-social-icon);
+    text-decoration: none;
+    transition: background-color var(--hover-transition-speed);
+}
+
+.visit-story-social-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+    width: var(--social-story-badge-size);
+    height: var(--social-story-badge-size);
     background-color: var(--color-social-bg);
     color: var(--color-social-icon);
     text-decoration: none;
