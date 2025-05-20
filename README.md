@@ -1,6 +1,6 @@
 # Deshi Mula Extended Chrome Extension
 
-This extensionon enhances the https://deshimula.com/ site by decoding leet-speak text, fetching company details, and adding interactive badges for website and social media links, as well as sentiment indicators based on user votes.
+This extension enhances the https://deshimula.com/ site by decoding leet-speak text, fetching company details, and adding interactive badges for website and social media links, as well as sentiment indicators based on user votes.
 
 ## Features
 
