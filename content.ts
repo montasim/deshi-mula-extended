@@ -673,6 +673,106 @@ const insertSentimentBadges = () => {
         });
 };
 
+/**
+ * Fetches an AI‐generated summary via Gemini Flash.
+ */
+const getAiSummary = async (comments: string[]): Promise<string> => {
+    const prompt = `Please provide a concise overall summary of the following comments:\n\n${comments.join(
+        '\n\n'
+    )}\n\nSummary:`;
+
+    const res = await fetch(
+        `${GEMINI_FLASH_ENDPOINT}?key=${await getApiKey()}`,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+            }),
+        }
+    );
+    if (!res.ok) {
+        console.error('Gemini API error', await res.text());
+        return 'Failed to generate summary.';
+    }
+    const { candidates } = (await res.json()) as any;
+    return (
+        candidates?.[0]?.content?.parts?.[0]?.text?.trim() ??
+        'No summary available.'
+    );
+};
+
+/**
+ * Inserts the AI Summary button next to your badge container
+ * and wires up the click handler to fetch & display the summary.
+ */
+function addAiSummaryButtons() {
+    // adjust selector to match your badge container
+    document
+        .querySelectorAll('.container.mt-4 .d-flex.my-2')
+        .forEach((header) => {
+            // avoid duplicating buttons
+            if (header.querySelector('.ai-summary-button')) return;
+
+            const btn = document.createElement('button');
+            btn.textContent = 'AI Summary';
+            btn.className =
+                'ai-summary-button btn btn-sm btn-outline-primary ms-2';
+            btn.title = 'Generate an AI summary of all comments';
+            btn.addEventListener('click', onAiSummaryClick);
+
+            header.appendChild(btn);
+        });
+}
+
+async function onAiSummaryClick(e: MouseEvent) {
+    const btn = e.currentTarget as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Generating…';
+
+    // 1) Collect all comment texts, filtering out any nulls
+    const comments = Array.from(
+        document.querySelectorAll<HTMLParagraphElement>('.commentText p')
+    )
+        .map((p) => p.textContent) // string | null
+        .filter((txt): txt is string => txt !== null && txt.trim() !== '')
+        .map((txt) => txt.trim());
+
+    // 2) Ensure the comments section exists
+    const commentsSection = document.getElementById('comments-section');
+    if (!commentsSection) {
+        console.error('Comments section not found');
+        btn.disabled = false;
+        btn.textContent = 'AI Summary';
+        return;
+    }
+
+    let summary: string;
+    try {
+        summary = await getAiSummary(comments);
+    } catch (err) {
+        console.error(err);
+        summary = 'Failed to generate summary.';
+    }
+
+    // 3) Restore button
+    btn.disabled = false;
+    btn.textContent = 'AI Summary';
+
+    // 4) Remove old display (if any)
+    const old = commentsSection.querySelector<HTMLDivElement>(
+        '.ai-summary-display'
+    );
+    if (old) old.remove();
+
+    // 5) Insert new summary
+    const display = document.createElement('div');
+    display.className = 'ai-summary-display alert alert-info mt-3';
+    display.innerHTML = `<strong>AI Summary:</strong><p>${summary}</p>`;
+
+    commentsSection.insertBefore(display, commentsSection.firstChild);
+}
+
 // Execute decoding and badge insertion on load
 // Decode company names, post titles, and reviews on load
 decodeSelected(SELECTORS_TO_DECODE);
@@ -682,3 +782,6 @@ insertCompanyWebsite();
 
 // Insert sentiment badges
 insertSentimentBadges();
+
+// Add AI Summary button
+addAiSummaryButtons();
