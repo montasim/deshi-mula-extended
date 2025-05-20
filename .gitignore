@@ -10,7 +10,7 @@ pnpm-lock.yaml
 
 # 🏗️ Build output directory
 # Contains compiled JS, manifest, icons, etc.
-dist
+/dist
 
 # 🧠 IDE settings
 # IDE configs for WebStorm/IntelliJ, not needed in repo

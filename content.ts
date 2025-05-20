@@ -1,5 +1,5 @@
-// Leet character map
-const leetMap = new Map<string | RegExp, string>([
+// 1) Pre-compile all mappings into an array of [regex, repl]
+const leetPatterns = new Map<string | RegExp, string>([
     // multi-char / special first
     [/></g, 'x'], // you already had Technone><T → TechnonextT
     [/>\s*k/gi, 'x'],
@@ -46,7 +46,7 @@ const decodeLeet = (text: string, style: CaseStyle = 'title'): string => {
     let result = text;
 
     // 1) first replace all the leet patterns
-    for (const [pattern, repl] of leetMap) {
+    for (const [pattern, repl] of leetPatterns) {
         result = result.replace(pattern, repl);
     }
 
@@ -235,7 +235,14 @@ const insertSentimentBadges = () => {
 };
 
 // Decode company names, post titles *and* reviews on load:
-decodeSelected('.company-name span, .post-title, .company-review');
+decodeSelected('.company-name span');
+decodeSelected('.post-title');
+decodeSelected('.company-review');
+decodeSelected('.badge h4');
+decodeSelected('h4.badge');
+decodeSelected('td > a.k-link.text-primary.fw-semibold');
+decodeSelected('a.k-link.text-primary.fw-semibold');
+decodeSelected('tr.k-master-row td > a.k-link.text-primary.fw-semibold');
 
 // Decode company names and insert links
 insertCompanyWebsite();
