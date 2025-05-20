@@ -1,29 +1,26 @@
 /* styles.css */
-.company-name {
-    cursor: pointer;
-}
-
 .visit-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
     margin-left: 11px;
-    padding: 4px 8px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: #6b7280;
-    background-color: #f3f4f6;
-    border: 1px solid #d1d5db;
+    padding: 2px 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #757575;
+    background-color: #e7e7e7;
     border-radius: 9999px;
     text-decoration: none;
-}
-.visit-badge:hover {
-    background-color: #e5e7eb;
-}
-.visit-badge svg {
-    width: 1rem;
-    height: 1rem;
-    stroke: currentColor;
+
+    svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+    }
+
+    :hover {
+        background-color: #2a2aff;
+    }
 }
 
 .visit-social-badge {
@@ -37,47 +34,64 @@
     color: #555; /* icon color */
     text-decoration: none;
     transition: background 0.2s;
-}
 
-.visit-social-badge svg {
-    width: 16px; /* icon size */
-    height: 16px;
+    svg {
+        width: 16px; /* icon size */
+        height: 16px;
+    }
 }
 
 .visit-social-badge.rounded-full {
     border-radius: 50%;
     overflow: hidden;
-}
 
-.visit-social-badge:hover {
-    background-color: #e0e0e0;
+    :hover {
+        background-color: #e0e0e0;
+    }
 }
 
 /* sentiment badges */
 .sentiment-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
     margin-left: 12px;
-    padding: 4px 8px;
+    padding: 2px 8px;
     font-size: 0.75rem;
     font-weight: 500;
     color: white;
     border-radius: 9999px;
+
+    svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        stroke: white;
+    }
 }
 .sentiment-positive {
-    background-color: rgba(25, 135, 84);
+    background-color: #e8f9e8;
+    color: #4caf50;
+
+    svg {
+        stroke: currentColor;
+    }
 }
 .sentiment-negative {
-    background-color: rgba(220, 53, 69);
+    background-color: #fff3f3;
+    color: #ff0000;
+
+    svg {
+        stroke: currentColor;
+    }
 }
 .sentiment-mixed {
-    background-color: rgba(13, 202, 240);
-}
-.sentiment-badge svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    stroke: white;
+    background-color: #e8f2fd;
+    color: #3269c3;
+
+    svg {
+        stroke: currentColor;
+    }
 }
 
 .hover-preview {
