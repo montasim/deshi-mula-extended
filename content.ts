@@ -110,6 +110,25 @@ const decodeSelected = (selectors: string | string[]): void => {
     const sel = Array.isArray(selectors) ? selectors.join(',') : selectors;
 
     document.querySelectorAll<HTMLElement>(sel).forEach(walkTextNode);
+
+    document
+        .querySelectorAll<HTMLElement>('.d-flex.flex-wrap.align-items-center')
+        .forEach((wrapper) => {
+            wrapper.addEventListener('mouseenter', () => {
+                wrapper
+                    .querySelectorAll<HTMLElement>(
+                        '.visit-badge, .sentiment-badge'
+                    )
+                    .forEach((b) => b.classList.remove('hidden'));
+            });
+            wrapper.addEventListener('mouseleave', () => {
+                wrapper
+                    .querySelectorAll<HTMLElement>(
+                        '.visit-badge, .sentiment-badge'
+                    )
+                    .forEach((b) => b.classList.add('hidden'));
+            });
+        });
 };
 
 /**
@@ -140,6 +159,7 @@ const insertCompanyWebsite = () => {
                   ${ICONS.WEB}
                   Visit ${decoded}
                 `;
+                siteLink.classList.add('hidden');
                 container.appendChild(siteLink);
             }
         });
@@ -193,6 +213,7 @@ const insertSentimentBadges = () => {
                 }
                     <span>${sentiment}</span>
                   `;
+            badge.classList.add('hidden');
             header.appendChild(badge);
         });
 };

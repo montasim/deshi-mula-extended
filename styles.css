@@ -1,99 +1,161 @@
-/* styles.css */
+:root {
+    /* Colors */
+    --color-text-muted: #757575;
+    --color-bg-muted: #e7e7e7;
+
+    --color-social-bg: #f0f0f0;
+    --color-social-icon: #555;
+    --color-social-hover: #e0e0e0;
+
+    --color-positive-bg: #e8f9e8;
+    --color-positive-text: #4caf50;
+
+    --color-negative-bg: #fff3f3;
+    --color-negative-text: #ff0000;
+
+    --color-mixed-bg: #e8f2fd;
+    --color-mixed-text: #3269c3;
+
+    /* Sizes & Spacing */
+    --badge-padding-x: 8px;
+    --badge-padding-y: 2px;
+    --badge-font-size: 16px;
+    --badge-gap: 4px;
+
+    --sentiment-badge-font-size: 0.75rem;
+    --sentiment-icon-size: 1.25rem;
+
+    --social-badge-size: 32px;
+    --social-icon-size: 16px;
+
+    /* Transitions */
+    --transition-speed: 0.3s;
+    --hover-transition-speed: 0.2s;
+}
+
 .visit-badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--badge-gap);
     margin-left: 11px;
-    padding: 2px 8px;
-    font-size: 16px;
+    padding: var(--badge-padding-y) var(--badge-padding-x);
+    font-size: var(--badge-font-size);
     font-weight: 600;
-    color: #757575;
-    background-color: #e7e7e7;
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-muted);
     border-radius: 9999px;
     text-decoration: none;
+    transition:
+        opacity var(--transition-speed) ease-in-out,
+        transform var(--transition-speed) ease-in-out;
+    pointer-events: auto;
+}
 
-    svg {
-        width: 16px;
-        height: 16px;
-        stroke: currentColor;
-    }
+.visit-badge svg {
+    width: var(--social-icon-size);
+    height: var(--social-icon-size);
+    stroke: currentColor;
+}
 
-    :hover {
-        background-color: #2a2aff;
-    }
+/* Hidden state */
+.visit-badge.hidden {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
 }
 
 .visit-social-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 0.5rem; /* space between badges */
-    width: 32px; /* badge diameter */
-    height: 32px; /* badge diameter */
-    background-color: #f0f0f0; /* light bg – tweak to your theme */
-    color: #555; /* icon color */
+    margin-left: 0.5rem;
+    width: var(--social-badge-size);
+    height: var(--social-badge-size);
+    background-color: var(--color-social-bg);
+    color: var(--color-social-icon);
     text-decoration: none;
-    transition: background 0.2s;
+    transition: background-color var(--hover-transition-speed);
+}
 
-    svg {
-        width: 16px; /* icon size */
-        height: 16px;
-    }
+.visit-social-badge svg {
+    width: var(--social-icon-size);
+    height: var(--social-icon-size);
 }
 
 .visit-social-badge.rounded-full {
     border-radius: 50%;
     overflow: hidden;
-
-    :hover {
-        background-color: #e0e0e0;
-    }
 }
 
-/* sentiment badges */
+.visit-social-badge.rounded-full:hover {
+    background-color: var(--color-social-hover);
+}
+
+/* Sentiment badges */
 .sentiment-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: var(--badge-gap);
     margin-left: 12px;
-    padding: 2px 8px;
-    font-size: 0.75rem;
+    padding: var(--badge-padding-y) var(--badge-padding-x);
+    font-size: var(--sentiment-badge-font-size);
     font-weight: 500;
     color: white;
     border-radius: 9999px;
-
-    svg {
-        width: 1.25rem;
-        height: 1.25rem;
-        stroke: white;
-    }
 }
+
+.sentiment-badge svg {
+    width: var(--sentiment-icon-size);
+    height: var(--sentiment-icon-size);
+    stroke: white;
+}
+
 .sentiment-positive {
-    background-color: #e8f9e8;
-    color: #4caf50;
-
-    svg {
-        stroke: currentColor;
-    }
+    background-color: var(--color-positive-bg);
+    color: var(--color-positive-text);
 }
+
+.sentiment-positive svg {
+    stroke: currentColor;
+}
+
 .sentiment-negative {
-    background-color: #fff3f3;
-    color: #ff0000;
-
-    svg {
-        stroke: currentColor;
-    }
+    background-color: var(--color-negative-bg);
+    color: var(--color-negative-text);
 }
+
+.sentiment-negative svg {
+    stroke: currentColor;
+}
+
 .sentiment-mixed {
-    background-color: #e8f2fd;
-    color: #3269c3;
-
-    svg {
-        stroke: currentColor;
-    }
+    background-color: var(--color-mixed-bg);
+    color: var(--color-mixed-text);
 }
 
+.sentiment-mixed svg {
+    stroke: currentColor;
+}
+
+/* Base visible state for sentiment badge */
+.sentiment-badge {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+        opacity var(--transition-speed) ease-in-out,
+        transform var(--transition-speed) ease-in-out;
+    pointer-events: auto;
+}
+
+/* Hidden sentiment badge */
+.sentiment-badge.hidden {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+}
+
+/* Hover preview tooltip */
 .hover-preview {
     position: absolute;
     z-index: 9999;
