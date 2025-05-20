@@ -26,7 +26,7 @@
     --sentiment-icon-size: 1.25rem;
 
     --social-badge-size: 32px;
-    --social-icon-size: 16px;
+    --social-icon-size: 22px;
 
     /* Transitions */
     --transition-speed: 0.3s;
@@ -164,4 +164,10 @@
     padding: 8px;
     max-width: 300px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.searching-text {
+    font-style: italic;
+    margin-left: 8px;
+    color: var(--color-text-muted);
 }

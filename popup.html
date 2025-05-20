@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Extension Popup</title>
+        <link rel="stylesheet" href="popup.css" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <header class="header">
+                <div class="header-main">
+                    <h1 class="title">Deshi Mula Extended</h1>
+
+                    <button id="about" class="icon-btn" title="About">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-info-icon lucide-info"
+                        >
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 16v-4" />
+                            <path d="M12 8h.01" />
+                        </svg>
+                    </button>
+                </div>
+
+                <p class="subtitle">
+                    Decodes 1337 / Leet Speak text on deshi mula webpages and
+                    converts it to readable English.
+                </p>
+            </header>
+
+            <section class="section api-key">
+                <label for="apiKeyInput" class="label">Gemini API Key</label>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="apiKeyInput"
+                        class="input"
+                        placeholder="Enter your Gemini API key"
+                    />
+                    <button id="saveKey" class="btn-primary">Save</button>
+                </div>
+                <p id="saveStatus" class="status"></p>
+            </section>
+
+            <hr class="divider" />
+
+            <footer class="footer">
+                <p class="footer-text">
+                    Deshi Mula Extended © 2025. All rights reserved.
+                </p>
+            </footer>
+        </div>
+
+        <script src="popup.js"></script>
+    </body>
+</html>

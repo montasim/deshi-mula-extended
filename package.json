@@ -10,7 +10,7 @@
     "prettier:fix": "prettier . --write",
     "build": "pnpm lint:fix && pnpm prettier:fix && tsc && pnpm copy:assets",
     "watch": "tsc --watch",
-    "copy:assets": "cpx \"manifest.json\" dist && cpx \"icon.png\" dist && cpx \"styles.css\" dist",
+    "copy:assets": "cpx \"{manifest.json,icon.png,*.css,*.html}\" dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -37,6 +37,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
+    "@types/chrome": "^0.0.323",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "cpx": "^1.5.0",

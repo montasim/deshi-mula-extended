@@ -8,7 +8,7 @@ const LEET_CHARACTER_MAP = new Map<string | RegExp, string>([
     // multi-char / special first
     [/></g, 'x'], // you already had Technone><T → TechnonextT
     [/>\s*k/gi, 'x'],
-    [/\|\_?\|/gi, 'k'], // |_| or || → k
+    [/\|_?\|/gi, 'k'], // |_| or || → k
 
     // now the new ones:
     [/</g, 'k'], // l< → lk (BackVenture, Ranl< → Rank)
@@ -72,6 +72,43 @@ const ICONS = {
      * @type {string}
      */
     MIXED: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flip-vertical2-icon lucide-flip-vertical-2"><path d="m17 3-5 5-5-5h10"/><path d="m17 21-5-5-5 5h10"/><path d="M4 12H2"/><path d="M10 12H8"/><path d="M16 12h-2"/><path d="M22 12h-2"/></svg>',
+
+    /**
+     * SVG icon for email links.
+     *
+     * @type {string}
+     */
+    LINKEDIN:
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
+
+    /**
+     * SVG icon for github links.
+     *
+     * @type {string}
+     */
+    GITHUB: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
+
+    /**
+     * SVG icon for facebook links.
+     *
+     * @type {string}
+     */
+    FACEBOOK:
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook-icon lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
+
+    /**
+     * SVG icon for email address.
+     *
+     * @type {string}
+     */
+    EMAIL: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail-icon lucide-mail"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>',
+
+    /**
+     * SVG icon for search.
+     *
+     * @type {string}
+     */
+    SEARCH: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>',
 } as const;
 
 /**
@@ -91,9 +128,26 @@ const SELECTORS_TO_DECODE = [
 ];
 
 /**
+ * The endpoint for Google Cloud's Gemini API.
+ */
+const GEMINI_FLASH_ENDPOINT =
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+
+/**
  * Supported text casing styles.
  */
 type TCaseStyle = 'sentence' | 'title' | 'upper';
+
+/**
+ * Interface representing company details.
+ */
+interface CompanyDetails {
+    website?: string;
+    linkedin?: string;
+    facebook?: string;
+    github?: string;
+    email?: string;
+}
 
 /**
  * Converts a string to sentence case (first letter capitalized, rest lowercase).
@@ -170,30 +224,139 @@ const decodeSelected = (selectors: string | string[]): void => {
     const sel = Array.isArray(selectors) ? selectors.join(',') : selectors;
 
     document.querySelectorAll<HTMLElement>(sel).forEach(walkTextNode);
+};
 
-    document
-        .querySelectorAll<HTMLElement>('.d-flex.flex-wrap.align-items-center')
-        .forEach((wrapper) => {
-            wrapper.addEventListener('mouseenter', () => {
-                wrapper
-                    .querySelectorAll<HTMLElement>(
-                        '.visit-badge, .sentiment-badge'
-                    )
-                    .forEach((b) => b.classList.remove('hidden'));
-            });
-            wrapper.addEventListener('mouseleave', () => {
-                wrapper
-                    .querySelectorAll<HTMLElement>(
-                        '.visit-badge, .sentiment-badge'
-                    )
-                    .forEach((b) => b.classList.add('hidden'));
-            });
+const getApiKey = async (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['apiKey'], (result) => {
+            if (chrome.runtime.lastError) {
+                return reject(chrome.runtime.lastError);
+            }
+            resolve(result.apiKey);
         });
+    });
 };
 
 /**
- * Finds company names encoded in leet-speak, decodes them,
- * updates the DOM, and inserts a DuckDuckGo search link.
+ * Queries the Gemini Flash API for a company’s details and parses the JSON response.
+ *
+ * Sends a POST to the Gemini endpoint asking **only** for a JSON object of the form
+ * `{ website: string, linkedin: string, facebook: string, github: string }`, then
+ * strips any stray Markdown fences and parses it.
+ *
+ * @param {string} name - The exact name of the company to look up.
+ * @returns {Promise<CompanyDetails>} An object containing any of:
+ *   - `website` (string URL of the company’s official site),
+ *   - `linkedin` (string URL of LinkedIn profile),
+ *   - `facebook` (string URL of Facebook page),
+ *   - `github` (string URL of GitHub org/user).
+ *   - `email` (string URL of Email org/user).
+ *   If the fetch fails or the response can’t be parsed, returns an empty object.
+ */
+const fetchCompanyDetailsViaGemini = async (
+    name: string
+): Promise<CompanyDetails> => {
+    const res = await fetch(
+        `${GEMINI_FLASH_ENDPOINT}?key=${await getApiKey()}`,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: [
+                                    `For the company named "${name}", respond with ONLY the JSON object below—`,
+                                    'no markdown, no code fences, nothing else:',
+                                    '{"website":"…","linkedin":"…","facebook":"…","github":"…","email":"…"}',
+                                ].join(' '),
+                            },
+                        ],
+                    },
+                ],
+            }),
+        }
+    );
+
+    if (!res.ok) {
+        console.error('Gemini API error', await res.text());
+        return {};
+    }
+
+    const { candidates } = (await res.json()) as any;
+    let message = (candidates?.[0]?.content?.parts?.[0]?.text as string) || '';
+
+    // strip ```json and ``` if they slipped through
+    message = message
+        .replace(/^```json\s*/, '')
+        .replace(/```$/, '')
+        .trim();
+
+    try {
+        return JSON.parse(message) as CompanyDetails;
+    } catch (e) {
+        console.warn('Failed to parse JSON from Gemini reply:', message);
+        return {};
+    }
+};
+
+/**
+ * Checks whether a given string is a well-formed URL.
+ *
+ * @param {string} string - The URL string to validate.
+ * @returns {boolean} True if the string is a valid URL; false otherwise.
+ */
+const isValidURL = (string: string): boolean => {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+};
+
+/**
+ * Appends a link element (badge) to the specified container if the URL is valid
+ * and not already present.
+ *
+ * @param {HTMLElement} container - The DOM element to which the link will be appended.
+ * @param {string} url - The URL to normalize and set as the link's href.
+ * @param {string} iconSvg - An SVG string representing the icon to display inside the link.
+ * @param {string | null} [label=null] - Optional text label to display alongside the icon.
+ * @param {string} [className='visit-badge'] - CSS class to apply to the link element.
+ */
+const addLinkElement = (
+    container: HTMLElement,
+    url: string,
+    iconSvg: string,
+    label: string | null = null,
+    className: string = 'visit-badge'
+) => {
+    // Skip if URL is missing or already exists
+    if (!url || container.querySelector(`a[href="${url}"]`)) return;
+
+    // Normalize URL and validate
+    const normalizedUrl = url.startsWith('http') ? url : `https://${url}`;
+
+    // Optional: Validate URL format before proceeding
+    if (!isValidURL(normalizedUrl)) return;
+
+    // Create and configure link
+    const a = document.createElement('a');
+    a.href = normalizedUrl;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.className = className;
+    a.innerHTML = label ? `${iconSvg}<span>${label}</span>` : iconSvg;
+
+    // Append to DOM
+    container.appendChild(a);
+};
+
+/**
+ * Finds company names encoded in leet-speak, decodes them, updates the DOM,
+ * and inserts social media and website links that appear on hover and stay visible.
  */
 const insertCompanyWebsite = () => {
     document
@@ -204,30 +367,182 @@ const insertCompanyWebsite = () => {
 
             const decoded = decodeLeet(raw);
             companyElem.textContent = decoded;
+            companyElem.dataset.decodedName = decoded;
 
             const container = companyElem.closest('div');
             if (!container) return;
 
-            // --- Official site search ---
-            const siteUrl = `${SEARCH_ENGINE_URL}${encodeURIComponent(decoded + ' official site')}`;
-            if (!container.querySelector(`a[href="${siteUrl}"]`)) {
-                const siteLink = document.createElement('a');
-                siteLink.href = siteUrl;
-                siteLink.target = '_blank';
-                siteLink.classList.add('visit-badge');
-                siteLink.innerHTML = `
-                  ${ICONS.WEB}
-                  Visit ${decoded}
-                `;
-                siteLink.classList.add('hidden');
-                container.appendChild(siteLink);
-            }
+            // Add hover event to trigger badge visibility and fetch
+            companyElem.addEventListener('mouseenter', async () => {
+                // Show existing badges by removing .hidden
+                container
+                    .querySelectorAll<HTMLElement>(
+                        '.visit-badge, .visit-social-badge, .sentiment-badge'
+                    )
+                    .forEach((badge) => badge.classList.remove('hidden'));
+
+                // Skip if already fetching or fetched
+                if (
+                    companyElem.dataset.fetching === 'true' ||
+                    companyElem.dataset.fetched === 'true'
+                ) {
+                    return;
+                }
+
+                // Mark as fetching and show placeholder
+                companyElem.dataset.fetching = 'true';
+                const placeholder = document.createElement('span');
+                placeholder.className = 'searching-text';
+                placeholder.textContent = 'Searching…';
+                container.appendChild(placeholder);
+
+                // Fetch company details
+                const details = await fetchCompanyDetailsViaGemini(decoded);
+
+                // Remove placeholder and update fetching status
+                placeholder.remove();
+                companyElem.dataset.fetching = 'false';
+                companyElem.dataset.fetched = 'true';
+
+                if (details.website && isValidURL(details.website)) {
+                    addLinkElement(
+                        container,
+                        details.website,
+                        ICONS.WEB,
+                        null,
+                        'visit-social-badge'
+                    );
+                } else {
+                    const duckDuckGoUrl = `${SEARCH_ENGINE_URL}${encodeURIComponent(decoded + ' official site')}`;
+                    addLinkElement(
+                        container,
+                        duckDuckGoUrl,
+                        ICONS.SEARCH,
+                        'DuckDuckGo Search',
+                        'visit-badge'
+                    );
+                }
+
+                if (details.linkedin)
+                    addLinkElement(
+                        container,
+                        details.linkedin,
+                        ICONS.LINKEDIN,
+                        null,
+                        'visit-social-badge'
+                    );
+                if (details.facebook)
+                    addLinkElement(
+                        container,
+                        details.facebook,
+                        ICONS.FACEBOOK,
+                        null,
+                        'visit-social-badge'
+                    );
+                if (details.github)
+                    addLinkElement(
+                        container,
+                        details.github,
+                        ICONS.GITHUB,
+                        null,
+                        'visit-social-badge'
+                    );
+                if (details.email)
+                    addLinkElement(
+                        container,
+                        `mailto:${details.email}`,
+                        ICONS.EMAIL,
+                        null,
+                        'visit-social-badge'
+                    );
+
+                // If no data at all, show a research button to retry manually
+                if (!Object.values(details).some(Boolean)) {
+                    const researchBtn = document.createElement('button');
+                    researchBtn.className = 'research-button';
+                    researchBtn.textContent = '🔍 Research Manually';
+                    researchBtn.title =
+                        'Try searching again or view more options';
+
+                    researchBtn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+
+                        // Clear previous badges except the research button itself
+                        container
+                            .querySelectorAll(
+                                '.visit-social-badge, .searching-text'
+                            )
+                            .forEach((el) => el.remove());
+
+                        // Placeholder again
+                        container.appendChild(placeholder);
+                        companyElem.dataset.fetching = 'true';
+
+                        // Retry fetching
+                        const newDetails =
+                            await fetchCompanyDetailsViaGemini(decoded);
+
+                        placeholder.remove();
+                        companyElem.dataset.fetching = 'false';
+
+                        if (newDetails.website)
+                            addLinkElement(
+                                container,
+                                newDetails.website,
+                                ICONS.WEB,
+                                null,
+                                'visit-social-badge'
+                            );
+                        if (newDetails.linkedin)
+                            addLinkElement(
+                                container,
+                                newDetails.linkedin,
+                                ICONS.LINKEDIN,
+                                null,
+                                'visit-social-badge'
+                            );
+                        if (newDetails.facebook)
+                            addLinkElement(
+                                container,
+                                newDetails.facebook,
+                                ICONS.FACEBOOK,
+                                null,
+                                'visit-social-badge'
+                            );
+                        if (newDetails.github)
+                            addLinkElement(
+                                container,
+                                newDetails.github,
+                                ICONS.GITHUB,
+                                null,
+                                'visit-social-badge'
+                            );
+                        if (newDetails.email)
+                            addLinkElement(
+                                container,
+                                `mailto:${newDetails.email}`,
+                                ICONS.EMAIL,
+                                null,
+                                'visit-social-badge'
+                            );
+
+                        if (!Object.values(newDetails).some(Boolean)) {
+                            const noResult = document.createElement('span');
+                            noResult.className = 'no-result-text';
+                            noResult.textContent = 'No results found.';
+                            container.appendChild(noResult);
+                        }
+                    });
+
+                    container.appendChild(researchBtn);
+                }
+            });
         });
 };
 
 /**
  * Inserts a sentiment badge (Positive/Negative/Mixed) next to other badges
- * based on vote counts.
+ * based on vote counts. Badges are initially hidden.
  */
 const insertSentimentBadges = () => {
     document
@@ -262,7 +577,7 @@ const insertSentimentBadges = () => {
             if (header.querySelector(`.sentiment-badge.${cls}`)) return;
 
             const badge = document.createElement('div');
-            badge.classList.add('sentiment-badge', cls);
+            badge.classList.add('sentiment-badge', cls, 'hidden'); // Initially hidden
             badge.innerHTML = `
                 ${
                     sentiment === 'Positive'
@@ -271,22 +586,11 @@ const insertSentimentBadges = () => {
                           ? ICONS.NEGATIVE
                           : ICONS.MIXED
                 }
-                    <span>${sentiment}</span>
-                  `;
-            badge.classList.add('hidden');
+                <span>${sentiment}</span>
+            `;
             header.appendChild(badge);
         });
 };
-
-// Decode company names, post titles *and* reviews on load:
-// decodeSelected('.company-name span');
-// decodeSelected('.post-title');
-// decodeSelected('.company-review');
-// decodeSelected('.badge h4');
-// decodeSelected('h4.badge');
-// decodeSelected('td > a.k-link.text-primary.fw-semibold');
-// decodeSelected('a.k-link.text-primary.fw-semibold');
-// decodeSelected('tr.k-master-row td > a.k-link.text-primary.fw-semibold');
 
 // Execute decoding and badge insertion on load
 // Decode company names, post titles, and reviews on load

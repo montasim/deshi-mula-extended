@@ -16,3 +16,5 @@ pnpm-lock.yaml
 # IDE configs for WebStorm/IntelliJ, not needed in repo
 /.idea
 /.vscode
+
+.env
