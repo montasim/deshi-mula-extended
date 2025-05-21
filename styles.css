@@ -186,44 +186,55 @@
     color: var(--color-text-muted);
 }
 
-/* Vanilla CSS for AI Summary button */
-.ai-summary-btn {
-    margin-left: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85rem;
-    border: 1px solid #888;
-    background: #fafafa;
-    color: #333;
-    border-radius: 4px;
-    cursor: pointer;
-    transition:
-        background 0.2s,
-        color 0.2s;
-}
-
-.ai-summary-btn:hover:not(:disabled) {
-    background: #f0f0f0;
-}
-
-.ai-summary-btn:disabled {
-    opacity: 0.6;
-    cursor: default;
-}
-
-/* Vanilla CSS for the summary display box */
-.ai-summary-display {
+/* Placeholder (“Analyzing…” banner) */
+.ai-analysis-placeholder {
     margin: 1rem 0;
     padding: 0.75rem;
+    border: 1px dashed #ccc;
+    background: #f9f9f9;
+    color: #666;
+    border-radius: 4px;
+    font-style: italic;
+}
+
+/* Final AI analysis box */
+.ai-summary-display {
+    margin: 1rem 0;
+    padding: 1rem;
     border: 1px solid #b3c7e6;
-    background: #e8f0fe;
+    background-color: var(--color-mixed-bg);
     color: #1a2733;
     border-radius: 4px;
     font-size: 0.9rem;
     line-height: 1.4;
 }
 
+.ai-summary-display h5 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .ai-summary-display strong {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
     font-weight: 600;
+}
+
+.ai-summary-display hr {
+    border: none;
+    border-top: 1px solid #aac1e8;
+    margin: 0.75rem 0;
+}
+
+.ai-summary-box {
+    border: 1px solid #30b626;
+    background: #f9fff5;
+    border-radius: 4px;
+}
+.ai-summary-box h4 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #2a662a;
 }

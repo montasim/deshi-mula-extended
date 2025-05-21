@@ -1,17 +1,19 @@
 # Deshi Mula Extended Chrome Extension
 
-This extension enhances the https://deshimula.com/ site by decoding leet-speak text, fetching company details, and adding interactive badges for website and social media links, as well as sentiment indicators based on user votes.
+This extension enhances the https://deshimula.com/ site by decoding leet-speak text, fetching company details, adding interactive badges for website and social media links, displaying sentiment indicators based on user votes, and providing AI-powered comment analysis with summaries and translations.
 
 ## Features
 
 - **Leet-Speak Decoding**  
-  Converts leet-speak text (e.g., `Techn0n3><T` to `Technonext`) in specified DOM elements using a predefined mapping of patterns.
+  Converts leet-speak text (e.g., `Techn0n3><T` to `Technonext`, `8etopia` to `Betopia`) in specified DOM elements using a predefined mapping of patterns.
 - **Company Details Fetching**  
   Queries the Gemini Flash API to retrieve company details (website, LinkedIn, Facebook, GitHub, email) and adds corresponding links.
 - **Interactive Badges**  
-  Adds hover-activated badges for website and social media links, with a fallback DuckDuckGo search link if no website is found.
+  Adds hover-activated badges for website and social media links, with a fallback DuckDuckGo search link or "Research Manually" button if no data is found.
 - **Sentiment Badges**  
   Displays Positive, Negative, or Mixed sentiment badges based on vote counts, initially hidden until hover.
+- **AI Comment Analysis**  
+  Generates a summary of comments, classifies overall sentiment (Positive, Negative, Mixed), and translates the summary into English or Bangla based on detected language.
 - **Efficient DOM Traversal**  
   Recursively processes text nodes to preserve original styling while decoding leet-speak.
 
@@ -20,15 +22,15 @@ This extension enhances the https://deshimula.com/ site by decoding leet-speak t
 ### Constants
 
 - `LEET_CHARACTER_MAP`  
-  A `Map<RegExp \| string, string>` to decode leet-speak characters (e.g., `8 → b`, `>< → x`).
+  A `Map<RegExp | string, string>` to decode leet-speak characters (e.g., `8 → b`, `>< → x`, `< → k`).
 - `SEARCH_ENGINE_URL`  
   Base URL for DuckDuckGo search (`https://duckduckgo.com/?q=`).
 - `ICONS`  
-  SVG icons for web, social media, email, search, and sentiment badges (Positive, Negative, Mixed).
+  SVG icons for web, social media (LinkedIn, Facebook, GitHub, Email), search, and sentiment badges (Positive, Negative, Mixed).
 - `SELECTORS_TO_DECODE`  
   CSS selectors targeting elements containing leet-speak text (e.g., `.company-name span`, `.post-title`).
 - `GEMINI_FLASH_ENDPOINT`  
-  Endpoint for Google Cloud’s Gemini Flash API to fetch company details.
+  Endpoint for Google Cloud’s Gemini Flash API to fetch company details and perform comment analysis.
 
 ### Functions
 
@@ -54,6 +56,14 @@ This extension enhances the https://deshimula.com/ site by decoding leet-speak t
   Decodes company names, fetches details, and adds hover-activated badges.
 - `insertSentimentBadges(): void`  
   Adds sentiment badges based on vote counts.
+- `analyzeComments(): Promise<void>`  
+  Inserts a placeholder, analyzes comments for summary and sentiment, translates the summary, and displays results above the comments section.
+- `getAiSummary(comments: string[]): Promise<string>`  
+  Generates a concise summary of comments via Gemini Flash API.
+- `translateText(text: string, to: 'English' | 'Bangla'): Promise<string>`  
+  Translates text into English or Bangla using Gemini Flash API.
+- `getAiSentiment(comments: string[]): Promise<'Positive' | 'Negative' | 'Mixed'>`  
+  Classifies overall sentiment of comments via Gemini Flash API.
 
 ## Usage
 
@@ -62,16 +72,18 @@ The script runs automatically on page load:
 1. Decodes leet-speak in elements matching `SELECTORS_TO_DECODE`.
 2. Enhances `.company-name` elements with decoded names and hover-activated badges for website and social links.
 3. Adds sentiment badges to `.container.mt-5 > .row` elements based on vote counts.
+4. Analyzes comments under `#comments-section`, displaying a summary, sentiment, and translation (English or Bangla) above the section.
 
 ### Example
 
 - **Input:** `Techn0n3><T`
 - **Output:** `Technonext` with badges linking to the company’s website, LinkedIn, etc., and a sentiment badge (e.g., Positive).
+- **Comment Analysis:** Summarizes comments, detects sentiment (e.g., Mixed), and translates the summary (e.g., from Bangla to English).
 
 ## Dependencies
 
 - **Chrome Storage API**: For retrieving the Gemini API key.
-- **Gemini Flash API**: For fetching company details.
+- **Gemini Flash API**: For fetching company details, summarizing comments, classifying sentiment, and translating text.
 - **Lucide Icons**: SVG icons used for badges.
 
 ## Notes
@@ -80,6 +92,8 @@ The script runs automatically on page load:
 - Badges are hidden by default and shown on `mouseenter` events.
 - If no company details are found, a DuckDuckGo search link or a “Research Manually” button is provided.
 - Sentiment badges are computed from vote counts in `.fw-bold` elements within `.col-12` footers.
+- Comment analysis detects the source language (English or Bangla) and translates to the opposite language.
+- If no comments are present, a "No comments to analyze" message is displayed.
 
 ## License
 

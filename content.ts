@@ -125,6 +125,7 @@ const SELECTORS_TO_DECODE = [
     'td > a.k-link.text-primary.fw-semibold',
     'a.k-link.text-primary.fw-semibold',
     'tr.k-master-row td > a.k-link.text-primary.fw-semibold',
+    '.col-12 h3',
 ];
 
 /**
@@ -674,104 +675,194 @@ const insertSentimentBadges = () => {
 };
 
 /**
- * Fetches an AI‐generated summary via Gemini Flash.
+ * Main entry: inserts placeholder, runs AI analysis (summary, sentiment, translation),
+ * and replaces placeholder with results above the comments section.
+ */
+const analyzeComments = async () => {
+    const commentsSection = document.getElementById('comments-section');
+    if (!commentsSection) return;
+
+    // 1) Insert placeholder
+    const placeholder = document.createElement('div');
+    placeholder.className = 'ai-analysis-placeholder';
+    placeholder.textContent = 'Analyzing AI…';
+    commentsSection.parentNode!.insertBefore(placeholder, commentsSection);
+
+    // 2) Collect comment texts
+    const comments = Array.from(
+        document.querySelectorAll<HTMLParagraphElement>('.commentText p')
+    )
+        .map((p) => p.textContent)
+        .filter((txt): txt is string => !!txt && txt.trim() !== '')
+        .map((txt) => txt.trim());
+    if (comments.length === 0) {
+        placeholder.textContent = 'No comments to analyze.';
+        return;
+    }
+
+    // 3) Perform all AI calls in parallel
+    const [summary, sentiment] = await Promise.all([
+        getAiSummary(comments).catch(() => 'Summary failed.'),
+        getAiSentiment(comments).catch(() => 'Unknown'),
+    ]);
+
+    // 4) Detect language and translate
+    const isBangla = /[\u0980-\u09FF]/.test(summary);
+    const targetLang = isBangla ? 'English' : 'Bangla';
+    const translation = await translateText(summary, targetLang).catch(
+        () => `Translation to ${targetLang} failed.`
+    );
+
+    // 5) Build final analysis block
+    const container = document.createElement('div');
+    container.className = 'ai-summary-display';
+    container.innerHTML = `
+    <h5>AI Analysis</h5>
+    <p>
+        <strong>Overall Sentiment:</strong> 
+        ${
+            sentiment === 'Positive'
+                ? ICONS.POSITIVE
+                : sentiment === 'Negative'
+                  ? ICONS.NEGATIVE
+                  : ICONS.MIXED
+        } ${sentiment} 
+    </p>
+    <hr>
+    <p><strong>Summary (${isBangla ? 'বাংলা' : 'English'}):</strong><br>${summary}</p>
+    <p><strong>Translation (${targetLang}):</strong><br>${translation}</p>
+  `;
+
+    // 6) Replace placeholder with final results
+    placeholder.replaceWith(container);
+};
+
+/**
+ * Generate a concise overall summary of the given comments via Gemini Flash.
+ *
+ * @param comments - Array of comment strings to summarize
+ * @returns The AI-generated summary text
+ * @throws If the network request fails or returns non-OK
  */
 const getAiSummary = async (comments: string[]): Promise<string> => {
-    const prompt = `Please provide a concise overall summary of the following comments:\n\n${comments.join(
-        '\n\n'
-    )}\n\nSummary:`;
-
+    const prompt = `Please provide a concise overall summary of these comments:\n\n${comments.join('\n\n')}\n\nSummary:`;
     const res = await fetch(
         `${GEMINI_FLASH_ENDPOINT}?key=${await getApiKey()}`,
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-            }),
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
         }
     );
-    if (!res.ok) {
-        console.error('Gemini API error', await res.text());
-        return 'Failed to generate summary.';
-    }
-    const { candidates } = (await res.json()) as any;
-    return (
-        candidates?.[0]?.content?.parts?.[0]?.text?.trim() ??
-        'No summary available.'
-    );
+    if (!res.ok) throw new Error();
+    const { candidates } = await res.json();
+    return candidates?.[0]?.content?.parts?.[0]?.text.trim() || '';
 };
 
 /**
- * Inserts the AI Summary button next to your badge container
- * and wires up the click handler to fetch & display the summary.
+ * Translate given text into the specified language via Gemini Flash.
+ *
+ * @param text - The source text to translate
+ * @param to - Target language: 'English' or 'Bangla'
+ * @returns The translated text
+ * @throws If the network request fails or returns non-OK
  */
-function addAiSummaryButtons() {
-    // adjust selector to match your badge container
-    document
-        .querySelectorAll('.container.mt-4 .d-flex.my-2')
-        .forEach((header) => {
-            // avoid duplicating buttons
-            if (header.querySelector('.ai-summary-button')) return;
-
-            const btn = document.createElement('button');
-            btn.textContent = 'AI Summary';
-            btn.className =
-                'ai-summary-button btn btn-sm btn-outline-primary ms-2';
-            btn.title = 'Generate an AI summary of all comments';
-            btn.addEventListener('click', onAiSummaryClick);
-
-            header.appendChild(btn);
-        });
-}
-
-async function onAiSummaryClick(e: MouseEvent) {
-    const btn = e.currentTarget as HTMLButtonElement;
-    btn.disabled = true;
-    btn.textContent = 'Generating…';
-
-    // 1) Collect all comment texts, filtering out any nulls
-    const comments = Array.from(
-        document.querySelectorAll<HTMLParagraphElement>('.commentText p')
-    )
-        .map((p) => p.textContent) // string | null
-        .filter((txt): txt is string => txt !== null && txt.trim() !== '')
-        .map((txt) => txt.trim());
-
-    // 2) Ensure the comments section exists
-    const commentsSection = document.getElementById('comments-section');
-    if (!commentsSection) {
-        console.error('Comments section not found');
-        btn.disabled = false;
-        btn.textContent = 'AI Summary';
-        return;
-    }
-
-    let summary: string;
-    try {
-        summary = await getAiSummary(comments);
-    } catch (err) {
-        console.error(err);
-        summary = 'Failed to generate summary.';
-    }
-
-    // 3) Restore button
-    btn.disabled = false;
-    btn.textContent = 'AI Summary';
-
-    // 4) Remove old display (if any)
-    const old = commentsSection.querySelector<HTMLDivElement>(
-        '.ai-summary-display'
+const translateText = async (
+    text: string,
+    to: 'English' | 'Bangla'
+): Promise<string> => {
+    const prompt = `Translate the following text into ${to}:\n\n${text}\n\nTranslation:`;
+    const res = await fetch(
+        `${GEMINI_FLASH_ENDPOINT}?key=${await getApiKey()}`,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+        }
     );
-    if (old) old.remove();
+    if (!res.ok) throw new Error();
+    const { candidates } = await res.json();
+    return candidates?.[0]?.content?.parts?.[0]?.text.trim() || '';
+};
 
-    // 5) Insert new summary
-    const display = document.createElement('div');
-    display.className = 'ai-summary-display alert alert-info mt-3';
-    display.innerHTML = `<strong>AI Summary:</strong><p>${summary}</p>`;
+/**
+ * Classify overall sentiment of comments as Positive, Negative, or Mixed via Gemini Flash.
+ *
+ * @param comments - Array of comment strings to analyze
+ * @returns 'Positive', 'Negative', or 'Mixed'
+ * @throws If the network request fails or returns non-OK
+ */
+const getAiSentiment = async (
+    comments: string[]
+): Promise<'Positive' | 'Negative' | 'Mixed'> => {
+    const prompt = `Given these comments, classify the overall sentiment as Positive, Negative, or Mixed:\n\n${comments.join('\n\n')}\n\nSentiment:`;
+    const res = await fetch(
+        `${GEMINI_FLASH_ENDPOINT}?key=${await getApiKey()}`,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+        }
+    );
+    if (!res.ok) throw new Error();
+    const { candidates } = await res.json();
+    const label = candidates?.[0]?.content?.parts?.[0]?.text.trim() || '';
+    if (/positive/i.test(label)) return 'Positive';
+    if (/negative/i.test(label)) return 'Negative';
+    return 'Mixed';
+};
 
-    commentsSection.insertBefore(display, commentsSection.firstChild);
-}
+const aiReviewSummary = async () => {
+    // 1. Collect all review texts
+    const reviews = Array.from(document.querySelectorAll('.company-review'))
+        .map((el) => el.textContent?.trim() ?? '')
+        .filter((text) => text.length > 0);
+    if (!reviews.length) return;
+
+    // 2. Insert a placeholder box
+    const placeholder = document.createElement('div');
+    placeholder.className = 'ai-summary-box p-3 my-4';
+    placeholder.textContent = 'Analyzing reviews…';
+    const firstContainer = document.querySelector('.container.mt-5');
+    if (firstContainer && firstContainer.parentNode) {
+        firstContainer.parentNode.insertBefore(placeholder, firstContainer);
+    }
+
+    // 3. Run all AI calls in sequence
+    let engSummary: string, bnSummary: string, sentiment: string;
+    try {
+        engSummary = await getAiSummary(reviews);
+    } catch {
+        engSummary = 'English summary unavailable';
+    }
+
+    try {
+        bnSummary = await translateText(engSummary, 'Bangla');
+    } catch {
+        bnSummary = 'Bangla translation unavailable';
+    }
+
+    try {
+        sentiment = await getAiSentiment(reviews);
+    } catch {
+        sentiment = 'Sentiment unavailable';
+    }
+
+    // 4. Replace placeholder with the real summary + translation + sentiment
+    placeholder.innerHTML = `
+    <h4>AI-Generated Review Summary</h4>
+    <p><strong>English:</strong> ${engSummary}</p>
+    <p><strong>Bangla:</strong> ${bnSummary}</p>
+    <p><strong>Sentiment:</strong> ${
+        sentiment === 'Positive'
+            ? ICONS.POSITIVE
+            : sentiment === 'Negative'
+              ? ICONS.NEGATIVE
+              : ICONS.MIXED
+    } ${sentiment} </p>
+    <p><em>Total reviews analyzed: ${reviews.length}</em></p>
+  `;
+};
 
 // Execute decoding and badge insertion on load
 // Decode company names, post titles, and reviews on load
@@ -781,7 +872,9 @@ decodeSelected(SELECTORS_TO_DECODE);
 insertCompanyWebsite();
 
 // Insert sentiment badges
-insertSentimentBadges();
+// insertSentimentBadges();
 
 // Add AI Summary button
-addAiSummaryButtons();
+analyzeComments();
+
+aiReviewSummary();
