@@ -6,39 +6,18 @@
         <title>Extension Popup</title>
         <link rel="stylesheet" href="popup.css" />
     </head>
+
     <body>
         <div class="wrapper">
+            <!-- Header -->
             <header class="header">
-                <div class="header-main">
-                    <h1 class="title">Deshi Mula Extended</h1>
+                <h1 class="title">Deshi Mula Extended</h1>
 
-                    <button id="about" class="icon-btn" title="About">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="lucide lucide-info-icon lucide-info"
-                        >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 16v-4" />
-                            <path d="M12 8h.01" />
-                        </svg>
-                    </button>
-                </div>
-
-                <p class="subtitle">
-                    Decodes 1337 / Leet Speak text on deshi mula webpages and
-                    converts it to readable English.
-                </p>
+                <p class="subtitle">Enhance your job hunting experience.</p>
             </header>
 
-            <section class="section api-key">
+            <!-- Main Content -->
+            <section id="mainPage" class="main-content">
                 <label for="apiKeyInput" class="label">Gemini API Key</label>
                 <div class="input-group">
                     <input
@@ -52,12 +31,79 @@
                 <p id="saveStatus" class="status"></p>
             </section>
 
+            <!-- About Page Container -->
+            <section id="aboutPage" class="about-page" style="display: none">
+                <div class="about-content">
+                    <p class="about-description">
+                        Deshi Mula Extended is a browser extension designed to
+                        enhance your job hunting experience by integrating with
+                        job platforms and providing AI-powered insights.
+                    </p>
+
+                    <h3 class="about-subtitle">Developer Info</h3>
+
+                    <ul class="about-list">
+                        <li><strong>Name:</strong> Your Name</li>
+                        <li>
+                            <strong>Email:</strong>
+                            <a
+                                href="mailto:montasimmamun@gmail.com"
+                                class="about-link"
+                                >montasimmamun@gmail.com</a
+                            >
+                        </li>
+                        <li>
+                            <strong>GitHub:</strong>
+                            <a
+                                href="https://github.com/montasim"
+                                target="_blank"
+                                rel="noopener"
+                                class="about-link"
+                            >
+                                @montasim
+                            </a>
+                        </li>
+                        <li>
+                            <strong>LinkedIn:</strong>
+                            <a
+                                href="https://linkedin.com/in/montasim"
+                                target="_blank"
+                                rel="noopener"
+                                class="about-link"
+                            >
+                                linkedin.com/in/montasim
+                            </a>
+                        </li>
+                    </ul>
+
+                    <button id="closeAbout" class="close-button">Close</button>
+                </div>
+            </section>
+
             <hr class="divider" />
 
+            <!-- Footer -->
             <footer class="footer">
                 <p class="footer-text">
                     Deshi Mula Extended © 2025. All rights reserved.
                 </p>
+
+                <button id="about" class="icon-btn">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-info-icon lucide-info"
+                    >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 16v-4" />
+                        <path d="M12 8h.01" />
+                    </svg>
+                </button>
             </footer>
         </div>
 

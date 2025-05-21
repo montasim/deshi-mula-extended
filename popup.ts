@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'apiKeyInput'
     ) as HTMLInputElement;
     const aboutBtn = document.getElementById('about') as HTMLButtonElement;
+    const mainPage = document.getElementById('mainPage') as HTMLButtonElement;
+    const aboutPage = document.getElementById('aboutPage') as HTMLButtonElement;
+    const closeAboutBtn = document.getElementById(
+        'closeAbout'
+    ) as HTMLButtonElement;
     const saveBtn = document.getElementById('saveKey') as HTMLButtonElement;
     const statusDiv = document.getElementById('saveStatus') as HTMLElement;
     const apiKeyStatus = document.getElementById('apiKeyStatus') as HTMLElement;
@@ -13,8 +18,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.apiKey) apiKeyInput.value = data.apiKey as string;
     });
 
-    // About button
-    aboutBtn.addEventListener('click', () => {});
+    // Show about page
+    aboutBtn.addEventListener('click', () => {
+        mainPage.style.display = 'none';
+        aboutPage.style.display = 'flex';
+        aboutPage.classList.add('visible');
+        closeAboutBtn.focus(); // Accessibility: focus on close button
+    });
+
+    // Hide about page
+    closeAboutBtn.addEventListener('click', () => {
+        aboutPage.classList.remove('visible');
+        setTimeout(() => {
+            aboutPage.style.display = 'none';
+            mainPage.style.display = 'block';
+        }, 300); // Match CSS transition duration
+    });
+
+    // Close about page when clicking outside
+    aboutPage.addEventListener('click', (event) => {
+        if (event.target === aboutPage) {
+            aboutPage.classList.remove('visible');
+            setTimeout(() => {
+                aboutPage.style.display = 'none';
+                mainPage.style.display = 'block';
+            }, 300);
+        }
+    });
 
     // Save button
     saveBtn.addEventListener('click', () => {
