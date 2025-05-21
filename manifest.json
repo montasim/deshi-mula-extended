@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Deshi Mula Extended",
   "version": "1.0",
-  "description": "Decodes 1337 / Leet Speak text on deshi mula webpages and converts it to readable English.",
+  "description": "Decode leet-speak text, fetch company details, add interactive badges for website and social media links, displays sentiment indicators based on user votes, and provide AI-powered comment analysis with summaries and translations.",
   "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": ["<all_urls>"],
   "icons": {

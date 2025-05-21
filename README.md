@@ -29,7 +29,7 @@ This extension enhances the https://deshimula.com/ site by decoding leet-speak t
   SVG icons for web, social media (LinkedIn, Facebook, GitHub, Email), search, and sentiment badges (Positive, Negative, Mixed).
 - `SELECTORS_TO_DECODE`  
   CSS selectors targeting elements containing leet-speak text (e.g., `.company-name span`, `.post-title`).
-- `GEMINI_FLASH_ENDPOINT`  
+- `GEMINI_FLASH_API_URL`  
   Endpoint for Google Cloud’s Gemini Flash API to fetch company details and perform comment analysis.
 
 ### Functions
@@ -38,15 +38,15 @@ This extension enhances the https://deshimula.com/ site by decoding leet-speak t
   Converts a string to sentence case.
 - `toTitleCase(str: string): string`  
   Converts a string to title case.
-- `decodeLeet(text: string, style: TCaseStyle): string`  
+- `decodeSpeak(text: string, style: TCaseStyle): string`  
   Decodes leet-speak text and applies casing (`sentence`, `title`, `upper`).
 - `walkTextNode(node: Node): void`  
   Recursively traverses DOM nodes, decoding text nodes in place.
 - `decodeSelected(selectors: string | string[]): void`  
   Applies decoding to elements matching provided selectors.
-- `getApiKey(): Promise<string>`  
+- `getGeminiApiKey(): Promise<string>`  
   Retrieves the Gemini API key from Chrome storage.
-- `fetchCompanyDetailsViaGemini(name: string): Promise<CompanyDetails>`  
+- `fetchCompanyContactInfoFromGemini(name: string): Promise<CompanyDetails>`  
   Fetches company details via Gemini API, returning a JSON object with website and social URLs.
 - `isValidURL(string: string): boolean`  
   Validates whether a string is a well-formed URL.
@@ -58,11 +58,11 @@ This extension enhances the https://deshimula.com/ site by decoding leet-speak t
   Adds sentiment badges based on vote counts.
 - `analyzeComments(): Promise<void>`  
   Inserts a placeholder, analyzes comments for summary and sentiment, translates the summary, and displays results above the comments section.
-- `getAiSummary(comments: string[]): Promise<string>`  
+- `fetchAiSummaryFromGemini(comments: string[]): Promise<string>`  
   Generates a concise summary of comments via Gemini Flash API.
 - `translateText(text: string, to: 'English' | 'Bangla'): Promise<string>`  
   Translates text into English or Bangla using Gemini Flash API.
-- `getAiSentiment(comments: string[]): Promise<'Positive' | 'Negative' | 'Mixed'>`  
+- `fetchAiSentimentFromGemini(comments: string[]): Promise<'Positive' | 'Negative' | 'Mixed'>`  
   Classifies overall sentiment of comments via Gemini Flash API.
 
 ## Usage

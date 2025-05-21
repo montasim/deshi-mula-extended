@@ -17,4 +17,5 @@ pnpm-lock.yaml
 /.idea
 /.vscode
 
+# 🔑 Environment variables
 .env
