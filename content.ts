@@ -813,6 +813,11 @@ const getAiSentiment = async (
 };
 
 const aiReviewSummary = async () => {
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+        console.log('Skipping AI summary on root');
+        return;
+    }
+
     // 1. Collect all review texts
     const reviews = Array.from(document.querySelectorAll('.company-review'))
         .map((el) => el.textContent?.trim() ?? '')
