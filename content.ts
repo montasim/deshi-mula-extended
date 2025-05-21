@@ -717,7 +717,7 @@ const analyzeComments = async () => {
     const container = document.createElement('div');
     container.className = 'ai-summary-display';
     container.innerHTML = `
-    <h5>AI Analysis</h5>
+    <h5>AI Comments Analysis</h5>
     <p>
         <strong>Overall Sentiment:</strong> 
         ${
