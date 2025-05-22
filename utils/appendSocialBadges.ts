@@ -12,6 +12,7 @@ const processedContainers = new WeakSet<Element>();
 
 const appendSocialBadges = (
     container: Element,
+    className: string,
     details: ICompanyContactInfo,
     vibe: string | null,
     translation: string | null,
@@ -28,13 +29,7 @@ const appendSocialBadges = (
     const { website, linkedin, facebook, github, email } = details;
 
     if (website && isValidURL(website)) {
-        appendBadgeLink(
-            container,
-            website,
-            ICONS.WEB,
-            null,
-            'visit-social-badge'
-        );
+        appendBadgeLink(container, website, ICONS.WEB, null, className);
     } else {
         const ddgUrl = `${SEARCH_ENGINE_URL}${encodeURIComponent(companyName + ' official site')}`;
         appendBadgeLink(
