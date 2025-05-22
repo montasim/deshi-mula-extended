@@ -1,4 +1,4 @@
-import { CompanyContactInfo } from '../types/types';
+import { ICompanyContactInfo } from '../types/types';
 import getGeminiApiKey from './getGeminiApiKey';
 import CONSTANTS from '../constants/constants';
 
@@ -12,7 +12,7 @@ const { GEMINI_FLASH_API_URL } = CONSTANTS;
  * strips any stray Markdown fences and parses it.
  *
  * @param {string} name - The exact name of the company to look up.
- * @returns {Promise<CompanyContactInfo>} An object containing any of:
+ * @returns {Promise<ICompanyContactInfo>} An object containing any of:
  *   - `website` (string URL of the company’s official site),
  *   - `linkedin` (string URL of LinkedIn profile),
  *   - `facebook` (string URL of Facebook page),
@@ -22,7 +22,7 @@ const { GEMINI_FLASH_API_URL } = CONSTANTS;
  */
 const fetchCompanyContactInfoFromGemini = async (
     name: string
-): Promise<CompanyContactInfo> => {
+): Promise<ICompanyContactInfo> => {
     const res = await fetch(
         `${GEMINI_FLASH_API_URL}?key=${await getGeminiApiKey()}`,
         {
@@ -61,7 +61,7 @@ const fetchCompanyContactInfoFromGemini = async (
         .trim();
 
     try {
-        return JSON.parse(message) as CompanyContactInfo;
+        return JSON.parse(message) as ICompanyContactInfo;
     } catch (e) {
         console.warn('Failed to parse JSON from Gemini reply:', message);
         return {};

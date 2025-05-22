@@ -1,8 +1,6 @@
 import { ISummaryProps } from '../types/types';
 import insertPlaceholder from './insertPlaceholder';
-import fetchAiSentimentFromGemini from './fetchAiSentimentFromGemini';
-import fetchAiSummaryFromGemini from './fetchAiSummaryFromGemini';
-import translateText from './translateText';
+import fetchAiSummaryAndSentimentFromGemini from './fetchAiSummaryAndSentimentFromGemini';
 import createSummaryBlock from './createSummaryBlock';
 import getGeminiApiKey from './getGeminiApiKey';
 
@@ -23,9 +21,9 @@ const renderAiSummary = async ({
     placeholderText: string;
     containerSelector: string;
     buildProps: (responses: {
-        summary: string;
+        enSummary: string;
         sentiment: string;
-        translation?: string;
+        bnSummary?: string;
         count: number;
     }) => ISummaryProps;
 }) => {
@@ -62,36 +60,14 @@ const renderAiSummary = async ({
     );
 
     // run AI calls in parallel
-    const [summary, sentiment] = await Promise.all([
-        fetchAiSummaryFromGemini(apiKey, items).catch(() => 'Summary failed.'),
-        fetchAiSentimentFromGemini(apiKey, items).catch(() => 'Unknown'),
-    ]);
-    if (summary === 'Summary failed.') {
-        placeholder.remove();
-
-        insertPlaceholder(
-            containerElem,
-            placeholderClass,
-            'AI Summary failed.'
-        );
-
-        return;
-    }
-
-    // optional translation step
-    let translation: string | undefined;
-    const isBangla = /[\u0980-\u09FF]/.test(summary);
-    if (!isBangla) {
-        translation = await translateText(summary, 'Bangla').catch(
-            () => 'Translation failed.'
-        );
-    }
+    const { enSummary, bnSummary, sentiment } =
+        await fetchAiSummaryAndSentimentFromGemini(apiKey, items);
 
     // build props & block
     const props = buildProps({
-        summary,
+        enSummary,
         sentiment,
-        translation,
+        bnSummary,
         count: items.length,
     });
     const summaryBlock = createSummaryBlock(props);

@@ -6,7 +6,7 @@ export type TCaseStyle = 'sentence' | 'title' | 'upper';
 /**
  * Interface representing company details.
  */
-export interface CompanyContactInfo {
+export interface ICompanyContactInfo {
     website?: string;
     linkedin?: string;
     facebook?: string;

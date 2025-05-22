@@ -109,6 +109,14 @@ const ICONS = {
      * @type {string}
      */
     SEARCH: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>',
+
+    /**
+     * SVG icon for summary search results.
+     *
+     * @type {string}
+     */
+    SUMMARY:
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan-search-icon lucide-scan-search"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><path d="m16 16-1.9-1.9"/></svg>',
 } as const;
 
 /**
@@ -129,6 +137,14 @@ const SELECTORS_TO_DECODE = [
     '.col-12 h3',
 ];
 
+const AD_ELEMENTS = [
+    'iframe[id^="aswift"]',
+    '[id*="advertisement" i]',
+    '[class*="advertisement" i]',
+    '[label*="advertisement" i]',
+    '[aria-label*="advertisement" i]',
+];
+
 /**
  * The endpoint for Google Cloud's Gemini API.
  */
@@ -142,6 +158,7 @@ const CONSTANTS = {
     SEARCH_ENGINE_URL,
     ICONS,
     SELECTORS_TO_DECODE,
+    AD_ELEMENTS,
     GEMINI_FLASH_API_URL,
     SITE_ROOT,
 };
