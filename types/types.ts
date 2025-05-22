@@ -24,3 +24,8 @@ export interface ISummaryProps {
     main: string;
     footer?: string;
 }
+
+export interface IAiSummaryResult {
+    summary: string;
+    sentiment: 'Positive' | 'Negative' | 'Mixed';
+}

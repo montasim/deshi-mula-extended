@@ -5,8 +5,46 @@ import decodeSelected from './utils/decodeSelected';
 import fetchCompanyContactInfoFromGemini from './utils/fetchCompanyContactInfoFromGemini';
 import isValidURL from './utils/isValidURL';
 import renderAiSummary from './utils/renderAiSummary';
+import fetchAiSummaryFromGemini from './utils/fetchAiSummaryFromGemini';
+import getGeminiApiKey from './utils/getGeminiApiKey';
 
-const { SEARCH_ENGINE_URL, ICONS, SELECTORS_TO_DECODE } = CONSTANTS;
+const { SEARCH_ENGINE_URL, ICONS, SELECTORS_TO_DECODE, SITE_ROOT } = CONSTANTS;
+
+/**
+ * Append a simple badge element (non-link) for displaying vibe text.
+ */
+const appendVibeBadge = (container, text) => {
+    if (!text || container.querySelector('.vibe-badge')) return;
+    const span = document.createElement('span');
+    span.className = 'vibe-badge';
+    span.textContent = text;
+    container.appendChild(span);
+};
+
+/**
+ * Fetches reviews page, extracts reviews, and asks Gemini for an overall vibe.
+ */
+const fetchOverallVibe = async (company) => {
+    try {
+        const url = `${SITE_ROOT}/stories/1?SearchTerm=${encodeURIComponent(company)}&Vibe=0`;
+        const res = await fetch(url);
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        // Safely extract and trim review texts
+        const reviews = Array.from(doc.querySelectorAll('.company-review'))
+            .map((el) => el.textContent?.trim() ?? '')
+            .filter((txt) => txt !== '');
+        if (!reviews.length) return null;
+        // Use your Gemini summary endpoint; assuming API_KEY available
+        const summary = await fetchAiSummaryFromGemini(
+            await getGeminiApiKey(),
+            reviews
+        );
+        return summary;
+    } catch {
+        return null;
+    }
+};
 
 /**
  * Appends a link element (badge) to the specified container if the URL is valid
@@ -66,6 +104,12 @@ const renderCompanyContactLinks = () => {
 
             // Add hover event to trigger badge visibility and fetch
             companyElem.addEventListener('mouseenter', async () => {
+                // overall vibe badge
+                const vibe = await fetchOverallVibe(decoded);
+                if (vibe) {
+                    appendVibeBadge(container, `Vibe: ${vibe}`);
+                }
+
                 // Show existing badges by removing .hidden
                 container
                     .querySelectorAll<HTMLElement>(
@@ -241,6 +285,25 @@ decodeSelected(SELECTORS_TO_DECODE);
 renderCompanyContactLinks();
 
 /**
+ * Remove any ad-related elements:
+ *  • <iframe> with id starting "aswift"
+ *  • Any element with id/class/label/aria-label containing "advertisement"
+ */
+const removeAdComponents = () => {
+    document
+        .querySelectorAll<HTMLElement>(
+            [
+                'iframe[id^="aswift"]',
+                '[id*="advertisement" i]',
+                '[class*="advertisement" i]',
+                '[label*="advertisement" i]',
+                '[aria-label*="advertisement" i]',
+            ].join(',')
+        )
+        .forEach((el) => el.remove());
+};
+
+/**
  * Now your two entry points become trivial configurations
  */
 renderAiSummary({
@@ -288,3 +351,6 @@ renderAiSummary({
         `,
     }),
 });
+
+const observer = new MutationObserver(removeAdComponents);
+observer.observe(document.body, { childList: true, subtree: true });

@@ -135,12 +135,15 @@ const SELECTORS_TO_DECODE = [
 const GEMINI_FLASH_API_URL =
     'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
+const SITE_ROOT = 'https://deshimula.com';
+
 const CONSTANTS = {
     LEET_SPEAK_MAP,
     SEARCH_ENGINE_URL,
     ICONS,
     SELECTORS_TO_DECODE,
     GEMINI_FLASH_API_URL,
+    SITE_ROOT,
 };
 
 export default CONSTANTS;
