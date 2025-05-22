@@ -262,9 +262,16 @@ const appendSocialBadges = (
         container
             .querySelectorAll(`.${className}, .visit-badge`)
             .forEach((el) => el.remove());
+
+        // Ensure container is an HTMLElement
+        if (!(container instanceof HTMLElement)) {
+            console.error('Expected container to be an HTMLElement');
+            return;
+        }
+
         // Fetch fresh data and rerender
         try {
-            const data = await getCompanyData(companyName);
+            const data = await getCompanyData(companyName, container);
             appendSocialBadges(
                 container,
                 className,

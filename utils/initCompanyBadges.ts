@@ -19,12 +19,12 @@ const initCompanyBadges = (
             elem.dataset.decodedName = decoded;
 
             // 3. fetch data + badges
-            const container = elem.closest('div.d-flex.my-2');
+            const container = elem.closest<HTMLDivElement>('div.d-flex.my-2');
             if (!container) return;
 
             try {
                 const { details, enSummary, bnSummary, salaries, jobs } =
-                    await getCompanyData(decoded);
+                    await getCompanyData(decoded, container);
                 appendSocialBadges(
                     container,
                     className,

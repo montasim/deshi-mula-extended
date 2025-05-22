@@ -17,71 +17,74 @@ const renderCompanyContactLinks = () => {
     const params = new URLSearchParams(window.location.search);
     const forcedTerm = params.get('SearchTerm');
     const storyPathRegex = /^\/story\/[0-9a-f]+$/;
+    const container =
+        document.querySelectorAll<HTMLDivElement>('div.d-flex.my-2');
 
     // if we're on a story page, only do the one‐time init
     if (storyPathRegex.test(window.location.pathname)) {
         initCompanyBadges(COMPANY_SELECTOR, 'visit-social-badge');
 
         // after your badges are in place:
-        document
-            .querySelectorAll<HTMLDivElement>('div.d-flex.my-2')
-            .forEach((div) => {
-                // find the first h4 inside
-                const h4 = div.querySelectorAll<HTMLHeadingElement>('h4');
-                h4.forEach((h) => {
-                    if (h) {
-                        h.style.marginBottom = '0';
-                    }
-                });
+        container.forEach((div) => {
+            // find the first h4 inside
+            const h4 = div.querySelectorAll<HTMLHeadingElement>('h4');
+            h4.forEach((h) => {
+                if (h) {
+                    h.style.marginBottom = '0';
+                }
             });
+        });
 
-        document
-            .querySelectorAll<HTMLDivElement>('div.d-flex.my-2')
-            .forEach((div) => {
-                div.style.marginBottom = '2px';
-            });
+        container.forEach((div) => {
+            div.style.marginBottom = '2px';
+        });
 
         return;
     }
 
     // If there's a forcedTerm, fetch its data once...
     if (forcedTerm) {
-        getCompanyData(forcedTerm)
-            .then(({ details, enSummary, bnSummary, salaries, jobs }) => {
-                // ...and apply it to every matching element immediately
-                document
-                    .querySelectorAll<HTMLElement>(HOVER_SELECTOR)
-                    .forEach(async (elem) => {
-                        const raw = elem.textContent?.trim();
-                        if (!raw) return;
-                        const decoded = decodeSpeak(raw);
-                        if (decoded !== forcedTerm) return;
+        // Loop through each container div and fetch company data
+        container.forEach((divContainer) => {
+            getCompanyData(forcedTerm, divContainer)
+                .then(({ details, enSummary, bnSummary, salaries, jobs }) => {
+                    // Find all matching HOVER_SELECTOR elements in the page
+                    document
+                        .querySelectorAll<HTMLElement>(HOVER_SELECTOR)
+                        .forEach((elem) => {
+                            const raw = elem.textContent?.trim();
+                            if (!raw) return;
+                            const decoded = decodeSpeak(raw);
+                            if (decoded !== forcedTerm) return;
 
-                        // Update text & dataset
-                        elem.textContent = decoded;
-                        elem.dataset.decodedName = decoded;
+                            // Update text & dataset
+                            elem.textContent = decoded;
+                            elem.dataset.decodedName = decoded;
 
-                        const container = elem.closest('div');
-                        if (!container) return;
+                            const parent = elem.closest('div');
+                            if (!parent) return;
 
-                        // Append badges immediately
-                        appendSocialBadges(
-                            container,
-                            'visit-social-badge',
-                            details,
-                            enSummary,
-                            bnSummary,
-                            decoded,
-                            salaries,
-                            jobs
-                        );
-                    });
-            })
-            .catch((err) =>
-                console.error('Failed to load forcedTerm company data:', err)
-            );
+                            // Append badges into the associated container
+                            appendSocialBadges(
+                                parent,
+                                'visit-social-badge',
+                                details,
+                                enSummary,
+                                bnSummary,
+                                decoded,
+                                salaries,
+                                jobs
+                            );
+                        });
+                })
+                .catch((err) =>
+                    console.error(
+                        'Failed to load forcedTerm company data:',
+                        err
+                    )
+                );
+        });
 
-        // Done—no hover listeners needed when forcedTerm is used
         return;
     }
 
@@ -109,7 +112,7 @@ const renderCompanyContactLinks = () => {
             isLoading = true;
             try {
                 const { details, enSummary, bnSummary, salaries, jobs } =
-                    await getCompanyData(decoded);
+                    await getCompanyData(decoded, container);
                 badgesRendered = true;
                 appendSocialBadges(
                     container,
