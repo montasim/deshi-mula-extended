@@ -4,7 +4,6 @@ import initCompanyBadges from './initCompanyBadges';
 import getCompanyData from './getCompanyData';
 
 // Cache for API key and company data to prevent redundant calls
-const companyDataCache = new Map<string, any>();
 const processedElements = new WeakSet<HTMLElement>();
 
 /**
@@ -21,11 +20,7 @@ const renderCompanyContactLinks = () => {
 
     // if we're on a story page, only do the one‐time init
     if (storyPathRegex.test(window.location.pathname)) {
-        initCompanyBadges(
-            COMPANY_SELECTOR,
-            'visit-social-badge',
-            companyDataCache
-        );
+        initCompanyBadges(COMPANY_SELECTOR, 'visit-social-badge');
 
         // after your badges are in place:
         document
@@ -51,7 +46,7 @@ const renderCompanyContactLinks = () => {
 
     // If there's a forcedTerm, fetch its data once...
     if (forcedTerm) {
-        getCompanyData(forcedTerm, companyDataCache)
+        getCompanyData(forcedTerm)
             .then(({ details, enSummary, bnSummary, salaries, jobs }) => {
                 // ...and apply it to every matching element immediately
                 document
@@ -114,7 +109,7 @@ const renderCompanyContactLinks = () => {
             isLoading = true;
             try {
                 const { details, enSummary, bnSummary, salaries, jobs } =
-                    await getCompanyData(decoded, companyDataCache);
+                    await getCompanyData(decoded);
                 badgesRendered = true;
                 appendSocialBadges(
                     container,

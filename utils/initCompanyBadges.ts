@@ -4,8 +4,7 @@ import getCompanyData from './getCompanyData';
 
 const initCompanyBadges = (
     COMPANY_SELECTOR: string,
-    className: string = 'visit-social-badge',
-    companyDataCache: Map<string, any> = new Map()
+    className: string = 'visit-social-badge'
 ) => {
     document
         .querySelectorAll<HTMLElement>(COMPANY_SELECTOR)
@@ -25,7 +24,7 @@ const initCompanyBadges = (
 
             try {
                 const { details, enSummary, bnSummary, salaries, jobs } =
-                    await getCompanyData(decoded, companyDataCache);
+                    await getCompanyData(decoded);
                 appendSocialBadges(
                     container,
                     className,

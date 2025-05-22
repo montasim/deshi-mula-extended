@@ -4,6 +4,8 @@ import CONSTANTS from '../constants/constants';
 import { ICompanyContactInfo, IJobOpening, ISalaryEntry } from '../types/types';
 import showSummaryModal from './showSummaryModal';
 import createSummaryBlock from './createSummaryBlock';
+import getCompanyData from './getCompanyData';
+import deleteFromStorage from './deleteFromStorage';
 
 const { ICONS, SEARCH_ENGINE_URL } = CONSTANTS;
 
@@ -39,7 +41,7 @@ const appendSocialBadges = (
             ddgUrl,
             ICONS.SEARCH,
             'DuckDuckGo Search',
-            'visit-badge'
+            'visit-social-badge'
         );
     }
 
@@ -232,20 +234,51 @@ const appendSocialBadges = (
         }
     }
 
-    // Only add search badge if no other contact info is available
-    const hasAnyValue = Object.values(details).some(
-        (val): val is string => typeof val === 'string' && val !== ''
+    // Fallback search if no contact info
+    const hasContact = Object.values(details).some(
+        (val) => typeof val === 'string' && val
     );
-    if (!hasAnyValue) {
-        const ddgUrl = `${SEARCH_ENGINE_URL}${encodeURIComponent(companyName + ' official site')}`;
-        appendBadgeLink(
-            container,
-            ddgUrl,
-            ICONS.SEARCH,
-            'Search',
-            'visit-badge'
-        );
+    if (!hasContact) {
+        const ddgUrl = `${SEARCH_ENGINE_URL}${encodeURIComponent(
+            companyName + ' official site'
+        )}`;
+        appendBadgeLink(container, ddgUrl, ICONS.SEARCH, 'Search', className);
     }
+
+    // Refresh badge: forces refetch and rerender
+    const refreshLink = appendBadgeLink(
+        container,
+        '#',
+        ICONS.REFRESH,
+        null,
+        className
+    );
+    refreshLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        // Invalidate cache
+        deleteFromStorage(companyName);
+        processedContainers.delete(container);
+        // Remove existing badges
+        container
+            .querySelectorAll(`.${className}, .visit-badge`)
+            .forEach((el) => el.remove());
+        // Fetch fresh data and rerender
+        try {
+            const data = await getCompanyData(companyName);
+            appendSocialBadges(
+                container,
+                className,
+                data.details,
+                data.enSummary,
+                data.bnSummary,
+                companyName,
+                data.salaries,
+                data.jobs
+            );
+        } catch (err) {
+            console.error('Refresh failed for', companyName, err);
+        }
+    });
 };
 
 export default appendSocialBadges;
