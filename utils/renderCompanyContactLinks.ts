@@ -52,11 +52,11 @@ const renderCompanyContactLinks = () => {
     // If there's a forcedTerm, fetch its data once...
     if (forcedTerm) {
         getCompanyData(forcedTerm, companyDataCache)
-            .then(({ details, enSummary, bnSummary }) => {
+            .then(({ details, enSummary, bnSummary, salaries, jobs }) => {
                 // ...and apply it to every matching element immediately
                 document
                     .querySelectorAll<HTMLElement>(HOVER_SELECTOR)
-                    .forEach((elem) => {
+                    .forEach(async (elem) => {
                         const raw = elem.textContent?.trim();
                         if (!raw) return;
                         const decoded = decodeSpeak(raw);
@@ -76,7 +76,9 @@ const renderCompanyContactLinks = () => {
                             details,
                             enSummary,
                             bnSummary,
-                            decoded
+                            decoded,
+                            salaries,
+                            jobs
                         );
                     });
             })
@@ -111,10 +113,8 @@ const renderCompanyContactLinks = () => {
             if (badgesRendered || isLoading) return;
             isLoading = true;
             try {
-                const { details, enSummary, bnSummary } = await getCompanyData(
-                    decoded,
-                    companyDataCache
-                );
+                const { details, enSummary, bnSummary, salaries, jobs } =
+                    await getCompanyData(decoded, companyDataCache);
                 badgesRendered = true;
                 appendSocialBadges(
                     container,
@@ -122,7 +122,9 @@ const renderCompanyContactLinks = () => {
                     details,
                     enSummary,
                     bnSummary,
-                    decoded
+                    decoded,
+                    salaries,
+                    jobs
                 );
             } catch (error) {
                 console.error('Failed to load company info:', error);

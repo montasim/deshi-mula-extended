@@ -24,17 +24,17 @@ const initCompanyBadges = (
             if (!container) return;
 
             try {
-                const { details, enSummary, bnSummary } = await getCompanyData(
-                    decoded,
-                    companyDataCache
-                );
+                const { details, enSummary, bnSummary, salaries, jobs } =
+                    await getCompanyData(decoded, companyDataCache);
                 appendSocialBadges(
                     container,
                     className,
                     details,
                     enSummary,
                     bnSummary,
-                    decoded
+                    decoded,
+                    salaries,
+                    jobs
                 );
             } catch (err) {
                 console.error('Could not load badges for', decoded, err);

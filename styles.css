@@ -202,6 +202,48 @@
     color: #2a662a;
 }
 
+/* summaryModal.css */
+
+#summary-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+
+    /* center its content */
+    justify-content: center;
+    align-items: center;
+}
+
+#summary-modal .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 80vh;
+    width: 60vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+#summary-modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#summary-modal .modal-body {
+    margin-top: 30px; /* give a bit of breathing room under the close button */
+}
+
 #summary-modal .ai-summary-box {
     padding: 1rem;
     margin-bottom: 1rem;

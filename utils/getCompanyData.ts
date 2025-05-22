@@ -2,6 +2,8 @@ import getGeminiApiKey from './getGeminiApiKey';
 import getAllReviewsOfTheCompany from './getAllReviewsOfTheCompany';
 import fetchCompanyContactInfoFromGemini from './fetchCompanyContactInfoFromGemini';
 import fetchAiSummaryAndSentimentFromGemini from './fetchAiSummaryAndSentimentFromGemini';
+import fetchSalaryInfoFromGemini from './fetchSalaryInfoFromGemini';
+import fetchJobOpeningsEnhanced from './fetchJobOpeningsFromWebsite';
 
 /**
  * Fetches comprehensive data for a given company, including contact info,
@@ -21,13 +23,16 @@ const getCompanyData = async (companyName: string, companyDataCache) => {
     const reviews = await getAllReviewsOfTheCompany(companyName);
 
     // Use Promise.all to concurrently fetch company contact info and AI summary/sentiment.
-    const [details, { enSummary, bnSummary }] = await Promise.all([
+    const [details, { enSummary, bnSummary }, salaries] = await Promise.all([
         fetchCompanyContactInfoFromGemini(companyName),
         fetchAiSummaryAndSentimentFromGemini(geminiApiKey, reviews),
+        fetchSalaryInfoFromGemini(companyName),
     ]);
 
+    const jobs = await fetchJobOpeningsEnhanced(companyName, details || {});
+
     // Combine the fetched data into a single result object.
-    const result = { details, enSummary, bnSummary };
+    const result = { details, enSummary, bnSummary, salaries, jobs };
 
     // Cache the result to prevent future API calls for the same company
     companyDataCache.set(companyName, result);

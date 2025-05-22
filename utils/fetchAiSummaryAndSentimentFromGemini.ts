@@ -39,7 +39,9 @@ const fetchAiSummaryAndSentimentFromGemini = async (
     const res = await fetch(`${GEMINI_FLASH_API_URL}?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+        body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+        }),
     });
 
     if (!res.ok) throw new Error('Failed to fetch data from Gemini');
@@ -63,12 +65,6 @@ const fetchAiSummaryAndSentimentFromGemini = async (
         ? ((sentimentMatch[1].charAt(0).toUpperCase() +
               sentimentMatch[1].slice(1)) as any)
         : 'Mixed';
-
-    // Debugging: Log the parsed values
-    console.log('Parsed Values:');
-    console.log('English Summary:', enSummary);
-    console.log('Bangla Summary:', bnSummary);
-    console.log('Sentiment:', sentiment);
 
     return {
         enSummary,

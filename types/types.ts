@@ -29,3 +29,14 @@ export interface IAiSummaryResult {
     summary: string;
     sentiment: 'Positive' | 'Negative' | 'Mixed';
 }
+
+export interface IJobOpening {
+    title: string;
+    location?: string;
+    link: string;
+}
+
+export interface ISalaryEntry {
+    position: string;
+    salaryRange: string;
+}
