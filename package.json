@@ -1,7 +1,7 @@
 {
   "name": "deshi-mula-extended",
   "version": "1.0.0",
-  "description": "Decodes 1337 / Leet Speak text on deshi mula webpages and converts it to readable English.",
+  "description": "Deshi Mula Extended is a lightweight Chrome extension built exclusively for deshimula.com. It enriches your browsing experience with AI-driven insights, decoded text, and quick-access metadata—right where you need it.",
   "main": "dist/content.js",
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "prettier:fix": "prettier . --write",
     "build": "pnpm lint:fix && pnpm prettier:fix && tsc && pnpm rollup -c && pnpm copy:assets",
     "watch": "tsc --watch",
-    "copy:assets": "cpx \"{manifest.json,icon.png,*.css,*.html}\" dist",
+    "copy:assets": "cpx \"{manifest.json,*.html,*.css,media/**/*}\" dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -19,10 +19,26 @@
     "Deshi Mula Extended",
     "Deshi Mula Extension",
     "chrome-extension",
-    "leet",
+    "manifest-v3",
+    "content-script",
+    "leet-speak",
     "1337",
     "decoder",
-    "typescript"
+    "company-badges",
+    "hover-badges",
+    "contact-links",
+    "ai-summaries",
+    "sentiment-analysis",
+    "translation",
+    "salary-lookup",
+    "job-openings",
+    "web-scraping",
+    "javascript",
+    "typescript",
+    "productivity-tool",
+    "developer-tool",
+    "deshimula.com",
+    "data-enrichment"
   ],
   "author": {
     "name": "Mohammad Montasim -Al- Mamun Shuvo",

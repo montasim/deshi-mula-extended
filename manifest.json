@@ -2,11 +2,14 @@
   "manifest_version": 3,
   "name": "Deshi Mula Extended",
   "version": "1.0",
-  "description": "Decode leet-speak text, fetch company details, add interactive badges for website and social media links, displays sentiment indicators based on user votes, and provide AI-powered comment analysis with summaries and translations.",
+  "description": "Decodes stylized “leet” company names on deshimula.com and shows badges with company links, salary & job info.",
   "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": ["<all_urls>"],
   "icons": {
-    "128": "icon.png"
+    "128": "/media/128.png",
+    "48": "/media/48.png",
+    "32": "/media/32.png",
+    "16": "/media/16.png"
   },
   "action": {
     "default_popup": "popup.html"
