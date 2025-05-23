@@ -16,16 +16,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '23'
+          node-version: '18'
           cache: 'pnpm'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: '8'
+      - name: Enable Corepack for package managers
+        run: corepack enable
+
+      - name: Prepare PNPM (via Corepack)
+        run: corepack prepare pnpm@latest --activate
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build project
         run: pnpm build
@@ -39,8 +40,6 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           release_name: ${{ github.ref_name }}
-          body: |
-            🚀 Release ${{ github.ref_name }}
           draft: false
           prerelease: false
         env:
