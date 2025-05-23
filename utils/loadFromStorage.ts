@@ -3,8 +3,12 @@ import CONSTANTS from '../constants/constants';
 const { STORAGE_PREFIX } = CONSTANTS;
 
 const loadFromStorage = (company: string) => {
-    const stored = sessionStorage.getItem(STORAGE_PREFIX + company);
-    return stored ? JSON.parse(stored) : null;
+    try {
+        const stored = localStorage.getItem(STORAGE_PREFIX + company);
+        return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+        console.warn('Failed to load from storage.');
+    }
 };
 
 export default loadFromStorage;

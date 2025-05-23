@@ -54,17 +54,20 @@ const fetchJobOpeningsEnhanced = async (
 
     // build the prompt
     const prompt = `
-Find all current job openings for "${companyName}" by:
-  • Crawling every page under "${website}"
-  • Checking the official LinkedIn company page
-  • Checking Glassdoor listings
-
-Return a valid JSON array and nothing else:
-[
-  { "title": "string", "location": "string", "link": "string" },
-  …
-]
-  `.trim();
+        Search for current job openings at "${companyName}" (based in Bangladesh) by checking:
+        
+          • Official company careers website: ${website}
+          • LinkedIn company job listings: https://www.linkedin.com/company/ {company-handle}/jobs/
+          • Any other public job boards where they might post
+        
+        For each job found, return exactly this format:
+        [
+          { "title": "Software Engineer", "location": "Dhaka, Bangladesh", "link": "https://..." },
+          ...
+        ]
+    
+        Ensure all links are full URLs, not relative paths.
+    `.trim();
 
     // call Gemini
     let geminiJobs: IJobOpening[] = [];
