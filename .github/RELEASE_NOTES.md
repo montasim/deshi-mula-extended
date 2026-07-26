@@ -1,12 +1,12 @@
-## What’s new in v3.0.3
+## What’s new in v3.0.4
 
-- Reduced Deshi Mula Extended to its current browser-extension boundary and removed its obsolete duplicate Netlify, MongoDB, and AI backend.
-- Removed the unused snapshot publisher, provider test, visual harness, backend environment template, Deno lockfile, stale ADRs, generated Netlify cache, and redundant assets.
-- Removed dead client contract fields, an unused identity property, and unused CSS selectors.
-- Reduced Chrome host permissions to the development b4join API used by the current extension.
-- Stopped shipping JavaScript source maps in the Chrome archive, cutting the unpacked release ZIP approximately in half.
-- Updated architecture, privacy, project structure, and domain documentation to describe b4join as the external API owner.
-- Preserved the static prototype and the extension’s independent, account-free workflow.
+- Switched the extension API bridge from localhost to the production b4join API at `https://b4joinacompany.netlify.app/api/v1/extension`.
+- Updated the extension’s b4join footer link to open the production application.
+- Reduced Chrome host access to the production b4join Netlify domain.
+- Replaced the localhost-specific connection error with a production-safe availability message.
+- Updated project documentation to identify the deployed API endpoint.
+
+The production health endpoint was verified before release and returned the active dataset snapshot.
 
 ## Install in Chrome
 

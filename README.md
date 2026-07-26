@@ -7,7 +7,7 @@ A Manifest V3 research companion for [deshimula.com](https://deshimula.com/). It
 - The extension discovers company identities and renders research beside Deshi Mula.
 - The b4join API supplies company records, stories, jobs, salary evidence, work-setup signals, and generated answers.
 - No account, settings page, onboarding flow, API key, or dataset is packaged with the extension.
-- The current development build uses `http://localhost:3001/api/v1/extension`.
+- The extension uses `https://b4joinacompany.netlify.app/api/v1/extension`.
 
 ## Develop
 

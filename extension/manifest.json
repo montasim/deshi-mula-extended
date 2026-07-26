@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
   "name": "Deshi Mula Extended",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "A source-backed company research companion for Deshi Mula.",
   "permissions": ["storage"],
-  "host_permissions": ["http://localhost:3001/*"],
+  "host_permissions": ["https://b4joinacompany.netlify.app/*"],
   "action": {
     "default_title": "Deshi Mula Extended",
     "default_icon": {

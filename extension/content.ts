@@ -10,7 +10,7 @@ import { decodeLeetText, escapeHtml, slugFromCompanyUrl } from '../src/text';
 
 const SUPPORT_WIDGET_SRC = 'https://www.supportkori.com/widget.js';
 const SUPPORT_URL = 'https://www.supportkori.com/montasim';
-const B4JOIN_URL = 'http://localhost:3001';
+const B4JOIN_URL = 'https://b4joinacompany.netlify.app';
 const send = <T>(payload: BackgroundMessage): Promise<T> =>
   chrome.runtime.sendMessage(payload) as Promise<T>;
 

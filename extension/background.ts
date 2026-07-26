@@ -4,7 +4,8 @@ import {
   BackgroundMessage,
 } from '../src/contracts';
 
-const API_BASE_URL = 'http://localhost:3001/api/v1/extension';
+const API_BASE_URL =
+  'https://b4joinacompany.netlify.app/api/v1/extension';
 const CONSENT_KEY = 'consentedToAiRetention';
 
 const consent = async (): Promise<boolean> => {
@@ -44,7 +45,7 @@ const api = async (request: ApiRequest): Promise<ApiResult> => {
     return {
       ok: false,
       status: 0,
-      error: 'The b4join research API is unavailable at localhost:3001.',
+      error: 'The b4join research API is currently unavailable.',
     };
   }
 };
