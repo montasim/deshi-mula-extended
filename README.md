@@ -1,6 +1,6 @@
 # Deshi Mula Extended
 
-A Manifest V3 research companion for [deshimula.com](https://deshimula.com/). It decodes confirmed company names and opens one focused panel with Brief, Stories, Jobs & salary, and cited Ask views.
+A Manifest V3 research companion for [deshimula.com](https://deshimula.com/). It decodes confirmed company names and opens one focused panel with company insights, reported pay and roles, workplace stories, and cited answers.
 
 ## Boundary
 

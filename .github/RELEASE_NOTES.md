@@ -1,12 +1,14 @@
-## What’s new in v3.0.4
+## What’s new in v3.0.6
 
-- Switched the extension API bridge from localhost to the production b4join API at `https://b4joinacompany.netlify.app/api/v1/extension`.
-- Updated the extension’s b4join footer link to open the production application.
-- Reduced Chrome host access to the production b4join Netlify domain.
-- Replaced the localhost-specific connection error with a production-safe availability message.
-- Updated project documentation to identify the deployed API endpoint.
+- Reworked the company panel around three self-explanatory views: **Insights**, **Pay & roles**, and **Stories**.
+- Put company-specific culture signals, reported work setup, salary evidence, and personalized research questions in a clearer evidence-first hierarchy.
+- Removed repeated summary content and moved cited Ask into the relevant question flow.
+- Added compact sentiment and salary visualizations without hiding the underlying story counts or source boundaries.
+- Improved keyboard and screen-reader behavior for tabs, questions, source links, and panel controls.
+- Fixed masked company-name decoding for names such as `Expre$s Le@ther Products Ltd`, including ambiguous masks resolved from the canonical company slug.
+- Refined the extension description, action title, loading states, and production evidence status language.
 
-The production health endpoint was verified before release and returned the active dataset snapshot.
+The release keeps the existing minimal permissions: Chrome storage and access only to the production b4join API host.
 
 ## Install in Chrome
 

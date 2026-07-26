@@ -126,6 +126,7 @@ class ResearchPanel {
   private readonly backdrop: HTMLElement;
   private active?: Identity;
   private company: CompanyResearch | undefined;
+  private jobs: JobsResponse | undefined;
   private consentedToAiRetention = false;
   private requestVersion = 0;
   private storyTimer?: number;
@@ -138,25 +139,24 @@ class ResearchPanel {
       <aside class="dme-panel" data-panel role="dialog" aria-modal="true" aria-labelledby="dme-panel-company" aria-hidden="true">
         <header class="dme-panel-header">
           <div class="dme-extension-mark">${brandIcon}</div>
-          <div class="dme-panel-title"><span>Researching</span><h2 id="dme-panel-company">Company</h2></div>
+          <div class="dme-panel-title"><span>Inside view</span><h2 id="dme-panel-company">Company</h2></div>
           <div class="dme-header-actions">
-            <a class="dme-support" href="${SUPPORT_URL}" target="_blank" rel="noreferrer" aria-label="Open SupportKori in a new tab">${heartIcon}<span>Support</span></a>
-            <button class="dme-icon-button" data-close type="button" aria-label="Close Research">${icon('<path d="m6 6 12 12M18 6 6 18"></path>')}</button>
+            <a class="dme-support" href="${SUPPORT_URL}" target="_blank" rel="noreferrer" aria-label="Support this project">${heartIcon}<span class="dme-visually-hidden">Support</span></a>
+            <button class="dme-icon-button" data-close type="button" aria-label="Close company research">${icon('<path d="m6 6 12 12M18 6 6 18"></path>')}</button>
           </div>
         </header>
-        <nav class="dme-nav" aria-label="Company research">
-          <button class="is-active" data-tab="brief" type="button">Brief</button>
-          <button data-tab="stories" type="button">Stories</button>
-          <button data-tab="jobs" type="button">Jobs &amp; salary</button>
-          <button data-tab="ask" type="button">Ask</button>
+        <nav class="dme-nav" role="tablist" aria-label="Company research">
+          <button class="is-active" data-tab="brief" type="button" role="tab" aria-controls="dme-view-brief">Insights</button>
+          <button data-tab="jobs" type="button" role="tab" aria-controls="dme-view-jobs">Pay &amp; roles</button>
+          <button data-tab="stories" type="button" role="tab" aria-controls="dme-view-stories">Stories</button>
         </nav>
         <div class="dme-scroll" data-scroll>
-          <section class="dme-view is-active" data-view="brief"></section>
-          <section class="dme-view" data-view="stories" hidden></section>
-          <section class="dme-view" data-view="jobs" hidden></section>
-          <section class="dme-view" data-view="ask" hidden></section>
+          <section class="dme-view is-active" id="dme-view-brief" data-view="brief" role="tabpanel"></section>
+          <section class="dme-view" id="dme-view-jobs" data-view="jobs" role="tabpanel" hidden></section>
+          <section class="dme-view" id="dme-view-stories" data-view="stories" role="tabpanel" hidden></section>
+          <section class="dme-view" id="dme-view-ask" data-view="ask" role="tabpanel" hidden></section>
         </div>
-        <footer class="dme-footer"><span><i></i><b data-snapshot>Connecting to API</b></span><nav><a href="${B4JOIN_URL}" target="_blank" rel="noreferrer">b4join ↗</a><a href="#" data-sources>Sources</a></nav></footer>
+        <footer class="dme-footer"><span><i></i><b data-snapshot>Loading published evidence</b></span><nav><a href="#" data-sources>Sources</a><a href="${B4JOIN_URL}" target="_blank" rel="noreferrer">Open b4join ↗</a></nav></footer>
       </aside>`;
     document.body.append(this.root);
     this.panel = this.required('[data-panel]');
@@ -175,9 +175,10 @@ class ResearchPanel {
     const version = this.requestVersion;
     this.active = identity;
     this.company = undefined;
+    this.jobs = undefined;
     this.consentedToAiRetention = await send<boolean>({ type: 'consent:get' });
     this.required<HTMLElement>('#dme-panel-company').textContent =
-      identity.sourceName || 'Company';
+      decodeLeetText(identity.sourceName || 'Company', identity.slug);
     this.select('brief');
     this.renderLoading();
     this.panel.classList.add('is-open');
@@ -206,23 +207,25 @@ class ResearchPanel {
       jobsTask,
     ]);
     if (version !== this.requestVersion) return;
+
     if (company.status === 'fulfilled') {
       this.company = company.value;
       this.required<HTMLElement>('#dme-panel-company').textContent =
-        company.value.name;
-      this.renderBrief(company.value);
-      this.renderAsk();
+        decodeLeetText(company.value.name, company.value.slug);
       this.required<HTMLElement>('[data-snapshot]').textContent =
-        `Dataset snapshot · ${company.value.snapshotDate}`;
-    } else {
-      this.renderError('brief', company.reason);
-      this.renderAsk();
+        `Evidence updated ${company.value.snapshotDate}`;
     }
+    if (jobs.status === 'fulfilled') this.jobs = jobs.value;
+
+    if (company.status === 'fulfilled') this.renderBrief(company.value);
+    else this.renderError('brief', company.reason);
+
     if (stories.status === 'fulfilled') {
       this.renderStories(stories.value);
     } else {
       this.renderError('stories', stories.reason);
     }
+
     if (jobs.status === 'fulfilled') {
       this.renderJobs(jobs.value);
     } else {
@@ -252,9 +255,11 @@ class ResearchPanel {
     this.required('[data-sources]').addEventListener('click', (event) => {
       event.preventDefault();
       this.select('brief');
-      this.root
-        .querySelector('[data-link-list]')
-        ?.scrollIntoView({ behavior: 'smooth' });
+      const sources = this.root.querySelector<HTMLDetailsElement>('[data-link-list]');
+      if (sources) {
+        sources.open = true;
+        sources.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
     document.addEventListener('keydown', (event) => {
       if (!this.panel.classList.contains('is-open')) return;
@@ -264,10 +269,12 @@ class ResearchPanel {
   }
 
   private select(view: string) {
+    this.panel.classList.toggle('is-asking', view === 'ask');
     this.root.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((button) => {
       const selected = button.dataset.tab === view;
       button.classList.toggle('is-active', selected);
       button.setAttribute('aria-selected', String(selected));
+      button.tabIndex = selected ? 0 : -1;
     });
     this.root.querySelectorAll<HTMLElement>('[data-view]').forEach((section) => {
       section.hidden = section.dataset.view !== view;
@@ -293,11 +300,12 @@ class ResearchPanel {
   }
 
   private renderLoading() {
-    (['brief', 'stories', 'jobs', 'ask'] as const).forEach((view) => {
+    (['brief', 'stories', 'jobs'] as const).forEach((view) => {
       this.required<HTMLElement>(`[data-view="${view}"]`).innerHTML =
-        '<div class="dme-state"><span class="dme-spinner"></span><strong>Loading research</strong><p>The API is assembling the latest published evidence.</p></div>';
+        '<div class="dme-state"><span class="dme-spinner"></span><strong>Reading published reports</strong><p>Building a company-specific view from the available evidence.</p></div>';
     });
-    this.required<HTMLElement>('[data-snapshot]').textContent = 'Connecting to API';
+    this.required<HTMLElement>('[data-view="ask"]').innerHTML = '';
+    this.required<HTMLElement>('[data-snapshot]').textContent = 'Loading published evidence';
   }
 
   private renderError(view: string, reason: unknown) {
@@ -310,161 +318,185 @@ class ResearchPanel {
       </div>`;
   }
 
-  private renderWorkSetup(
-    company: CompanyResearch | undefined,
-    includeEvidence = false,
-  ) {
-    const record = company?.workArrangement;
-    if (!record) {
-      return `
-        <details class="dme-section dme-work-setup">
-          <summary class="dme-work-toggle">
-            <span><small>Unverified derived evidence</small><strong>Reported work setup</strong></span>
-            <em>Unavailable</em>
-            ${chevronIcon}
-          </summary>
-          <div class="dme-work-content">
-            <p class="dme-empty-row">No derived work-arrangement record is available for this company.</p>
-          </div>
-        </details>`;
-    }
+  private openAsk(question = '') {
+    this.renderAsk(question);
+    this.select('ask');
+    window.setTimeout(
+      () => this.root.querySelector<HTMLTextAreaElement>('[data-question]')?.focus(),
+      0,
+    );
+  }
 
-    const mode = record.workArrangement.reportedMode;
-    const modeLabel =
-      mode === 'unknown'
-        ? 'No explicit work-mode evidence'
-        : mode === 'mixed'
-          ? 'Conflicting work-mode reports'
-          : `Reported ${mode}`;
-    const hours = record.reportedSchedule.dailyHours
-      .map((range) =>
-        range.minimum === range.maximum
-          ? `${range.minimum} hours/day`
-          : `${range.minimum}–${range.maximum} hours/day`,
-      )
-      .join(', ');
-    const days = record.reportedSchedule.workdaysPerWeek
-      .map((range) =>
-        range.minimum === range.maximum
-          ? `${range.minimum} days/week`
-          : `${range.minimum}–${range.maximum} days/week`,
-      )
-      .join(', ');
-    const signals = [
-      hours,
-      days,
-      record.reportedSchedule.flexibleEvidenceCount
-        ? `${record.reportedSchedule.flexibleEvidenceCount} flexible-work mention${record.reportedSchedule.flexibleEvidenceCount === 1 ? '' : 's'}`
-        : '',
-      record.reportedSchedule.overtimeEvidenceCount
-        ? `${record.reportedSchedule.overtimeEvidenceCount} overtime mention${record.reportedSchedule.overtimeEvidenceCount === 1 ? '' : 's'}`
-        : '',
-      record.reportedSchedule.afterHoursEvidenceCount
-        ? `${record.reportedSchedule.afterHoursEvidenceCount} after-hours mention${record.reportedSchedule.afterHoursEvidenceCount === 1 ? '' : 's'}`
-        : '',
-    ].filter(Boolean);
-    const evidence = includeEvidence
-      ? record.evidenceMentions
-          .slice(0, 3)
-          .map(
-            (mention) => `
-              <a class="dme-work-evidence" href="${escapeHtml(mention.sourceUrl)}" target="_blank" rel="noreferrer">
-                <small>Unverified ${escapeHtml(mention.sourceKind)} · ${escapeHtml(mention.role || 'Anonymous')} · ${escapeHtml(mention.publishedAtLabel || 'Date unavailable')}</small>
-                <span>“${escapeHtml(mention.excerpt)}”</span>
-                ${externalIcon}
-              </a>`,
-          )
-          .join('')
-      : '';
-
-    return `
-      <details class="dme-section dme-work-setup">
-        <summary class="dme-work-toggle">
-          <span><small>Unverified derived evidence</small><strong>Reported work setup</strong></span>
-          <em>${escapeHtml(record.workArrangement.confidence)} confidence</em>
-          ${chevronIcon}
-        </summary>
-        <div class="dme-work-content">
-          <div class="dme-work-summary">
-            <article>
-              <small>Arrangement</small>
-              <strong>${escapeHtml(modeLabel)}</strong>
-              <span>${record.workArrangement.evidenceSourceCount} evidence source${record.workArrangement.evidenceSourceCount === 1 ? '' : 's'}</span>
-            </article>
-            <article>
-              <small>Reported schedule</small>
-              <strong>${escapeHtml(signals[0] || 'No explicit schedule')}</strong>
-              <span>${record.reportedSchedule.evidenceSourceCount} evidence source${record.reportedSchedule.evidenceSourceCount === 1 ? '' : 's'}</span>
-            </article>
-          </div>
-          ${signals.length ? `<div class="dme-work-signals">${signals.map((signal) => `<span>${escapeHtml(signal)}</span>`).join('')}</div>` : `<p class="dme-empty-row">${mode === 'unknown' ? 'The available accounts did not state work mode or schedule clearly enough to extract. Unknown does not mean onsite.' : 'No explicit schedule details were extracted from the available accounts.'}</p>`}
-          ${evidence ? `<div class="dme-work-evidence-list">${evidence}</div>` : ''}
-          <p class="dme-unverified-note"><strong>Not verified.</strong> ${escapeHtml(record.disclaimer)}</p>
-        </div>
-      </details>`;
+  private bindInsightActions() {
+    const view = this.required<HTMLElement>('[data-view="brief"]');
+    view.querySelectorAll<HTMLButtonElement>('[data-jump]').forEach((button) =>
+      button.addEventListener('click', () => this.select(button.dataset.jump || 'brief')),
+    );
+    view.querySelectorAll<HTMLButtonElement>('[data-evidence-question]').forEach((button) =>
+      button.addEventListener('click', () =>
+        this.openAsk(button.dataset.evidenceQuestion || ''),
+      ),
+    );
+    view.querySelector<HTMLButtonElement>('[data-open-ask]')?.addEventListener(
+      'click',
+      () => this.openAsk(),
+    );
   }
 
   private renderBrief(company: CompanyResearch) {
-    const total = Math.max(company.metrics.stories, 1);
     const sentiment = company.metrics.sentiment;
+    const totalStories = Math.max(company.metrics.stories, 1);
+    const cultureHeadline =
+      company.metrics.stories === 0
+        ? 'No workplace story is available yet'
+        : sentiment.negative > sentiment.positive &&
+            sentiment.negative > sentiment.mixed
+        ? 'Most published reports raise concerns'
+        : sentiment.positive > sentiment.negative &&
+            sentiment.positive > sentiment.mixed
+          ? 'Most published reports are positive'
+          : 'Published reports show mixed experiences';
+    const cultureDetail =
+      company.metrics.stories === 0
+        ? 'No story mix to compare'
+        : `${sentiment.positive} positive · ${sentiment.mixed} mixed · ${sentiment.negative} concerning`;
+
+    const arrangement = company.workArrangement;
+    const mode = arrangement?.workArrangement.reportedMode ?? 'unknown';
+    const modeLabel =
+      !arrangement || mode === 'unknown'
+        ? 'No clear work setup reported'
+        : mode === 'mixed'
+          ? 'Conflicting work setups reported'
+          : `${mode[0]?.toUpperCase()}${mode.slice(1)} work reported`;
+    const workDetails = arrangement
+      ? [
+          arrangement.reportedSchedule.workdaysPerWeek[0]
+            ? `${arrangement.reportedSchedule.workdaysPerWeek[0].minimum === arrangement.reportedSchedule.workdaysPerWeek[0].maximum ? arrangement.reportedSchedule.workdaysPerWeek[0].minimum : `${arrangement.reportedSchedule.workdaysPerWeek[0].minimum}–${arrangement.reportedSchedule.workdaysPerWeek[0].maximum}`} days/week mentioned`
+            : '',
+          arrangement.reportedSchedule.overtimeEvidenceCount
+            ? `${arrangement.reportedSchedule.overtimeEvidenceCount} overtime mentions`
+            : '',
+          arrangement.reportedSchedule.flexibleEvidenceCount
+            ? `${arrangement.reportedSchedule.flexibleEvidenceCount} flexibility mentions`
+            : '',
+        ].filter(Boolean)
+      : [];
+
+    const salaryRoles = this.jobs?.salary.roles.length ?? 0;
+    const payHeadline = !this.jobs
+      ? 'Salary data is unavailable'
+      : salaryRoles
+        ? `${salaryRoles} community-reported role range${salaryRoles === 1 ? '' : 's'}`
+        : 'No reported salary range';
+    const payDetail = this.jobs
+      ? this.jobs.salary.summary
+      : 'Open Pay & roles to check the available evidence.';
+
+    const questionMarkup = (question: NonNullable<CompanyResearch['questions']>[number]) => `
+      <button class="dme-question-card" type="button" data-evidence-question="${escapeHtml(question.title)}">
+        <span><strong>${escapeHtml(question.title)}</strong><small>${escapeHtml(question.guidance)}</small></span>
+        ${chevronIcon}
+      </button>`;
+    const questions = company.questions || [];
+    const primaryQuestions = questions.slice(0, 3).map(questionMarkup).join('');
+    const moreQuestions = questions.slice(3).map(questionMarkup).join('');
+
     const links = company.links
       .map(
         (link) => `
           <a class="dme-source-link" href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer">
-            <span>${escapeHtml(link.label)}</span>
-            <small>${escapeHtml(link.verification)}</small>${externalIcon}
+            <span>${escapeHtml(link.label)}</span>${externalIcon}
           </a>`,
       )
       .join('');
-    const questions = company.questions?.length
-      ? company.questions
-          .slice(0, 5)
-          .map(
-            (question) => `
-              <li><div><strong>${escapeHtml(question.title)}</strong><span>${escapeHtml(question.guidance)}</span></div></li>`,
-          )
-          .join('')
-      : '<li class="dme-empty-row">Open Ask to generate company-specific questions.</li>';
+
+    const glassdoor =
+      company.metrics.rating !== null || company.metrics.recommendPercent !== null
+        ? `<p class="dme-context-line">Glassdoor context · ${company.metrics.rating === null ? 'rating unavailable' : `${company.metrics.rating}/5`} · ${company.metrics.recommendPercent === null ? 'recommendation unavailable' : `${company.metrics.recommendPercent}% recommend`}</p>`
+        : '';
+
     this.required<HTMLElement>('[data-view="brief"]').innerHTML = `
-      <article class="dme-evidence">
-        <div class="dme-source-label"><span>Deshi Mula evidence</span><em>Snapshot · ${escapeHtml(company.snapshotDate)}</em></div>
-        <h3>${escapeHtml(company.brief.headline)}</h3>
-        <p>${escapeHtml(company.brief.copy)}</p>
-      </article>
-      <div class="dme-metrics">
-        <article><span>Stories</span><strong>${company.metrics.stories}</strong></article>
-        <article><span>Rating</span><strong>${company.metrics.rating ?? '—'}</strong><small>Glassdoor / 5</small></article>
-        <article><span>Recommend</span><strong>${company.metrics.recommendPercent === null ? '—' : `${company.metrics.recommendPercent}%`}</strong><small>Glassdoor</small></article>
-      </div>
-      <section class="dme-section">
-        <div class="dme-section-heading"><div><span>Story mix</span><h3>Published experiences</h3></div><strong>${company.metrics.stories} stories</strong></div>
-        <div class="dme-sentiment" aria-label="Story sentiment distribution">
-          <span class="positive" style="width:${(sentiment.positive / total) * 100}%"></span>
-          <span class="mixed" style="width:${(sentiment.mixed / total) * 100}%"></span>
-          <span class="negative" style="width:${(sentiment.negative / total) * 100}%"></span>
+      <section class="dme-intro">
+        <p class="dme-eyebrow">Before you join</p>
+        <h3>Know what employees report before you join.</h3>
+        <p>A quick, company-specific read from ${company.metrics.stories} published workplace ${company.metrics.stories === 1 ? 'story' : 'stories'}.</p>
+      </section>
+
+      <section class="dme-inside-view" aria-labelledby="dme-inside-view-title">
+        <div class="dme-inside-heading">
+          <div><span>Decision scan</span><h3 id="dme-inside-view-title">The inside view</h3></div>
+          <em>Not a verdict</em>
         </div>
-        <div class="dme-legend"><span><i class="positive"></i>Positive <b>${sentiment.positive}</b></span><span><i class="mixed"></i>Mixed <b>${sentiment.mixed}</b></span><span><i class="negative"></i>Negative <b>${sentiment.negative}</b></span></div>
+        <div class="dme-signal-spine">
+          <button class="dme-signal-row" type="button" data-jump="stories">
+            <span class="dme-signal-key">Culture</span>
+            <span class="dme-signal-copy">
+              <strong>${escapeHtml(cultureHeadline)}</strong>
+              <span class="dme-story-chart" aria-label="${escapeHtml(cultureDetail)}">
+                <i class="is-positive" style="width:${(sentiment.positive / totalStories) * 100}%"></i>
+                <i class="is-mixed" style="width:${(sentiment.mixed / totalStories) * 100}%"></i>
+                <i class="is-concerning" style="width:${(sentiment.negative / totalStories) * 100}%"></i>
+              </span>
+              <small>${escapeHtml(cultureDetail)}</small>
+            </span>
+            ${chevronIcon}
+          </button>
+          <div class="dme-signal-row">
+            <span class="dme-signal-key">Work</span>
+            <span class="dme-signal-copy"><strong>${escapeHtml(modeLabel)}</strong><small>${escapeHtml(workDetails.join(' · ') || 'No schedule pattern was clear enough to summarize.')}</small></span>
+          </div>
+          <button class="dme-signal-row" type="button" data-jump="jobs">
+            <span class="dme-signal-key">Pay</span>
+            <span class="dme-signal-copy"><strong>${escapeHtml(payHeadline)}</strong><small>${escapeHtml(payDetail)}</small></span>
+            ${chevronIcon}
+          </button>
+        </div>
+        ${glassdoor}
       </section>
-      ${this.renderWorkSetup(company)}
-      <section class="dme-section">
-        <div class="dme-section-heading"><div><span>Personalized checkpoint</span><h3>Questions to verify</h3></div><strong>${company.questions?.length ?? 0} questions</strong></div>
-        <ul class="dme-theme-list">${questions}</ul>
+
+      <section class="dme-questions">
+        <div class="dme-section-heading">
+          <div><span>Interview prep</span><h3>Questions worth asking</h3></div>
+          <strong>${questions.length}</strong>
+        </div>
+        <p class="dme-section-copy">Built from themes that repeat in this company’s stories and comments.</p>
+        <div class="dme-question-list">
+          ${primaryQuestions || '<p class="dme-empty-row">No repeated theme had enough evidence to create a company-specific question.</p>'}
+          ${
+            moreQuestions
+              ? `<details class="dme-more-questions">
+                  <summary>Show ${questions.length - 3} more ${questions.length - 3 === 1 ? 'question' : 'questions'}${chevronIcon}</summary>
+                  <div>${moreQuestions}</div>
+                </details>`
+              : ''
+          }
+        </div>
+        <button class="dme-primary dme-primary--wide" type="button" data-open-ask>
+          <span>Ask your own question</span>${chevronIcon}
+        </button>
       </section>
-      <section class="dme-section" data-link-list>
-        <div class="dme-section-heading"><div><span>Verified destinations</span><h3>Continue your research</h3></div></div>
-        <div class="dme-source-links">${links || '<p class="dme-empty-row">No verified destinations are available.</p>'}</div>
-      </section>
-      <p class="dme-disclaimer">${escapeHtml(company.brief.disclaimer)}</p>`;
+
+      <details class="dme-trust" data-link-list>
+        <summary><span><strong>How to read this research</strong><small>Personal reports, dates, and source links</small></span>${chevronIcon}</summary>
+        <div>
+          <p>${escapeHtml(company.brief.disclaimer)}</p>
+          <nav aria-label="Company sources">${links || '<span class="dme-empty-row">No source links are available.</span>'}</nav>
+        </div>
+      </details>`;
+    this.bindInsightActions();
   }
 
   private renderStories(response: StorySearchResponse) {
     const view = this.required<HTMLElement>('[data-view="stories"]');
     view.innerHTML = `
-      <p class="dme-eyebrow">Source explorer</p>
-      <h3 class="dme-view-title">Find the stories that matter.</h3>
-      <p class="dme-view-copy">Search title, role, or words inside this company’s published stories.</p>
-      <label class="dme-search">${searchIcon}<input data-story-search type="search" placeholder="Search title, role, or word" /></label>
-      <div class="dme-story-filters"><button class="is-active" data-vibe="" type="button">Recent</button><button data-vibe="positive" type="button">Positive</button><button data-vibe="mixed" type="button">Mixed</button><button data-vibe="negative" type="button">Negative</button></div>
+      <section class="dme-intro dme-intro--compact">
+        <p class="dme-eyebrow">Published stories</p>
+        <h3>Read the reports behind the insights.</h3>
+        <p>Search by role or topic, then open any story on Deshi Mula for its full context and comments.</p>
+      </section>
+      <label class="dme-search">${searchIcon}<input data-story-search type="search" placeholder="Search role, topic, or phrase" /></label>
+      <div class="dme-story-filters" aria-label="Filter stories"><button class="is-active" data-vibe="" type="button">All</button><button data-vibe="positive" type="button">Positive</button><button data-vibe="mixed" type="button">Mixed</button><button data-vibe="negative" type="button">Concerning</button></div>
       <div data-story-results></div>`;
     this.paintStories(response);
     view.querySelector<HTMLInputElement>('[data-story-search]')?.addEventListener(
@@ -489,15 +521,16 @@ class ResearchPanel {
     target.innerHTML = `
       <p class="dme-result-count">${response.total} matching ${response.total === 1 ? 'story' : 'stories'}</p>
       <div class="dme-story-list">${response.items
-        .map(
-          (story) => `
+        .map((story) => {
+          const vibeLabel = story.vibe === 'negative' ? 'concerning' : story.vibe;
+          return `
           <a href="${escapeHtml(story.url)}" target="_blank" rel="noreferrer">
             <strong>${escapeHtml(story.title || 'Untitled story')}</strong>
             <span>${escapeHtml(story.role || 'Anonymous')} · ${escapeHtml(story.date || 'Date unavailable')}</span>
-            <small><em class="dme-vibe dme-vibe--${escapeHtml(story.vibe)}">${escapeHtml(story.vibe)}</em> ↑ ${story.reactions} · ◌ ${story.comments}</small>
+            <small><em class="dme-vibe dme-vibe--${escapeHtml(story.vibe)}">${escapeHtml(vibeLabel)}</em>${story.reactions} reactions · ${story.comments} comments</small>
             ${externalIcon}
-          </a>`,
-        )
+          </a>`;
+        })
         .join('')}</div>`;
   }
 
@@ -527,13 +560,53 @@ class ResearchPanel {
 
   private renderJobs(response: JobsResponse) {
     const formatBdt = (value: number) =>
-      new Intl.NumberFormat('en-BD', {
-        style: 'currency',
-        currency: 'BDT',
-        maximumFractionDigits: 0,
-      }).format(value);
-    const jobs = response.jobs.length
-      ? response.jobs
+      `৳${new Intl.NumberFormat('en-BD', {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+      }).format(value)}`;
+    const salaryRoleItems = response.salary.roles || [];
+    const maximumSalary = Math.max(
+      ...salaryRoleItems.map((role) => role.maximumBdt),
+      1,
+    );
+    const salaryRows = (
+      roles: typeof salaryRoleItems,
+      className = '',
+    ) =>
+      roles
+        .map((role) => {
+          const left = (role.minimumBdt / maximumSalary) * 100;
+          const width = Math.max(
+            ((role.maximumBdt - role.minimumBdt) / maximumSalary) * 100,
+            2.5,
+          );
+          return `
+            <article class="dme-range-row ${className}">
+              <div class="dme-range-label">
+                <strong>${escapeHtml(role.role)}</strong>
+                <span>${escapeHtml(formatBdt(role.minimumBdt))}–${escapeHtml(formatBdt(role.maximumBdt))}</span>
+              </div>
+              <div class="dme-range-track" role="img" aria-label="${escapeHtml(role.role)} reported range ${escapeHtml(formatBdt(role.minimumBdt))} to ${escapeHtml(formatBdt(role.maximumBdt))}">
+                <i style="left:${left}%;width:${width}%"></i>
+              </div>
+              <small>${role.sampleSize ? `${role.sampleSize.toLocaleString()} contributor${role.sampleSize === 1 ? '' : 's'}` : 'Contributor count unavailable'}${role.bonus ? ` · ${role.bonus.reportedCount}/${role.bonus.answeredCount} reported a bonus` : ''}</small>
+            </article>`;
+        })
+        .join('');
+
+    const primarySalaryRows = salaryRows(salaryRoleItems.slice(0, 6));
+    const remainingSalaryRows = salaryRows(salaryRoleItems.slice(6), 'is-secondary');
+
+    const specificJobs = response.jobs.filter(
+      (job) =>
+        !(
+          response.careerUrl &&
+          job.sourceUrl === response.careerUrl &&
+          /career|opening/i.test(job.title)
+        ),
+    );
+    const jobs = specificJobs.length
+      ? specificJobs
           .map(
             (job) => `
               <a class="dme-job" href="${escapeHtml(job.sourceUrl)}" target="_blank" rel="noreferrer">
@@ -542,96 +615,90 @@ class ResearchPanel {
               </a>`,
           )
           .join('')
-      : '<p class="dme-job-empty"><strong>No current hiring signal</strong><span>The API has no verified opening for this snapshot. Use the career page when available.</span></p>';
-    const salaryRoleItems = response.salary.roles || [];
-    const salaryRoles = salaryRoleItems.length
-      ? `<details class="dme-salary-roles" ${salaryRoleItems.length <= 4 ? 'open' : ''}>
-          <summary><span>View reported role ranges</span><em>${salaryRoleItems.length} roles</em></summary>
-          <div>${salaryRoleItems
-            .map(
-              (role) => `<article>
-                <strong>${escapeHtml(role.role)}</strong>
-                <span>${escapeHtml(formatBdt(role.minimumBdt))}–${escapeHtml(formatBdt(role.maximumBdt))}</span>
-                <small>${role.sampleSize ? `Based on ${role.sampleSize.toLocaleString()} contributor${role.sampleSize === 1 ? '' : 's'}` : 'Contributor count unavailable'}${role.bonus ? ` · ${role.bonus.reportedCount} of ${role.bonus.answeredCount} reported a bonus` : ''}</small>
-              </article>`,
-            )
-            .join('')}</div>
-        </details>`
-      : '';
+      : response.careerUrl
+        ? `<a class="dme-career-cta" href="${escapeHtml(response.careerUrl)}" target="_blank" rel="noreferrer">
+            <span><strong>Check current openings</strong><small>Open the company’s careers page</small></span>${externalIcon}
+          </a>`
+        : '<p class="dme-job-empty"><strong>No current opening found</strong><span>No sourced vacancy or careers page is available in this snapshot.</span></p>';
+
+    const checkedAt = response.checkedAt
+      ? new Intl.DateTimeFormat('en-BD', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }).format(new Date(response.checkedAt))
+      : 'Date unavailable';
     this.required<HTMLElement>('[data-view="jobs"]').innerHTML = `
-      <p class="dme-eyebrow">Opportunity check</p>
-      <h3 class="dme-view-title">Open roles, with workplace context.</h3>
-      <p class="dme-view-copy">Hiring comes from sourced listings. Availability can change after the observation date.</p>
-      <section class="dme-job-card">
-        <div class="dme-source-label"><span>Sourced hiring</span><em>${escapeHtml(response.checkedAt || 'Not checked')}</em></div>
-        ${jobs}
-        ${response.careerUrl ? `<a class="dme-career-link" href="${escapeHtml(response.careerUrl)}" target="_blank" rel="noreferrer">Open career page ${externalIcon}</a>` : ''}
+      <section class="dme-intro dme-intro--compact">
+        <p class="dme-eyebrow">Pay &amp; roles</p>
+        <h3>Compare reported pay before you negotiate.</h3>
+        <p>Community-submitted ranges are shown on one scale. Confirm the amount and pay period in writing.</p>
       </section>
-      <section class="dme-section">
-        <div class="dme-section-heading"><div><span>Salary evidence</span><h3>${escapeHtml(response.salary.label)}</h3></div></div>
-        <article class="dme-salary">
-          <span>${response.salary.status === 'unverified' ? 'Not verified' : 'Unavailable'}</span>
-          <p>${escapeHtml(response.salary.summary)}</p>
-          <small>${escapeHtml(response.salary.disclaimer || 'Salary evidence is not independently verified; confirm directly with the company.')}</small>
-          ${response.salary.sourceUrl ? `<a href="${escapeHtml(response.salary.sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(response.salary.source || 'Open source')} ${externalIcon}</a>` : ''}
-        </article>
-        ${salaryRoles}
+
+      <section class="dme-pay-view">
+        <div class="dme-section-heading">
+          <div><span>Reported salary</span><h3>${escapeHtml(response.salary.label)}</h3></div>
+          <strong>${salaryRoleItems.length} ${salaryRoleItems.length === 1 ? 'role' : 'roles'}</strong>
+        </div>
+        <p class="dme-section-copy">${escapeHtml(response.salary.summary)}</p>
+        ${
+          salaryRoleItems.length
+            ? `<div class="dme-range-scale" aria-hidden="true"><span>৳0</span><i></i><span>${escapeHtml(formatBdt(maximumSalary))}</span></div>
+              <div class="dme-range-chart">${primarySalaryRows}</div>
+              ${
+                remainingSalaryRows
+                  ? `<details class="dme-more-ranges">
+                      <summary>Show ${salaryRoleItems.length - 6} more ${salaryRoleItems.length - 6 === 1 ? 'role' : 'roles'}${chevronIcon}</summary>
+                      <div class="dme-range-chart">${remainingSalaryRows}</div>
+                    </details>`
+                  : ''
+              }`
+            : '<div class="dme-empty-panel"><strong>No salary ranges yet</strong><p>The current dataset has no community-submitted pay evidence for this company.</p></div>'
+        }
+        <details class="dme-data-note">
+          <summary>How to read these ranges${chevronIcon}</summary>
+          <div>
+            <p>${escapeHtml(response.salary.disclaimer || 'Salary evidence is not independently verified; confirm directly with the company.')}</p>
+            ${response.salary.sourceUrl ? `<a href="${escapeHtml(response.salary.sourceUrl)}" target="_blank" rel="noreferrer">Open ${escapeHtml(response.salary.source || 'salary source')} ${externalIcon}</a>` : ''}
+          </div>
+        </details>
       </section>
-      ${this.renderWorkSetup(this.company, true)}`;
+
+      <section class="dme-openings">
+        <div class="dme-section-heading">
+          <div><span>Hiring now</span><h3>Current openings</h3></div>
+          <strong>Checked ${escapeHtml(checkedAt)}</strong>
+        </div>
+        <div class="dme-job-card">${jobs}</div>
+      </section>`;
   }
 
-  private renderAsk() {
-    const companyName = this.company?.name || this.active?.sourceName || 'this company';
+  private renderAsk(prefill = '') {
+    const companyName = decodeLeetText(
+      this.company?.name || this.active?.sourceName || 'this company',
+      this.active?.slug,
+    );
     const consented = this.consentedToAiRetention;
-    const questions = this.company?.questions || [];
-    const questionCards = questions.length
-      ? `<section class="dme-question-list"><div class="dme-section-heading"><div><span>Company-specific checkpoint</span><h3>Questions to verify</h3></div><strong>${questions.length} questions</strong></div>${questions
-          .map(
-            (question) => `<button class="dme-question-card" type="button" data-evidence-question="${escapeHtml(question.title)}"><strong>${escapeHtml(question.title)}</strong><span>${escapeHtml(question.guidance)}</span><small>${escapeHtml(question.rationale)}</small>${question.gap ? `<em>Evidence gap: ${escapeHtml(question.gap)}</em>` : ''}</button>`,
-          )
-          .join('')}</section>`
-      : '<div class="dme-state"><strong>No company-specific questions yet</strong><p>Use Ask to explore the available stories.</p></div>';
+    const storyCount = this.company?.metrics.stories ?? 0;
     this.required<HTMLElement>('[data-view="ask"]').innerHTML = `
-      <p class="dme-eyebrow dme-ask-eyebrow">Cited research</p>
-      <h3 class="dme-view-title">Ask another focused question.</h3>
-      <p class="dme-view-copy">Relevant story excerpts are sent only after you choose Find answer.</p>
-      <div class="dme-ask-prompts" aria-label="Suggested questions">
-        <button type="button">What do engineers report?</button>
-        <button type="button">What changed recently?</button>
-        <button type="button">Show mixed experiences</button>
-      </div>
+      <button class="dme-back" type="button" data-ask-back>${icon('<path d="m15 18-6-6 6-6"></path>')}<span>Back to insights</span></button>
+      <section class="dme-intro dme-intro--ask">
+        <p class="dme-eyebrow">Ask the evidence</p>
+        <h3>What do you want to know about ${escapeHtml(companyName)}?</h3>
+        <p>The answer searches ${storyCount || 'the available'} published ${storyCount === 1 ? 'story' : 'stories'} and comments, then links every supporting source.</p>
+      </section>
       <form class="dme-ask-form" data-ask-form>
-        <label for="dme-research-question">Your question</label>
-        <textarea id="dme-research-question" data-question rows="4" maxlength="800" placeholder="Ask about a role, subject, or time period" aria-label="Ask about ${escapeHtml(companyName)}"></textarea>
-        ${consented ? '' : `<label class="dme-consent"><input data-consent type="checkbox" /><span>Store my question, prompt, retrieved excerpts, answer, provider metadata, and pseudonymous installation ID indefinitely.</span></label>`}
-        <button class="dme-primary" type="submit"><span>Find answer</span>${chevronIcon}</button>
+        <label for="dme-research-question">Question to verify</label>
+        <textarea id="dme-research-question" data-question rows="4" maxlength="800" placeholder="Example: How often is overtime mentioned?" aria-label="Ask about ${escapeHtml(companyName)}">${escapeHtml(prefill)}</textarea>
+        ${consented ? '' : `<label class="dme-consent"><input data-consent type="checkbox" /><span>Allow b4join to store this question, the cited excerpts, answer, and anonymous installation ID indefinitely.</span></label>`}
+        <button class="dme-primary dme-primary--wide" type="submit"><span>Search company evidence</span>${chevronIcon}</button>
       </form>
       <div data-answer></div>
-      <div class="dme-personalized-after-ask">
-        <p class="dme-eyebrow">Personalized research</p>
-        <h3 class="dme-view-title">Start with this company’s evidence.</h3>
-        <p class="dme-view-copy">These questions are generated from ${escapeHtml(companyName)} stories and comments. Select one to ask for a cited answer.</p>
-        ${questionCards}
-      </div>
     `;
     const view = this.required<HTMLElement>('[data-view="ask"]');
-    view.querySelectorAll<HTMLButtonElement>('[data-evidence-question]').forEach((button) =>
-      button.addEventListener('click', () => {
-        const input = view.querySelector<HTMLTextAreaElement>('[data-question]');
-        if (input) {
-          input.value = button.dataset.evidenceQuestion || '';
-          input.focus();
-        }
-      }),
-    );
-    view.querySelectorAll<HTMLButtonElement>('.dme-ask-prompts button').forEach((button) =>
-      button.addEventListener('click', () => {
-        const input = view.querySelector<HTMLTextAreaElement>('[data-question]');
-        if (input) {
-          input.value = button.textContent || '';
-          input.focus();
-        }
-      }),
+    view.querySelector<HTMLButtonElement>('[data-ask-back]')?.addEventListener(
+      'click',
+      () => this.select('brief'),
     );
     view.querySelector<HTMLFormElement>('[data-ask-form]')?.addEventListener(
       'submit',
@@ -651,7 +718,7 @@ class ResearchPanel {
       return;
     }
     if (consent && !consent.checked) {
-      answer.innerHTML = '<p class="dme-inline-error">Confirm the indefinite-retention disclosure to use Ask.</p>';
+      answer.innerHTML = '<p class="dme-inline-error">Confirm the storage choice before searching the evidence.</p>';
       return;
     }
     if (consent) {
@@ -671,14 +738,14 @@ class ResearchPanel {
       });
       answer.innerHTML = `
         <article class="dme-answer">
-          <div class="dme-source-label"><span>Generated from selected stories</span><em>${response.citations.length} citations · ${escapeHtml(response.provider)}</em></div>
+          <div class="dme-source-label"><span>Answer from published reports</span><em>${response.citations.length} ${response.citations.length === 1 ? 'source' : 'sources'}</em></div>
           <div class="dme-answer-copy">${renderAnswerText(response.answer, response.citations)}</div>
           <div class="dme-citations">${response.citations
             .map(
               (citation) => `<a href="${escapeHtml(citation.url)}" target="_blank" rel="noreferrer" title="${escapeHtml(citation.title)}">[${escapeHtml(citation.id)}] <span>${escapeHtml(citation.title)}</span></a>`,
             )
             .join('')}</div>
-          <small>This summarizes user reports. Open the cited stories before drawing a conclusion. · Request ${escapeHtml(response.requestId.slice(0, 8))}</small>
+          <small>This summarizes personal reports. Open the cited stories before drawing a conclusion.</small>
         </article>`;
       consent?.closest('.dme-consent')?.remove();
     } catch (error) {
@@ -720,8 +787,13 @@ const discover = (): Identity[] => {
     const element = nameElementFor(anchor);
     if (!slug || !element || element.dataset.dmeCompanySlug) return;
     const sourceName = element.textContent?.trim() || slug;
+    const displayName = decodeLeetText(sourceName, slug);
     element.dataset.dmeCompanySlug = slug;
     element.dataset.dmeSourceName = sourceName;
+    element.textContent = displayName;
+    if (displayName !== sourceName) {
+      element.title = `Originally shown as ${sourceName}`;
+    }
     const trigger = document.createElement('button');
     trigger.type = 'button';
     trigger.className = 'dme-research-trigger';
@@ -762,7 +834,7 @@ const hydrate = async (found: Identity[]) => {
     });
     response.items.forEach((company) => {
       (identities.get(company.slug) || []).forEach((identity) => {
-        identity.element.textContent = decodeLeetText(company.name);
+        identity.element.textContent = decodeLeetText(company.name, company.slug);
         identity.element.title =
           company.name === company.sourceName
             ? ''
