@@ -1,6 +1,6 @@
 {
   "name": "deshi-mula-extended",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "private": true,
   "type": "module",
   "description": "Dataset-backed research companion for Deshi Mula.",
