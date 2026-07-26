@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Deshi Mula Extended",
+  "version": "3.0.2",
+  "description": "A source-backed company research companion for Deshi Mula.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://deshimula.com/*",
+    "https://www.supportkori.com/*",
+    "https://supportkori.com/*",
+    "https://*.netlify.app/*",
+    "http://localhost:3000/*",
+    "http://localhost:3001/*"
+  ],
+  "action": {
+    "default_title": "Deshi Mula Extended",
+    "default_icon": {
+      "16": "media/logo-16.png",
+      "32": "media/logo-32.png",
+      "48": "media/logo-48.png",
+      "128": "media/logo-128.png"
+    }
+  },
+  "icons": {
+    "16": "media/logo-16.png",
+    "32": "media/logo-32.png",
+    "48": "media/logo-48.png",
+    "128": "media/logo-128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://deshimula.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

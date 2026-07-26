@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-07-24",
+  "method": "Public official company pages fetched without authentication or access-control bypass.",
+  "companies": [
+    {
+      "company": "TechnoNext Ltd",
+      "website": "https://technonext.com/",
+      "linkedin": "https://www.linkedin.com/company/technonextsoftwareltd",
+      "career_page": "https://technonext.com/career",
+      "jobs": [
+        {
+          "title": "Senior Executive – Digital Marketing",
+          "source": "official_linkedin_company_post",
+          "source_url": "https://lnkd.in/g3BBbyJE",
+          "posted_age_observed": "about 1 month",
+          "experience": "3–5 years",
+          "salary_disclosure": "Negotiable based on experience and expertise"
+        },
+        {
+          "title": "Graphic & Motion Designer",
+          "source": "official_linkedin_company_post",
+          "source_url": "https://lnkd.in/gSF3mkVc",
+          "posted_age_observed": "about 2 months",
+          "employment_type": "Full-time",
+          "experience": "2+ years",
+          "salary_disclosure": "Negotiable based on experience and portfolio"
+        },
+        {
+          "title": "Senior Business Analyst",
+          "source": "official_career_page",
+          "source_url": "https://technonext.com/career",
+          "location": "Dhaka",
+          "employment_type": "Full-time",
+          "workplace": "On-site",
+          "posted_age_observed_days": 202,
+          "salary_disclosure": null
+        },
+        {
+          "title": "Senior .NET Developers (OTA)",
+          "source": "official_career_page",
+          "source_url": "https://technonext.com/career",
+          "location": "Dhaka",
+          "employment_type": "Full-time",
+          "workplace": "On-site",
+          "posted_age_observed_days": 210,
+          "salary_disclosure": null
+        },
+        {
+          "title": "Domain Expert (Multiple Digital Platforms)",
+          "source": "official_career_page",
+          "source_url": "https://technonext.com/career",
+          "location": "Dhaka",
+          "employment_type": "Full-time",
+          "workplace": "On-site",
+          "posted_age_observed_days": 210,
+          "salary_disclosure": null
+        },
+        {
+          "title": "Business Analyst",
+          "source": "official_career_page",
+          "source_url": "https://technonext.com/career",
+          "location": "Dhaka",
+          "employment_type": "Full-time",
+          "workplace": "On-site",
+          "posted_age_observed_days": 210,
+          "salary_disclosure": null
+        }
+      ],
+      "salary_evidence": {
+        "status": "partial_disclosure",
+        "published_amount": null,
+        "published_text": "Negotiable",
+        "notes": "Two recent LinkedIn hiring posts disclose negotiable compensation. The official career page says competitive pay but gives no numerical range."
+      }
+    },
+    {
+      "company": "Optimizely",
+      "website": "https://www.optimizely.com/",
+      "linkedin": "https://www.linkedin.com/company/optimizely",
+      "jobs": [],
+      "notes": "Company profile links verified; Bangladesh-specific openings were not normalized in this snapshot."
+    },
+    {
+      "company": "Therap (BD) Ltd.",
+      "website": "https://therapbd.com/",
+      "linkedin": "https://www.linkedin.com/company/therapbd",
+      "jobs": [],
+      "notes": "Recent hiring posts were found, but their stated deadlines had passed by the snapshot date."
+    }
+  ]
+}

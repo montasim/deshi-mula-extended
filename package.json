@@ -1,72 +1,38 @@
 {
   "name": "deshi-mula-extended",
-  "version": "1.0.0",
-  "description": "Deshi Mula Extended is a lightweight Chrome extension built exclusively for deshimula.com. It enriches your browsing experience with AI-driven insights, decoded text, and quick-access metadata—right where you need it.",
-  "main": "dist/content.js",
+  "version": "3.0.2",
+  "private": true,
   "type": "module",
+  "description": "Dataset-backed research companion for Deshi Mula.",
   "scripts": {
-    "lint:check": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "prettier:check": "prettier . --check",
-    "prettier:fix": "prettier . --write",
-    "build": "pnpm lint:fix && pnpm prettier:fix && tsc && pnpm rollup -c && pnpm copy:assets",
-    "watch": "tsc --watch",
-    "copy:assets": "cpx \"{manifest.json,*.html,*.css,media/**/*}\" dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsx scripts/build.ts",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
+    "dev:api": "netlify dev",
+    "lint": "eslint .",
+    "publish:snapshot": "tsx scripts/publish-snapshot.ts",
+    "snapshot:check": "tsx scripts/publish-snapshot.ts --dry-run",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
-  "keywords": [
-    "Deshi Mula",
-    "Deshi Mula Extended",
-    "Deshi Mula Extension",
-    "chrome-extension",
-    "manifest-v3",
-    "content-script",
-    "leet-speak",
-    "1337",
-    "decoder",
-    "company-badges",
-    "hover-badges",
-    "contact-links",
-    "ai-summaries",
-    "sentiment-analysis",
-    "translation",
-    "salary-lookup",
-    "job-openings",
-    "web-scraping",
-    "javascript",
-    "typescript",
-    "productivity-tool",
-    "developer-tool",
-    "deshimula.com",
-    "data-enrichment"
-  ],
-  "author": {
-    "name": "Mohammad Montasim -Al- Mamun Shuvo",
-    "portfolio": "https://montasim-dev.web.app/",
-    "contact": {
-      "email": "montasimmamun@gmail.com"
-    },
-    "social": {
-      "linkedIn": "https://www.linkedin.com/in/montasim",
-      "gitHub": "https://github.com/montasim"
-    }
+  "dependencies": {
+    "@netlify/functions": "^4.2.5",
+    "mongodb": "^6.20.0",
+    "zod": "^4.1.12"
   },
-  "license": "MIT",
-  "packageManager": "pnpm@10.10.0",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.3",
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.2",
-    "@types/chrome": "^0.0.323",
-    "@typescript-eslint/eslint-plugin": "^8.32.1",
-    "@typescript-eslint/parser": "^8.32.1",
-    "cpx": "^1.5.0",
-    "eslint": "^9.27.0",
-    "jiti": "^2.4.2",
-    "prettier": "^3.5.3",
-    "rollup": "^4.41.0",
-    "tslib": "^2.8.1",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "@eslint/js": "^9.39.0",
+    "@types/chrome": "^0.1.32",
+    "@types/node": "^24.10.0",
+    "esbuild": "^0.27.0",
+    "eslint": "^9.39.0",
+    "netlify-cli": "^23.11.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.3",
+    "vitest": "^4.0.8"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=20"
   }
 }

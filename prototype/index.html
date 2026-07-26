@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="A simple dataset-powered research workflow for Deshi Mula Extended."
+        />
+        <title>Deshi Mula Extended — Research Edge Prototype</title>
+        <link rel="stylesheet" href="./prototype.css" />
+    </head>
+    <body>
+        <div class="prototype-bar">
+            <div>
+                <strong>Deshi Mula Extended</strong>
+                <span>Research edge prototype</span>
+            </div>
+            <p>Choose a company, then follow the evidence.</p>
+            <button type="button" data-open-company="technonext">
+                Open example
+            </button>
+        </div>
+
+        <header class="site-header">
+            <a class="site-brand" href="#" aria-label="Deshi Mula home">
+                <span class="site-brand__mark" aria-hidden="true">মূ</span>
+                <span>Deshi Mula</span>
+            </a>
+            <nav class="site-nav" aria-label="Deshi Mula navigation">
+                <a class="site-nav__primary" href="#">Share story</a>
+                <a href="#">Hiring</a>
+                <a href="#">Want to know</a>
+                <a href="#">Companies</a>
+            </nav>
+            <button class="mobile-menu" type="button" aria-label="Open menu">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 7h16M4 12h16M4 17h16"></path>
+                </svg>
+            </button>
+        </header>
+
+        <main class="page-shell">
+            <section class="page-heading">
+                <div>
+                    <p class="eyebrow">Workplace stories</p>
+                    <h1>See what people are sharing.</h1>
+                    <p>
+                        Company names are made readable. Research adds context
+                        without changing the stories.
+                    </p>
+                </div>
+                <label class="site-search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="11" cy="11" r="6"></circle>
+                        <path d="m16 16 4 4"></path>
+                    </svg>
+                    <input type="search" placeholder="Search stories" />
+                </label>
+            </section>
+
+            <div class="feed-toolbar">
+                <div class="filter-pills" aria-label="Story filters">
+                    <button class="is-active" type="button">Latest</button>
+                    <button type="button">Most discussed</button>
+                    <button type="button">Positive</button>
+                </div>
+                <span>2,498 stories</span>
+            </div>
+
+            <section class="story-feed" aria-label="Workplace stories">
+                <article class="story-card">
+                    <header class="story-card__header">
+                        <div class="company-avatar company-avatar--blue">TN</div>
+                        <div class="company-block">
+                            <div class="company-line">
+                                <h2 title="Originally shown as TechnoNe&gt;&lt;t Ltd">
+                                    TechnoNext Ltd
+                                </h2>
+                                <button
+                                    class="research-trigger"
+                                    type="button"
+                                    data-open-company="technonext"
+                                    aria-haspopup="dialog"
+                                    aria-controls="research-panel"
+                                    aria-expanded="false"
+                                >
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <circle cx="11" cy="11" r="6"></circle>
+                                        <path d="m16 16 4 4"></path>
+                                    </svg>
+                                    Research
+                                </button>
+                            </div>
+                            <p>AI Engineer <span>·</span> July 15, 2026</p>
+                        </div>
+                        <span class="vibe vibe--negative">Negative</span>
+                    </header>
+                    <h3>অহেতুক বরখাস্ত করা প্রসঙ্গে</h3>
+                    <p class="story-card__copy" lang="bn">
+                        আমরা সকলেই জানি অপ্রাসঙ্গিক এসেসমেন্ট এর নাম করে জব
+                        স্কোপ এর বাহিরে প্রশ্ন করে কর্মীদের ছাটাই করা হচ্ছে...
+                    </p>
+                    <footer class="story-card__footer">
+                        <a href="#">Read story</a>
+                        <div aria-label="Story engagement">
+                            <span>↑ 6</span><span>◌ 0</span>
+                        </div>
+                    </footer>
+                </article>
+
+                <article class="story-card">
+                    <header class="story-card__header">
+                        <div class="company-avatar company-avatar--teal">OP</div>
+                        <div class="company-block">
+                            <div class="company-line">
+                                <h2 title="Originally shown as Opt!m!zely">
+                                    Optimizely
+                                </h2>
+                                <button
+                                    class="research-trigger"
+                                    type="button"
+                                    data-open-company="optimizely"
+                                    aria-haspopup="dialog"
+                                    aria-controls="research-panel"
+                                    aria-expanded="false"
+                                >
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <circle cx="11" cy="11" r="6"></circle>
+                                        <path d="m16 16 4 4"></path>
+                                    </svg>
+                                    Research
+                                </button>
+                            </div>
+                            <p>Interviewee <span>·</span> March 19, 2026</p>
+                        </div>
+                        <span class="vibe vibe--positive">Positive</span>
+                    </header>
+                    <h3>My honest interview experience</h3>
+                    <p class="story-card__copy">
+                        I went into the process after reading mixed reviews. The
+                        interview was structured, clear, and respectful...
+                    </p>
+                    <footer class="story-card__footer">
+                        <a href="#">Read story</a>
+                        <div aria-label="Story engagement">
+                            <span>↑ 1</span><span>◌ 2</span>
+                        </div>
+                    </footer>
+                </article>
+
+                <article class="story-card">
+                    <header class="story-card__header">
+                        <div class="company-avatar company-avatar--violet">TH</div>
+                        <div class="company-block">
+                            <div class="company-line">
+                                <h2 title="Originally shown as Ther@p BD">
+                                    Therap BD
+                                </h2>
+                                <button
+                                    class="research-trigger"
+                                    type="button"
+                                    data-open-company="therap"
+                                    aria-haspopup="dialog"
+                                    aria-controls="research-panel"
+                                    aria-expanded="false"
+                                >
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <circle cx="11" cy="11" r="6"></circle>
+                                        <path d="m16 16 4 4"></path>
+                                    </svg>
+                                    Research
+                                </button>
+                            </div>
+                            <p>Software Engineer <span>·</span> June 8, 2026</p>
+                        </div>
+                        <span class="vibe vibe--negative">Negative</span>
+                    </header>
+                    <h3>Mular karkhana</h3>
+                    <p class="story-card__copy">
+                        The story discusses engineering work, internal
+                        communication, and expectations around growth...
+                    </p>
+                    <footer class="story-card__footer">
+                        <a href="#">Read story</a>
+                        <div aria-label="Story engagement">
+                            <span>↑ 6</span><span>◌ 2</span>
+                        </div>
+                    </footer>
+                </article>
+            </section>
+        </main>
+
+        <div class="panel-backdrop" data-panel-backdrop hidden></div>
+
+        <aside
+            id="research-panel"
+            class="research-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="panel-company"
+            aria-hidden="true"
+        >
+            <header class="panel-header">
+                <div class="extension-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 5.5h10.5a3.5 3.5 0 0 1 0 7H9"></path>
+                        <path d="M5 5.5v13M5 18.5h8"></path>
+                        <circle cx="17.5" cy="15.5" r="3"></circle>
+                    </svg>
+                </div>
+                <div>
+                    <span>Researching</span>
+                    <h2 id="panel-company">TechnoNext Ltd</h2>
+                </div>
+                <div class="panel-header__actions">
+                    <a
+                        class="panel-support"
+                        href="https://deshimula.gumroad.com/l/support-us"
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Support Deshi Mula in a new tab"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"
+                            ></path>
+                        </svg>
+                        <span>Support</span>
+                    </a>
+                    <button
+                        class="icon-button"
+                        type="button"
+                        data-close-panel
+                        aria-label="Close research panel"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m6 6 12 12M18 6 6 18"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <nav class="panel-nav" aria-label="Company research">
+                <button class="is-active" type="button" data-view="brief">
+                    Brief
+                </button>
+                <button type="button" data-view="stories">Stories</button>
+                <button type="button" data-view="jobs">Jobs &amp; salary</button>
+                <button type="button" data-view="ask">Ask</button>
+            </nav>
+
+            <div class="panel-scroll">
+                <section class="panel-view is-active" data-panel-view="brief">
+                    <article class="evidence-block evidence-block--native">
+                        <div class="source-label">
+                            <span>Deshi Mula evidence</span>
+                            <em data-snapshot-date>Snapshot · Jul 24</em>
+                        </div>
+                        <h3 data-brief-headline>
+                            81 stories. Recent reports focus on job security.
+                        </h3>
+                        <p data-brief-copy>
+                            This is a compact reading of published stories, not
+                            a verdict about the company.
+                        </p>
+                    </article>
+
+                    <div class="metric-grid" aria-label="Company metrics">
+                        <article>
+                            <span>Stories</span>
+                            <strong data-metric-stories>81</strong>
+                        </article>
+                        <article>
+                            <span>Rating</span>
+                            <strong data-metric-rating>3.2</strong>
+                            <small>Glassdoor / 5</small>
+                        </article>
+                        <article>
+                            <span>Recommend</span>
+                            <strong data-metric-recommend>44%</strong>
+                            <small>Glassdoor</small>
+                        </article>
+                    </div>
+
+                    <section class="section-block">
+                        <div class="section-heading">
+                            <div>
+                                <span>Story mix</span>
+                                <h3>Published experiences</h3>
+                            </div>
+                            <strong data-story-total>81 stories</strong>
+                        </div>
+                        <div
+                            class="sentiment-bar"
+                            aria-label="Story sentiment distribution"
+                        >
+                            <span
+                                class="sentiment-positive"
+                                data-sentiment-positive
+                            ></span>
+                            <span
+                                class="sentiment-mixed"
+                                data-sentiment-mixed
+                            ></span>
+                            <span
+                                class="sentiment-negative"
+                                data-sentiment-negative
+                            ></span>
+                        </div>
+                        <div class="sentiment-legend">
+                            <span><i class="dot dot--positive"></i>Positive <b data-positive-label>7</b></span>
+                            <span><i class="dot dot--mixed"></i>Mixed <b data-mixed-label>6</b></span>
+                            <span><i class="dot dot--negative"></i>Negative <b data-negative-label>68</b></span>
+                        </div>
+                    </section>
+
+                    <section class="section-block">
+                        <div class="section-heading">
+                            <div>
+                                <span>Repeated subjects</span>
+                                <h3>What appears often</h3>
+                            </div>
+                            <small>Counts are directional</small>
+                        </div>
+                        <div class="theme-list" data-theme-list></div>
+                    </section>
+
+                    <article class="evidence-block evidence-block--snapshot">
+                        <div class="source-label">
+                            <span>Recent activity</span>
+                            <em>Dataset 1.1</em>
+                        </div>
+                        <div class="change-line">
+                            <strong data-recent-count>6</strong>
+                            <p>
+                                stories in the latest 30-day window
+                                <small data-recent-note>4 mention job security</small>
+                            </p>
+                        </div>
+                    </article>
+
+                    <div class="primary-actions">
+                        <button type="button" class="button button--secondary" data-go-stories>
+                            Browse stories
+                        </button>
+                        <button type="button" class="button button--primary" data-go-ask>
+                            Ask the stories
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m9 6 6 6-6 6"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+
+                <section class="panel-view" data-panel-view="stories">
+                    <div class="view-heading">
+                        <span>Source explorer</span>
+                        <h3>Find the stories that matter.</h3>
+                        <p>Search stays inside this company.</p>
+                    </div>
+
+                    <label class="panel-search">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="11" cy="11" r="6"></circle>
+                            <path d="m16 16 4 4"></path>
+                        </svg>
+                        <input
+                            type="search"
+                            data-story-search
+                            placeholder="Search title or role"
+                        />
+                    </label>
+
+                    <div class="story-filters" aria-label="Story sorting">
+                        <button class="is-active" type="button" data-story-filter="recent">
+                            Recent
+                        </button>
+                        <button type="button" data-story-filter="role">
+                            Engineers
+                        </button>
+                        <button type="button" data-story-filter="discussed">
+                            Discussed
+                        </button>
+                    </div>
+
+                    <div class="source-story-list" data-source-story-list></div>
+                    <p class="empty-state" data-story-empty hidden>
+                        No stories match this search. Try a role or shorter term.
+                    </p>
+                </section>
+
+                <section class="panel-view" data-panel-view="jobs">
+                    <div class="view-heading">
+                        <span>Opportunity check</span>
+                        <h3>Open roles, with workplace context.</h3>
+                        <p>
+                            Company links and hiring details come from official
+                            sources. Every salary state shows what was actually
+                            published.
+                        </p>
+                    </div>
+
+                    <article class="evidence-block evidence-block--native jobs-signal">
+                        <div class="source-label">
+                            <span>Official company sources</span>
+                            <em data-hiring-status>Checking</em>
+                        </div>
+                        <nav class="company-links" aria-label="Company profiles">
+                            <a
+                                data-company-website
+                                href="https://technonext.com/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Website ↗
+                            </a>
+                            <a
+                                data-company-linkedin
+                                href="https://www.linkedin.com/company/technonextsoftwareltd"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                LinkedIn ↗
+                            </a>
+                        </nav>
+                        <div class="job-list" data-job-list></div>
+                        <p class="jobs-note" data-jobs-note></p>
+                        <a
+                            class="career-link"
+                            data-career-link
+                            href="#"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Open career page
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M14 5h5v5M19 5l-8 8"></path>
+                                <path d="M17 13v5H6V7h5"></path>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <section class="salary-section">
+                        <div class="section-heading">
+                            <div>
+                                <span>Published compensation</span>
+                                <h3>Salary evidence</h3>
+                            </div>
+                        </div>
+                        <p class="salary-intro">
+                            No AI estimate is mixed into this result. It only
+                            reports what the company has disclosed.
+                        </p>
+
+                        <article
+                            class="salary-result evidence-block evidence-block--verified"
+                        >
+                            <div class="source-label">
+                                <span data-salary-label>Partial disclosure</span>
+                                <em data-salary-source>Official sources</em>
+                            </div>
+                            <strong data-salary-status>Negotiable</strong>
+                            <p data-salary-summary>
+                                Recent hiring posts say compensation is
+                                negotiable, but publish no numerical range.
+                            </p>
+                        </article>
+                    </section>
+                </section>
+
+                <section class="panel-view" data-panel-view="ask">
+                    <div class="view-heading">
+                        <span>Cited research</span>
+                        <h3>Ask one focused question.</h3>
+                        <p>
+                            Relevant story excerpts are sent only after you
+                            choose Find answer.
+                        </p>
+                    </div>
+
+                    <div class="question-suggestions" data-question-suggestions>
+                        <button type="button">What do engineers report?</button>
+                        <button type="button">What changed recently?</button>
+                        <button type="button">Show mixed experiences</button>
+                    </div>
+
+                    <form class="ask-form" data-ask-form>
+                        <label for="research-question">Your question</label>
+                        <textarea
+                            id="research-question"
+                            data-question-input
+                            rows="4"
+                            placeholder="Ask about a role, subject, or time period"
+                        ></textarea>
+                        <button class="button button--primary" type="submit" data-answer-action>
+                            Find answer
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m9 6 6 6-6 6"></path>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <article
+                        class="answer-card evidence-block evidence-block--generated"
+                        data-answer-card
+                        hidden
+                    >
+                        <div class="source-label">
+                            <span>Generated from selected stories</span>
+                            <em>3 citations</em>
+                        </div>
+                        <div data-answer-content></div>
+                        <div class="citation-list" data-citation-list></div>
+                        <p class="answer-note">
+                            This summarizes user reports. Open the cited stories
+                            before drawing a conclusion.
+                        </p>
+                    </article>
+                </section>
+            </div>
+
+            <footer class="panel-footer">
+                <span><i></i> Dataset snapshot · 2,498 stories</span>
+                <a href="#">Sources</a>
+            </footer>
+        </aside>
+
+        <div class="toast" role="status" aria-live="polite" hidden></div>
+        <script src="./prototype.js"></script>
+    </body>
+</html>

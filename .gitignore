@@ -1,21 +1,9 @@
-# 🚫 Ignore all installed dependencies
-# These are restored using `pnpm install` or `npm install`
-/node_modules
-
-# 🔒 Lock files for package managers
-# npm lock file (not used if you're using pnpm)
-package-lock.json
-# pnpm lock file (auto-generated)
-pnpm-lock.yaml
-
-# 🏗️ Build output directory
-# Contains compiled JS, manifest, icons, etc.
-/dist
-
-# 🧠 IDE settings
-# IDE configs for WebStorm/IntelliJ, not needed in repo
-/.idea
-/.vscode
-
-# 🔑 Environment variables
+node_modules/
+dist/
+.netlify/
 .env
+.env.*
+!.env.example
+coverage/
+*.zip
+snapshot-report.json

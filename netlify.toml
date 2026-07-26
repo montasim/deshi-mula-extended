@@ -1,0 +1,43 @@
+[build]
+  command = "pnpm build"
+  publish = "dist/site"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["mongodb"]
+
+[[redirects]]
+  from = "/api/install"
+  to = "/.netlify/functions/install"
+  status = 200
+
+[[redirects]]
+  from = "/api/companies"
+  to = "/.netlify/functions/companies"
+  status = 200
+
+[[redirects]]
+  from = "/api/company"
+  to = "/.netlify/functions/company"
+  status = 200
+
+[[redirects]]
+  from = "/api/stories"
+  to = "/.netlify/functions/stories"
+  status = 200
+
+[[redirects]]
+  from = "/api/jobs"
+  to = "/.netlify/functions/jobs"
+  status = 200
+
+[[redirects]]
+  from = "/api/ask"
+  to = "/.netlify/functions/ask"
+  status = 200
+
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health"
+  status = 200

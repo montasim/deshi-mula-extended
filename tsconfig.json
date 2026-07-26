@@ -1,15 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "ES2022",
     "module": "ESNext",
-    "lib": ["dom", "es2021"],
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["chrome", "node"],
     "strict": true,
-    "types": ["chrome"],
-    "noImplicitAny": false,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "outDir": "./dist"
+    "noEmit": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules", "dist", "eslint.config.js"]
+  "include": [
+    "extension/**/*.ts",
+    "netlify/functions/**/*.ts",
+    "scripts/**/*.ts",
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "eslint.config.js"
+  ]
 }
