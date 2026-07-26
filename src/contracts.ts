@@ -106,11 +106,32 @@ export interface HiringSignal {
 }
 
 export interface SalaryEvidence {
-  status: 'disclosed' | 'partial' | 'not_disclosed' | 'unavailable';
+  status: 'unverified' | 'unavailable';
   label: string;
   summary: string;
   source: string | null;
+  sourceUrl: string | null;
   observedAt: string | null;
+  verificationStatus: 'unverified_user_submitted' | null;
+  disclaimer: string;
+  roles: SalaryRoleEvidence[];
+}
+
+export interface SalaryRoleEvidence {
+  id: string;
+  role: string;
+  minimumBdt: number;
+  maximumBdt: number;
+  currency: 'BDT';
+  payPeriod: 'unspecified';
+  sampleSize: number | null;
+  bonus: {
+    reportedCount: number;
+    answeredCount: number;
+    mostCommonFrequency: string | null;
+  } | null;
+  sourceUrl: string;
+  verificationStatus: 'unverified_user_submitted';
 }
 
 export interface JobsResponse {

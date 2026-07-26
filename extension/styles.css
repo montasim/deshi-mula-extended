@@ -1057,8 +1057,89 @@ html.dme-research-open {
 }
 
 .dme-salary small {
+  display: block;
   color: var(--dme-muted);
   font-size: 9px;
+  line-height: 1.5;
+}
+
+.dme-salary a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  color: var(--dme-primary);
+  font-size: 9px;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dme-salary a svg {
+  width: 12px;
+  height: 12px;
+}
+
+.dme-salary-roles {
+  margin-top: 8px;
+  overflow: hidden;
+  border: 1px solid var(--dme-rule);
+  border-radius: 8px;
+  background: white;
+}
+
+.dme-salary-roles summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 750;
+  list-style: none;
+}
+
+.dme-salary-roles summary::-webkit-details-marker {
+  display: none;
+}
+
+.dme-salary-roles summary em {
+  color: var(--dme-primary);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.dme-salary-roles > div {
+  border-top: 1px solid var(--dme-rule);
+}
+
+.dme-salary-roles article {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--dme-rule);
+}
+
+.dme-salary-roles article:last-child {
+  border-bottom: 0;
+}
+
+.dme-salary-roles article strong {
+  color: var(--dme-primary);
+  font: 700 12px/1.35 var(--dme-serif);
+}
+
+.dme-salary-roles article > span {
+  color: var(--dme-ink);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.dme-salary-roles article small {
+  color: var(--dme-muted);
+  font-size: 9px;
+  line-height: 1.4;
 }
 
 .dme-ask-prompts {

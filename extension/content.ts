@@ -526,6 +526,12 @@ class ResearchPanel {
   }
 
   private renderJobs(response: JobsResponse) {
+    const formatBdt = (value: number) =>
+      new Intl.NumberFormat('en-BD', {
+        style: 'currency',
+        currency: 'BDT',
+        maximumFractionDigits: 0,
+      }).format(value);
     const jobs = response.jobs.length
       ? response.jobs
           .map(
@@ -537,6 +543,21 @@ class ResearchPanel {
           )
           .join('')
       : '<p class="dme-job-empty"><strong>No current hiring signal</strong><span>The API has no verified opening for this snapshot. Use the career page when available.</span></p>';
+    const salaryRoleItems = response.salary.roles || [];
+    const salaryRoles = salaryRoleItems.length
+      ? `<details class="dme-salary-roles" ${salaryRoleItems.length <= 4 ? 'open' : ''}>
+          <summary><span>View reported role ranges</span><em>${salaryRoleItems.length} roles</em></summary>
+          <div>${salaryRoleItems
+            .map(
+              (role) => `<article>
+                <strong>${escapeHtml(role.role)}</strong>
+                <span>${escapeHtml(formatBdt(role.minimumBdt))}–${escapeHtml(formatBdt(role.maximumBdt))}</span>
+                <small>${role.sampleSize ? `Based on ${role.sampleSize.toLocaleString()} contributor${role.sampleSize === 1 ? '' : 's'}` : 'Contributor count unavailable'}${role.bonus ? ` · ${role.bonus.reportedCount} of ${role.bonus.answeredCount} reported a bonus` : ''}</small>
+              </article>`,
+            )
+            .join('')}</div>
+        </details>`
+      : '';
     this.required<HTMLElement>('[data-view="jobs"]').innerHTML = `
       <p class="dme-eyebrow">Opportunity check</p>
       <h3 class="dme-view-title">Open roles, with workplace context.</h3>
@@ -549,10 +570,12 @@ class ResearchPanel {
       <section class="dme-section">
         <div class="dme-section-heading"><div><span>Salary evidence</span><h3>${escapeHtml(response.salary.label)}</h3></div></div>
         <article class="dme-salary">
-          <span>${escapeHtml(response.salary.status.replace('_', ' '))}</span>
+          <span>${response.salary.status === 'unverified' ? 'Not verified' : 'Unavailable'}</span>
           <p>${escapeHtml(response.salary.summary)}</p>
-          <small>${escapeHtml(response.salary.source || 'No source')} ${response.salary.observedAt ? `· ${escapeHtml(response.salary.observedAt)}` : ''}</small>
+          <small>${escapeHtml(response.salary.disclaimer || 'Salary evidence is not independently verified; confirm directly with the company.')}</small>
+          ${response.salary.sourceUrl ? `<a href="${escapeHtml(response.salary.sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(response.salary.source || 'Open source')} ${externalIcon}</a>` : ''}
         </article>
+        ${salaryRoles}
       </section>
       ${this.renderWorkSetup(this.company, true)}`;
   }
