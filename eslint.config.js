@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['.netlify/**', 'dist/**', 'node_modules/**', 'prototype/**'],
+    ignores: ['dist/**', 'node_modules/**', 'prototype/**'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

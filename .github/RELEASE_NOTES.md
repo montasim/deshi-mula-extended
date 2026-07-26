@@ -1,14 +1,12 @@
-## What’s new in v3.0.2
+## What’s new in v3.0.3
 
-- Rebuilt Deshi Mula Extended as a clean, source-backed company research companion for deshimula.com.
-- Added a focused panel with Brief, Stories, Jobs & salary, and cited Ask views.
-- Added readable company-name decoding and dataset-backed matching for company aliases, websites, and LinkedIn destinations.
-- Added published-experience filters for positive, mixed, and negative stories.
-- Added unverified derived work-setup evidence for reported work mode and schedules, with clear confidence and verification boundaries.
-- Added live job and salary context supplied through the b4join research API.
-- Added direct SupportKori support and b4join handoff links.
-- Removed extension settings, onboarding, account requirements, and packaged raw data; the extension works independently as an API client.
-- Unified the panel and Chrome toolbar branding with the b4join app logo.
+- Reduced Deshi Mula Extended to its current browser-extension boundary and removed its obsolete duplicate Netlify, MongoDB, and AI backend.
+- Removed the unused snapshot publisher, provider test, visual harness, backend environment template, Deno lockfile, stale ADRs, generated Netlify cache, and redundant assets.
+- Removed dead client contract fields, an unused identity property, and unused CSS selectors.
+- Reduced Chrome host permissions to the development b4join API used by the current extension.
+- Stopped shipping JavaScript source maps in the Chrome archive, cutting the unpacked release ZIP approximately in half.
+- Updated architecture, privacy, project structure, and domain documentation to describe b4join as the external API owner.
+- Preserved the static prototype and the extension’s independent, account-free workflow.
 
 ## Install in Chrome
 

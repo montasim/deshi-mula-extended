@@ -616,18 +616,15 @@ html.dme-research-open {
   min-width: 2px;
 }
 
-.dme-sentiment .positive,
-.dme-dot.positive {
+.dme-sentiment .positive {
   background: #4c9870;
 }
 
-.dme-sentiment .mixed,
-.dme-dot.mixed {
+.dme-sentiment .mixed {
   background: #d4a24b;
 }
 
-.dme-sentiment .negative,
-.dme-dot.negative {
+.dme-sentiment .negative {
   background: #c26576;
 }
 

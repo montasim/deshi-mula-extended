@@ -1,17 +1,10 @@
 {
   "manifest_version": 3,
   "name": "Deshi Mula Extended",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A source-backed company research companion for Deshi Mula.",
   "permissions": ["storage"],
-  "host_permissions": [
-    "https://deshimula.com/*",
-    "https://www.supportkori.com/*",
-    "https://supportkori.com/*",
-    "https://*.netlify.app/*",
-    "http://localhost:3000/*",
-    "http://localhost:3001/*"
-  ],
+  "host_permissions": ["http://localhost:3001/*"],
   "action": {
     "default_title": "Deshi Mula Extended",
     "default_icon": {

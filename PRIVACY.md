@@ -1,11 +1,11 @@
 # Privacy
 
-This initial release is intended for personal use.
+Deshi Mula Extended is currently intended for personal use.
 
-The extension sends a Deshi Mula company slug, explicit searches, and explicit Ask questions to the configured Netlify API over HTTPS. Ask requests may include the raw question, retrieved Story excerpts, and generated response. The API stores complete AI request records indefinitely in MongoDB under a pseudonymous installation hash. It does not intentionally store IP addresses or the raw Installation Token.
+The extension itself stores only whether the user accepted the Ask retention disclosure. This preference stays in Chrome local storage. The extension does not require a b4join account and does not package raw scraped data or AI credentials.
 
-Gemini or Groq receives the question and the minimum retrieved excerpts needed to produce a cited answer. Provider choice and credentials are controlled by the API operator.
+Company slugs, story searches, and explicit Ask questions are sent to the configured b4join API. Ask requests may be processed by an AI provider using retrieved Story excerpts and may be retained by the API according to the disclosure shown before the first request. Provider credentials and retention are controlled by the b4join API, not by the extension.
 
-Raw scraped HTML and private dataset release files are processed locally and are not served by the API.
+The extension also loads the SupportKori widget requested by the project owner.
 
-This policy must be reviewed before distributing the extension publicly.
+This policy must be reviewed before public distribution.

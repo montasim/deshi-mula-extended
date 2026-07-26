@@ -116,7 +116,6 @@ const renderAnswerText = (
 interface Identity {
   slug: string;
   sourceName: string;
-  canonicalName: string | undefined;
   element: HTMLElement;
   trigger: HTMLButtonElement;
 }
@@ -710,7 +709,6 @@ const discover = (): Identity[] => {
     const identity: Identity = {
       slug,
       sourceName,
-      canonicalName: undefined,
       element,
       trigger,
     };
@@ -741,7 +739,6 @@ const hydrate = async (found: Identity[]) => {
     });
     response.items.forEach((company) => {
       (identities.get(company.slug) || []).forEach((identity) => {
-        identity.canonicalName = company.name;
         identity.element.textContent = decodeLeetText(company.name);
         identity.element.title =
           company.name === company.sourceName

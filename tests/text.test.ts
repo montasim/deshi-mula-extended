@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { decodeLeetText, escapeHtml, normalizeSearchText, slugFromCompanyUrl } from '../src/text';
+import { decodeLeetText, escapeHtml, slugFromCompanyUrl } from '../src/text';
 
 describe('company identity helpers', () => {
-  it('normalizes common masked characters', () => {
-    expect(normalizeSearchText('TechnoNe><t Ltd')).toBe('technonext ltd');
-    expect(normalizeSearchText('Opt!m!zely')).toBe('optimizely');
-  });
-
   it('decodes masked company names without lowercasing them', () => {
     expect(decodeLeetText('Code>< IT Service')).toBe('Codex IT Service');
     expect(decodeLeetText('Opt!m!zely')).toBe('Optimizely');

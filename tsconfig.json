@@ -9,13 +9,11 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
     "noEmit": true
   },
   "include": [
     "extension/**/*.ts",
-    "netlify/functions/**/*.ts",
     "scripts/**/*.ts",
     "src/**/*.ts",
     "tests/**/*.ts",
