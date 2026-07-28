@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="280" viewBox="0 0 440 280">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4fbf9"/>
+      <stop offset="1" stop-color="#e6f4f1"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#123c3a" flood-opacity=".16"/>
+    </filter>
+  </defs>
+
+  <rect width="440" height="280" rx="0" fill="url(#background)"/>
+  <circle cx="406" cy="16" r="104" fill="#d8eeea"/>
+  <circle cx="420" cy="14" r="68" fill="none" stroke="#b8ddd6" stroke-width="2"/>
+  <path d="M318 236c34-31 70-42 122-34v78H287c6-15 16-30 31-44Z" fill="#d5ece7"/>
+
+  <g filter="url(#shadow)">
+    <rect x="34" y="34" width="78" height="78" rx="22" fill="#168177"/>
+    <path d="M55 57h34a18 18 0 0 1 0 36H70" fill="none" stroke="#fff" stroke-width="8"/>
+    <path d="M55 57v54M55 111h27" fill="none" stroke="#fff" stroke-width="8"/>
+    <path d="m87 100 9 9 16-18" fill="none" stroke="#fff" stroke-width="8"/>
+  </g>
+
+  <text x="34" y="151" fill="#0f3234" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" letter-spacing="2">DESHI MULA</text>
+  <text x="34" y="184" fill="#0f3234" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700">Extended</text>
+  <text x="34" y="215" fill="#496668" font-family="Arial, Helvetica, sans-serif" font-size="15">Company research, beside Deshi Mula.</text>
+
+  <g transform="translate(319 89)">
+    <rect width="88" height="36" rx="18" fill="#fff" stroke="#9dcfc7"/>
+    <circle cx="22" cy="18" r="7" fill="none" stroke="#168177" stroke-width="2"/>
+    <path d="m27 23 6 6" stroke="#168177" stroke-width="2" stroke-linecap="round"/>
+    <text x="42" y="23" fill="#116c65" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700">Research</text>
+  </g>
+</svg>

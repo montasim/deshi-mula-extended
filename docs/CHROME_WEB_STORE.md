@@ -52,6 +52,9 @@ the extension panel open on deshimula.com, and a 440×280 small promo tile. A
 Ready asset:
 `store-assets/deshi-mula-extended-1280x800.png`
 
+Ready small promo tile:
+`store-assets/small-promo-tile-440x280.png`
+
 ## Privacy
 
 **Single purpose:**
