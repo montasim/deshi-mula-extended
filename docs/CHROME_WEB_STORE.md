@@ -49,6 +49,9 @@ Provide a 128×128 store icon, at least one clear 1280×800 screenshot showing
 the extension panel open on deshimula.com, and a 440×280 small promo tile. A
 1400×560 marquee tile is optional. Do not include private browser data.
 
+Ready asset:
+`store-assets/deshi-mula-extended-1280x800.png`
+
 ## Privacy
 
 **Single purpose:**
