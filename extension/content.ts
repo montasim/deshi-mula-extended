@@ -8,7 +8,6 @@ import {
 } from '../src/contracts';
 import { decodeLeetText, escapeHtml, slugFromCompanyUrl } from '../src/text';
 
-const SUPPORT_WIDGET_SRC = 'https://www.supportkori.com/widget.js';
 const SUPPORT_URL = 'https://www.supportkori.com/montasim';
 const B4JOIN_URL = 'https://b4joinacompany.netlify.app';
 const send = <T>(payload: BackgroundMessage): Promise<T> =>
@@ -42,18 +41,6 @@ const heartIcon = icon(
   '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>',
 );
 const chevronIcon = icon('<path d="m9 6 6 6-6 6"></path>');
-
-const ensureSupportKoriWidget = () => {
-  if (document.querySelector('script[data-dme-support-kori]')) return;
-  const script = document.createElement('script');
-  script.src = SUPPORT_WIDGET_SRC;
-  script.dataset.id = 'montasim';
-  script.dataset.message = 'Support montasim';
-  script.dataset.color = '#FFDD00';
-  script.dataset.position = 'right';
-  script.dataset.dmeSupportKori = 'true';
-  document.head.appendChild(script);
-};
 
 const renderAnswerInline = (
   value: string,
@@ -856,7 +843,6 @@ const scheduleScan = () => {
 };
 
 const initialize = () => {
-  ensureSupportKoriWidget();
   panel = new ResearchPanel();
   scan();
   new MutationObserver((mutations) => {
