@@ -1,6 +1,7 @@
 # Deshi Mula Extended
 
 [![Support me on SupportKori](https://img.shields.io/badge/Support%20me-SupportKori-FFDD00?style=flat-square)](https://www.supportkori.com/montasim)
+
 A Manifest V3 research companion for [deshimula.com](https://deshimula.com/). It decodes confirmed company names and opens one focused panel with company insights, reported pay and roles, workplace stories, and cited answers.
 
 ## Boundary
@@ -28,7 +29,6 @@ Load `dist/extension/` as an unpacked Chrome extension, then reload any open des
 - `docs/` — current extension/API boundary
 
 See [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md), [`CONTEXT.md`](./CONTEXT.md), and [`PRIVACY.md`](./PRIVACY.md).
-
 
 ## Support
 
