@@ -1,6 +1,8 @@
+[![Support me on SupportKori](https://img.shields.io/badge/Support%20me-SupportKori-FFDD00?style=flat-square)](https://www.supportkori.com/montasim)
+
 # Deshi Mula Extended
 
-[![Support me on SupportKori](https://img.shields.io/badge/Support%20me-SupportKori-FFDD00?style=flat-square)](https://www.supportkori.com/montasim)
+
 
 A Manifest V3 research companion for [deshimula.com](https://deshimula.com/). It decodes confirmed company names and opens one focused panel with company insights, reported pay and roles, workplace stories, and cited answers.
 
