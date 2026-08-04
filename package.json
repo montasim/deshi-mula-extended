@@ -1,9 +1,23 @@
 {
   "name": "deshi-mula-extended",
   "version": "3.0.7",
+  "description": "Dataset-backed research companion for Deshi Mula.",
+  "keywords": [
+    "deshimula",
+    "deshi-mula",
+    "deshi-mula-com",
+    "ai-summarizer",
+    "chrome-extension",
+    "extension",
+    "productivity-tool",
+    "sentiment-analysis",
+    "ai-summaries",
+    "leet-speak-decoder",
+    "salary-lookup",
+    "typescript"
+  ],
   "private": true,
   "type": "module",
-  "description": "Dataset-backed research companion for Deshi Mula.",
   "scripts": {
     "build": "tsx scripts/build.ts",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
