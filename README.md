@@ -12,7 +12,7 @@ A Chrome extension that turns [Deshi Mula](https://deshimula.com/) company pages
 
 ![Deshi Mula Extended research panel showing company insights](./store-assets/deshi-mula-extended-1280x800.png)
 
-**[Download the latest release](https://github.com/montasim/deshi-mula-extended/releases/latest) · [Report an issue](https://github.com/montasim/deshi-mula-extended/issues) · [Read the privacy policy](PRIVACY.md)**
+**[Download the latest release](https://github.com/montasim/deshi-mula-extended/releases/latest) · [Report an issue](https://github.com/montasim/deshi-mula-extended/issues) · [Request privacy help or deletion](mailto:montasimmamun@gmail.com?subject=Deshi%20Mula%20Extended%20privacy%20or%20deletion%20request)**
 
 ## Why Deshi Mula Extended?
 
@@ -90,7 +90,7 @@ If the panel does not appear, reload the Deshi Mula tab after installing or upda
 | `https://deshimula.com/*` | Finds company entries and renders the research panel on Deshi Mula |
 | `https://b4joinacompany.netlify.app/*` | Retrieves company research and submits explicit story searches or Ask questions |
 
-The extension does not request an account, read browsing history outside Deshi Mula, or inject remote executable code. Questions are sent only when the user submits the Ask form and accepts its retention disclosure.
+The extension does not request an account, read browsing history outside Deshi Mula, or inject remote executable code. Questions are sent only when the user submits the Ask form and accepts its retention disclosure. Privacy questions and deletion requests use the direct private email process in the policy; no Chrome Web Store listing is required.
 
 Read the complete [privacy policy](./PRIVACY.md).
 
@@ -160,7 +160,7 @@ The repository does not currently include separate contribution or code-of-condu
 
 Use [GitHub Issues](https://github.com/montasim/deshi-mula-extended/issues) for reproducible bugs and narrowly scoped feature requests. Avoid posting private questions, browsing details, or sensitive workplace allegations in public issues.
 
-There is no dedicated private security policy in this repository. For a suspected vulnerability, contact the maintainer through the profile linked below before disclosing technical details publicly.
+There is no dedicated security-policy file in this repository. Report a suspected vulnerability privately to [montasimmamun@gmail.com](mailto:montasimmamun@gmail.com?subject=Security%3A%20Deshi%20Mula%20Extended) with a minimal impact summary, then coordinate before sending exploit details or sensitive data. Do not use a public issue for vulnerabilities or retained-data requests.
 
 ## License status
 
