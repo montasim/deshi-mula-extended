@@ -29,7 +29,7 @@ Company research often means copying an obfuscated name into several tabs, recon
 
 Salary and workplace information may be community-submitted. Treat it as research input and verify material claims independently before making employment decisions.
 
-> **Project status:** Actively distributed through signed-off GitHub release artifacts. The current release is [v3.0.6](https://github.com/montasim/deshi-mula-extended/releases/tag/v3.0.6); Chrome Web Store submission instructions exist, but this README does not claim a published store listing.
+> **Project status:** Actively distributed through [GitHub release artifacts](https://github.com/montasim/deshi-mula-extended/releases/latest). Chrome Web Store submission instructions exist, but this README does not claim a published store listing.
 
 ## Install
 
@@ -153,6 +153,8 @@ The release archive is intended for Chrome's **Load unpacked** flow. Verify the 
 ## Contributing
 
 Issues and focused pull requests are welcome. Run `pnpm check` before submitting a change, and include an updated screenshot when the research panel changes visibly. Keep the extension/API boundary and privacy policy synchronized with any change to data handling.
+
+The repository does not currently include separate contribution or code-of-conduct files. This section is the canonical contribution guidance until those documents are added; participation should remain respectful and protect user and source privacy.
 
 ## Support and security
 
