@@ -12,6 +12,12 @@ A Chrome extension that turns [Deshi Mula](https://deshimula.com/) company pages
 
 ![Deshi Mula Extended research panel showing company insights](./store-assets/deshi-mula-extended-1280x800.png)
 
+**[Download the latest release](https://github.com/montasim/deshi-mula-extended/releases/latest) · [Report an issue](https://github.com/montasim/deshi-mula-extended/issues) · [Read the privacy policy](PRIVACY.md)**
+
+## Why Deshi Mula Extended?
+
+Company research often means copying an obfuscated name into several tabs, reconciling inconsistent identities, and separating community reports from verified facts. The extension keeps that workflow beside the Deshi Mula page, returns source-linked evidence from one backend boundary, and labels salary and workplace signals as research inputs rather than company policy.
+
 ## Features
 
 - Reveals confirmed company identities behind stylized names on Deshi Mula.
@@ -100,6 +106,17 @@ Read the complete [privacy policy](./PRIVACY.md).
 
 No environment variables, credentials, or local backend are required. The hosted b4join API must be available for research results and cited answers to load.
 
+## Technology
+
+| Area | Technology |
+| --- | --- |
+| Browser platform | Chrome Manifest V3 |
+| Extension code | TypeScript, content script, background service worker |
+| Interface | Browser DOM, repository-owned styles and icons |
+| API boundary | Typed HTTPS messages to the hosted b4join extension endpoint |
+| Validation and tests | TypeScript, ESLint, Vitest |
+| Packaging | Repository build scripts, ZIP archive, SHA-256 checksum |
+
 ## Project structure
 
 - `extension/` — content script, background API bridge, styles, manifest, and shipped icons
@@ -114,16 +131,45 @@ No environment variables, credentials, or local backend are required. The hosted
 
 Version tags matching `v*` trigger the [release workflow](./.github/workflows/release.yml). It installs locked dependencies, runs `pnpm check`, packages the unpacked extension, generates a SHA-256 checksum, and publishes both files to GitHub Releases.
 
+The release archive is intended for Chrome's **Load unpacked** flow. Verify the downloaded archive against `SHA256SUMS.txt`, keep the extracted directory in a stable location, and reload the extension after replacing files during an update. See [Chrome Web Store guidance](docs/CHROME_WEB_STORE.md) for the prepared submission path; no store availability is claimed.
+
+## Project status and limitations
+
+- The extension is actively released through GitHub and is not claimed as published in the Chrome Web Store.
+- It operates only on `deshimula.com`; unrelated pages are outside its permission boundary.
+- Research, salary, workplace, and generated-answer availability depends on the hosted b4join API.
+- Community reports and salary ranges are unverified and may be incomplete, stale, or context-dependent.
+- Generated answers can be wrong; citations should be opened and consequential claims independently checked.
+- No research dataset or backend API key is bundled, so the research panel has no offline data mode.
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Privacy policy](PRIVACY.md)
+- [Chrome Web Store preparation](docs/CHROME_WEB_STORE.md)
+- [Architecture decision record](docs/adr/0001-use-a-thin-api-dependent-extension.md)
+- [Prototype reference](prototype/README.md)
+
 ## Contributing
 
 Issues and focused pull requests are welcome. Run `pnpm check` before submitting a change, and include an updated screenshot when the research panel changes visibly. Keep the extension/API boundary and privacy policy synchronized with any change to data handling.
 
+## Support and security
+
 Use [GitHub Issues](https://github.com/montasim/deshi-mula-extended/issues) for reproducible bugs and narrowly scoped feature requests. Avoid posting private questions, browsing details, or sensitive workplace allegations in public issues.
+
+There is no dedicated private security policy in this repository. For a suspected vulnerability, contact the maintainer through the profile linked below before disclosing technical details publicly.
 
 ## License status
 
 No open-source license file is currently included. Source visibility alone does not grant permission to copy, modify, or redistribute the code. The release artifacts are intended for personal installation unless the repository owner states otherwise.
 
-## Support
+## Funding
 
 If Deshi Mula Extended is useful to you, you can support its continued development through [SupportKori](https://www.supportkori.com/montasim).
+
+Bug reports, privacy feedback, citation corrections, and code contributions are equally valuable ways to help.
+
+## Author
+
+Built and maintained by [Montasim](https://github.com/montasim).
