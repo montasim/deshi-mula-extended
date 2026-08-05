@@ -1,7 +1,6 @@
-# Research Edge prototype
+# Extension UI prototype
 
-This is a separate, standalone concept for Deshi Mula Extended. It does not
-replace or modify the original `prototype/` directory.
+This is the standalone extension-interface concept for Deshi Mula Extended.
 
 ## Run
 
