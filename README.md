@@ -1,20 +1,20 @@
-# Deshi Mula Extended
+# MulaLens
 
 A Chrome extension that turns [Deshi Mula](https://deshimula.com/) company pages into a focused research workspace with company identities, workplace signals, reported salaries, jobs, stories, and cited answers.
 
 <p>
-  <a href="https://github.com/montasim/deshi-mula-extended/actions/workflows/release.yml"><img alt="Release workflow" src="https://github.com/montasim/deshi-mula-extended/actions/workflows/release.yml/badge.svg"></a>
-  <a href="https://github.com/montasim/deshi-mula-extended/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/montasim/deshi-mula-extended"></a>
+  <a href="https://github.com/montasim/MulaLens/actions/workflows/release.yml"><img alt="Release workflow" src="https://github.com/montasim/MulaLens/actions/workflows/release.yml/badge.svg"></a>
+  <a href="https://github.com/montasim/MulaLens/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/montasim/MulaLens"></a>
   <img alt="Manifest V3" src="https://img.shields.io/badge/Chrome-Manifest_V3-4285F4?logo=googlechrome&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white">
   <a href="https://www.supportkori.com/montasim"><img alt="Support on SupportKori" src="https://img.shields.io/badge/Support-SupportKori-FFDD00"></a>
 </p>
 
-![Deshi Mula Extended research panel showing company insights](./store-assets/deshi-mula-extended-1280x800.png)
+![MulaLens research panel showing company insights](./store-assets/mulalens-1280x800.png)
 
-**[Download the latest release](https://github.com/montasim/deshi-mula-extended/releases/latest) · [Report an issue](https://github.com/montasim/deshi-mula-extended/issues) · [Request privacy help or deletion](mailto:montasimmamun@gmail.com?subject=Deshi%20Mula%20Extended%20privacy%20or%20deletion%20request)**
+**[Download the latest release](https://github.com/montasim/MulaLens/releases/latest) · [Report an issue](https://github.com/montasim/MulaLens/issues) · [Request privacy help or deletion](mailto:montasimmamun@gmail.com?subject=MulaLens%20privacy%20or%20deletion%20request)**
 
-## Why Deshi Mula Extended?
+## Why MulaLens?
 
 Company research often means copying an obfuscated name into several tabs, reconciling inconsistent identities, and separating community reports from verified facts. The extension keeps that workflow beside the Deshi Mula page, returns source-linked evidence from one backend boundary, and labels salary and workplace signals as research inputs rather than company policy.
 
@@ -29,13 +29,13 @@ Company research often means copying an obfuscated name into several tabs, recon
 
 Salary and workplace information may be community-submitted. Treat it as research input and verify material claims independently before making employment decisions.
 
-> **Project status:** Actively distributed through [GitHub release artifacts](https://github.com/montasim/deshi-mula-extended/releases/latest). Chrome Web Store submission instructions exist, but this README does not claim a published store listing.
+> **Project status:** Actively distributed through [GitHub release artifacts](https://github.com/montasim/MulaLens/releases/latest). Chrome Web Store submission instructions exist, but this README does not claim a published store listing.
 
 ## Install
 
 ### From a GitHub release
 
-1. Download the Chrome unpacked ZIP from the [latest release](https://github.com/montasim/deshi-mula-extended/releases/latest).
+1. Download the Chrome unpacked ZIP from the [latest release](https://github.com/montasim/MulaLens/releases/latest).
 2. Extract the archive.
 3. Open `chrome://extensions` in Chrome.
 4. Enable **Developer mode**.
@@ -47,8 +47,8 @@ Salary and workplace information may be community-submitted. Treat it as researc
 Requires Node.js 20.19.3 or newer and pnpm 10.
 
 ```bash
-git clone https://github.com/montasim/deshi-mula-extended.git
-cd deshi-mula-extended
+git clone https://github.com/montasim/MulaLens.git
+cd MulaLens
 pnpm install --frozen-lockfile
 pnpm check
 ```
@@ -129,9 +129,9 @@ No environment variables, credentials, or local backend are required. The hosted
 - `store-assets/` — listing screenshot and promotional artwork
 - `prototypes/extention/` — retained extension-interface design reference
 - `prototypes/web/v1.html` — retained landing-page design reference
-- `netlify.toml` — landing-page build and deployment configuration
+- `apps/web/netlify.toml` — landing-page build and deployment configuration
 
-The root `netlify.toml` builds and deploys `apps/web/dist/client`.
+The web app's `netlify.toml` builds and deploys `apps/web/dist/client`, matching the workspace deployment setup used by VidQuery.
 
 ## Releases
 
@@ -165,7 +165,7 @@ The repository does not currently include separate contribution or code-of-condu
 
 ## Support and security
 
-Use [GitHub Issues](https://github.com/montasim/deshi-mula-extended/issues) for reproducible bugs and narrowly scoped feature requests. Avoid posting private questions, browsing details, or sensitive workplace allegations in public issues.
+Use [GitHub Issues](https://github.com/montasim/MulaLens/issues) for reproducible bugs and narrowly scoped feature requests. Avoid posting private questions, browsing details, or sensitive workplace allegations in public issues.
 
 There is no dedicated security-policy file in this repository. Report a suspected vulnerability privately to [montasimmamun@gmail.com](mailto:montasimmamun@gmail.com?subject=Security%3A%20Deshi%20Mula%20Extended) with a minimal impact summary, then coordinate before sending exploit details or sensitive data. Do not use a public issue for vulnerabilities or retained-data requests.
 
@@ -175,7 +175,7 @@ No open-source license file is currently included. Source visibility alone does 
 
 ## Funding
 
-If Deshi Mula Extended is useful to you, you can support its continued development through [SupportKori](https://www.supportkori.com/montasim).
+If MulaLens is useful to you, you can support its continued development through [SupportKori](https://www.supportkori.com/montasim).
 
 Bug reports, privacy feedback, citation corrections, and code contributions are equally valuable ways to help.
 

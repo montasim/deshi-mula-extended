@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Deshi Mula Extended",
+  "name": "MulaLens",
   "version": "3.0.7",
   "description": "See company culture signals, reported salary ranges, workplace stories, and cited answers on Deshi Mula.",
   "permissions": ["storage"],

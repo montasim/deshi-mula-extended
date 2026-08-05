@@ -1,4 +1,4 @@
-# Deshi Mula Extended web
+# MulaLens web
 
 TanStack Start landing page for the browser extension. The interface is implemented with shadcn components and Tailwind CSS v4.
 
@@ -16,4 +16,4 @@ pnpm dev:web
 pnpm check:web
 ```
 
-Netlify deployment is configured by the repository root `netlify.toml`.
+Netlify deployment is configured by `apps/web/netlify.toml`.

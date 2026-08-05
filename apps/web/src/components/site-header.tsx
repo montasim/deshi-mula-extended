@@ -14,7 +14,7 @@ import {
 } from '#/components/ui/sheet'
 
 export const releaseUrl =
-  'https://github.com/montasim/deshi-mula-extended/releases/latest'
+  'https://github.com/montasim/MulaLens/releases/latest'
 
 const links = [
   { href: '#inside', label: 'What you get' },
@@ -26,10 +26,10 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-18 max-w-[1400px] items-center px-5 lg:px-10">
-        <a href="#top" className="flex items-center gap-3" aria-label="Deshi Mula Extended home">
+        <a href="#top" className="flex items-center gap-3" aria-label="MulaLens home">
           <BrandMark />
           <span className="text-[15px] font-extrabold tracking-[-0.03em] sm:text-base">
-            Deshi Mula <span className="text-brand-soft">Extended</span>
+            Mula<span className="text-brand-soft">Lens</span>
           </span>
         </a>
 
@@ -57,7 +57,7 @@ export function SiteHeader() {
             <SheetContent>
               <SheetHeader className="border-b border-border pr-14">
                 <SheetTitle className="flex items-center gap-3">
-                  <BrandMark className="size-8" /> Deshi Mula Extended
+                  <BrandMark className="size-8" /> MulaLens
                 </SheetTitle>
                 <SheetDescription>Research before you join.</SheetDescription>
               </SheetHeader>

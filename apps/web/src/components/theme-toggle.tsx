@@ -8,7 +8,7 @@ type Theme = 'light' | 'dark'
 function preferredTheme(): Theme {
   if (typeof window === 'undefined') return 'dark'
 
-  const stored = window.localStorage.getItem('dm-theme')
+  const stored = window.localStorage.getItem('mulalens-theme')
   if (stored === 'light' || stored === 'dark') return stored
 
   return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -26,7 +26,7 @@ export function ThemeToggle() {
   function toggleTheme() {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'
     document.documentElement.dataset.theme = nextTheme
-    window.localStorage.setItem('dm-theme', nextTheme)
+    window.localStorage.setItem('mulalens-theme', nextTheme)
     setTheme(nextTheme)
   }
 

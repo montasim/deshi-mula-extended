@@ -1,16 +1,16 @@
 {
-  "name": "deshi-mula-extended-workspace",
+  "name": "mulalens-workspace",
   "version": "3.0.7",
   "private": true,
   "type": "module",
-  "description": "Deshi Mula Extended browser extension and product website workspace.",
+  "description": "MulaLens browser extension and product website workspace.",
   "scripts": {
-    "dev:web": "pnpm --filter @deshi-mula/web dev",
-    "build:extension": "pnpm --filter @deshi-mula/extension build",
-    "build:web": "pnpm --filter @deshi-mula/web build",
+    "dev:web": "pnpm --filter @mulalens/web dev",
+    "build:extension": "pnpm --filter @mulalens/extension build",
+    "build:web": "pnpm --filter @mulalens/web build",
     "build": "pnpm build:extension && pnpm build:web",
-    "check:extension": "pnpm --filter @deshi-mula/extension check",
-    "check:web": "pnpm --filter @deshi-mula/web check",
+    "check:extension": "pnpm --filter @mulalens/extension check",
+    "check:web": "pnpm --filter @mulalens/web check",
     "check": "pnpm check:extension && pnpm check:web"
   },
   "packageManager": "pnpm@10.10.0",

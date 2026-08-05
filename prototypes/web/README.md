@@ -1,6 +1,6 @@
 # Landing page prototype
 
-Static promotional prototype for Deshi Mula Extended.
+Static promotional prototype for MulaLens.
 
 ## Preview
 

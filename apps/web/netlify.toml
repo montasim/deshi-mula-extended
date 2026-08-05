@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm --filter @deshi-mula/web build"
+  command = "pnpm --filter @mulalens/web build"
   publish = "/apps/web/dist/client"
 
 [build.environment]
@@ -7,6 +7,6 @@
   PNPM_VERSION = "10.10.0"
 
 [dev]
-  command = "pnpm --filter @deshi-mula/web dev"
+  command = "pnpm --filter @mulalens/web dev"
   targetPort = 3000
   port = 8888

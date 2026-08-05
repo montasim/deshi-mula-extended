@@ -4,7 +4,7 @@
 
 **Language:** English
 
-**Name:** Deshi Mula Extended
+**Name:** MulaLens
 
 **Summary:**
 
@@ -13,7 +13,7 @@ cited answers on Deshi Mula.
 
 **Detailed description:**
 
-Deshi Mula Extended adds focused company research directly beside company
+MulaLens adds focused company research directly beside company
 entries on deshimula.com.
 
 Use it to:
@@ -34,23 +34,23 @@ explains what will be stored and requires your consent.
 
 **Category:** Productivity
 
-**Homepage URL:** https://github.com/montasim/deshi-mula-extended
+**Homepage URL:** https://github.com/montasim/MulaLens
 
 Leave **Official URL** empty unless a site you control has already been
 verified in Google Search Console and appears in the dashboard dropdown.
 
 **Support URL:**
-https://github.com/montasim/deshi-mula-extended/issues
+https://github.com/montasim/MulaLens/issues
 
 **Privacy policy URL:**
-https://github.com/montasim/deshi-mula-extended/blob/main/PRIVACY.md
+https://github.com/montasim/MulaLens/blob/main/PRIVACY.md
 
 Provide a 128×128 store icon, at least one clear 1280×800 screenshot showing
 the extension panel open on deshimula.com, and a 440×280 small promo tile. A
 1400×560 marquee tile is optional. Do not include private browser data.
 
 Ready asset:
-`store-assets/deshi-mula-extended-1280x800.png`
+`store-assets/mulalens-1280x800.png`
 
 Ready small promo tile:
 `store-assets/small-promo-tile-440x280.png`
@@ -112,7 +112,7 @@ approved listing before making it public.
 
 1. Install the extension and open https://deshimula.com/.
 2. Open a page or list containing company entries.
-3. Select a company entry to open the Deshi Mula Extended research panel.
+3. Select a company entry to open the MulaLens research panel.
 4. Review the Brief, Stories, and Pay & roles views.
 5. Open Ask, enter a question, accept the retention disclosure, and submit it.
 

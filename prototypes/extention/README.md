@@ -1,6 +1,6 @@
 # Extension UI prototype
 
-This is the standalone extension-interface concept for Deshi Mula Extended.
+This is the standalone extension-interface concept for MulaLens.
 
 ## Run
 

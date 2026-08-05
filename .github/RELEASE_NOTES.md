@@ -25,4 +25,4 @@ The release keeps the existing minimal permissions: Chrome storage and access on
 6. Select **Load unpacked** and choose the extracted folder containing `manifest.json`.
 7. Reload any deshimula.com tabs that were already open.
 
-Chrome loads Deshi Mula Extended from the extracted folder, so do not delete that folder while the extension is installed. GitHub installations do not update automatically; download, verify, and load each newer release when one becomes available.
+Chrome loads MulaLens from the extracted folder, so do not delete that folder while the extension is installed. GitHub installations do not update automatically; download, verify, and load each newer release when one becomes available.
