@@ -14,7 +14,7 @@ import {
 } from '#/components/ui/sheet'
 
 export const releaseUrl =
-  'https://github.com/montasim/deshi-mula-extended/releases/latest'
+  'https://github.com/montasim/MulaLens/releases/latest'
 
 const links = [
   { href: '#inside', label: 'What you get' },

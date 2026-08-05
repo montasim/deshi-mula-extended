@@ -34,16 +34,16 @@ explains what will be stored and requires your consent.
 
 **Category:** Productivity
 
-**Homepage URL:** https://github.com/montasim/deshi-mula-extended
+**Homepage URL:** https://github.com/montasim/MulaLens
 
 Leave **Official URL** empty unless a site you control has already been
 verified in Google Search Console and appears in the dashboard dropdown.
 
 **Support URL:**
-https://github.com/montasim/deshi-mula-extended/issues
+https://github.com/montasim/MulaLens/issues
 
 **Privacy policy URL:**
-https://github.com/montasim/deshi-mula-extended/blob/main/PRIVACY.md
+https://github.com/montasim/MulaLens/blob/main/PRIVACY.md
 
 Provide a 128×128 store icon, at least one clear 1280×800 screenshot showing
 the extension panel open on deshimula.com, and a 440×280 small promo tile. A

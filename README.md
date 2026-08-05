@@ -3,8 +3,8 @@
 A Chrome extension that turns [Deshi Mula](https://deshimula.com/) company pages into a focused research workspace with company identities, workplace signals, reported salaries, jobs, stories, and cited answers.
 
 <p>
-  <a href="https://github.com/montasim/deshi-mula-extended/actions/workflows/release.yml"><img alt="Release workflow" src="https://github.com/montasim/deshi-mula-extended/actions/workflows/release.yml/badge.svg"></a>
-  <a href="https://github.com/montasim/deshi-mula-extended/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/montasim/deshi-mula-extended"></a>
+  <a href="https://github.com/montasim/MulaLens/actions/workflows/release.yml"><img alt="Release workflow" src="https://github.com/montasim/MulaLens/actions/workflows/release.yml/badge.svg"></a>
+  <a href="https://github.com/montasim/MulaLens/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/montasim/MulaLens"></a>
   <img alt="Manifest V3" src="https://img.shields.io/badge/Chrome-Manifest_V3-4285F4?logo=googlechrome&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white">
   <a href="https://www.supportkori.com/montasim"><img alt="Support on SupportKori" src="https://img.shields.io/badge/Support-SupportKori-FFDD00"></a>
@@ -12,7 +12,7 @@ A Chrome extension that turns [Deshi Mula](https://deshimula.com/) company pages
 
 ![MulaLens research panel showing company insights](./store-assets/mulalens-1280x800.png)
 
-**[Download the latest release](https://github.com/montasim/deshi-mula-extended/releases/latest) · [Report an issue](https://github.com/montasim/deshi-mula-extended/issues) · [Request privacy help or deletion](mailto:montasimmamun@gmail.com?subject=MulaLens%20privacy%20or%20deletion%20request)**
+**[Download the latest release](https://github.com/montasim/MulaLens/releases/latest) · [Report an issue](https://github.com/montasim/MulaLens/issues) · [Request privacy help or deletion](mailto:montasimmamun@gmail.com?subject=MulaLens%20privacy%20or%20deletion%20request)**
 
 ## Why MulaLens?
 
@@ -29,13 +29,13 @@ Company research often means copying an obfuscated name into several tabs, recon
 
 Salary and workplace information may be community-submitted. Treat it as research input and verify material claims independently before making employment decisions.
 
-> **Project status:** Actively distributed through [GitHub release artifacts](https://github.com/montasim/deshi-mula-extended/releases/latest). Chrome Web Store submission instructions exist, but this README does not claim a published store listing.
+> **Project status:** Actively distributed through [GitHub release artifacts](https://github.com/montasim/MulaLens/releases/latest). Chrome Web Store submission instructions exist, but this README does not claim a published store listing.
 
 ## Install
 
 ### From a GitHub release
 
-1. Download the Chrome unpacked ZIP from the [latest release](https://github.com/montasim/deshi-mula-extended/releases/latest).
+1. Download the Chrome unpacked ZIP from the [latest release](https://github.com/montasim/MulaLens/releases/latest).
 2. Extract the archive.
 3. Open `chrome://extensions` in Chrome.
 4. Enable **Developer mode**.
@@ -47,8 +47,8 @@ Salary and workplace information may be community-submitted. Treat it as researc
 Requires Node.js 20.19.3 or newer and pnpm 10.
 
 ```bash
-git clone https://github.com/montasim/deshi-mula-extended.git
-cd deshi-mula-extended
+git clone https://github.com/montasim/MulaLens.git
+cd MulaLens
 pnpm install --frozen-lockfile
 pnpm check
 ```
@@ -165,7 +165,7 @@ The repository does not currently include separate contribution or code-of-condu
 
 ## Support and security
 
-Use [GitHub Issues](https://github.com/montasim/deshi-mula-extended/issues) for reproducible bugs and narrowly scoped feature requests. Avoid posting private questions, browsing details, or sensitive workplace allegations in public issues.
+Use [GitHub Issues](https://github.com/montasim/MulaLens/issues) for reproducible bugs and narrowly scoped feature requests. Avoid posting private questions, browsing details, or sensitive workplace allegations in public issues.
 
 There is no dedicated security-policy file in this repository. Report a suspected vulnerability privately to [montasimmamun@gmail.com](mailto:montasimmamun@gmail.com?subject=Security%3A%20Deshi%20Mula%20Extended) with a minimal impact summary, then coordinate before sending exploit details or sensitive data. Do not use a public issue for vulnerabilities or retained-data requests.
 

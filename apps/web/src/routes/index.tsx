@@ -180,7 +180,7 @@ function Home() {
             <p className="text-sm font-bold text-brand-soft">Designed for careful decisions</p>
             <h2 className="mt-5 text-4xl font-black tracking-[-0.055em] sm:text-5xl">Evidence first. Verdicts never.</h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">Community stories can reveal patterns, but they are not verified company policy. The interface keeps source type and dates visible.</p>
-            <a href="https://github.com/montasim/deshi-mula-extended/blob/main/PRIVACY.md" target="_blank" rel="noreferrer" className="mt-7 inline-block border-b-2 border-brand pb-1 text-sm font-extrabold hover:text-brand-soft">
+            <a href="https://github.com/montasim/MulaLens/blob/main/PRIVACY.md" target="_blank" rel="noreferrer" className="mt-7 inline-block border-b-2 border-brand pb-1 text-sm font-extrabold hover:text-brand-soft">
               Read the privacy policy
             </a>
           </div>
@@ -226,9 +226,9 @@ function Home() {
             <p className="mt-4 max-w-md text-sm leading-6 text-white/55">An independent research companion for deshimula.com. Not affiliated with Deshi Mula.</p>
           </div>
           <nav className="flex flex-wrap gap-x-7 gap-y-3 text-sm font-bold" aria-label="Footer navigation">
-            <a href="https://github.com/montasim/deshi-mula-extended" target="_blank" rel="noreferrer" className="hover:text-[#62bbae]">GitHub</a>
-            <a href="https://github.com/montasim/deshi-mula-extended/blob/main/PRIVACY.md" target="_blank" rel="noreferrer" className="hover:text-[#62bbae]">Privacy</a>
-            <a href="https://github.com/montasim/deshi-mula-extended/issues" target="_blank" rel="noreferrer" className="hover:text-[#62bbae]">Support</a>
+            <a href="https://github.com/montasim/MulaLens" target="_blank" rel="noreferrer" className="hover:text-[#62bbae]">GitHub</a>
+            <a href="https://github.com/montasim/MulaLens/blob/main/PRIVACY.md" target="_blank" rel="noreferrer" className="hover:text-[#62bbae]">Privacy</a>
+            <a href="https://github.com/montasim/MulaLens/issues" target="_blank" rel="noreferrer" className="hover:text-[#62bbae]">Support</a>
           </nav>
         </div>
       </footer>
