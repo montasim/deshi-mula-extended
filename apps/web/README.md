@@ -1,4 +1,4 @@
-# Deshi Mula Extended web
+# MulaLens web
 
 TanStack Start landing page for the browser extension. The interface is implemented with shadcn components and Tailwind CSS v4.
 

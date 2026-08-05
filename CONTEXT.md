@@ -1,4 +1,4 @@
-# Deshi Mula Research Companion
+# MulaLens
 
 ## Core language
 

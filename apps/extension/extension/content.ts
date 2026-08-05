@@ -52,7 +52,7 @@ const renderAnswerInline = (
     .replace(/\[(S\d+)\]/g, (token, id: string) => {
       const citation = byId.get(id);
       return citation
-        ? `<a class="dme-inline-citation" href="${escapeHtml(citation.url)}" target="_blank" rel="noreferrer" title="${escapeHtml(citation.title)}">${token}</a>`
+        ? `<a class="ml-inline-citation" href="${escapeHtml(citation.url)}" target="_blank" rel="noreferrer" title="${escapeHtml(citation.title)}">${token}</a>`
         : token;
     });
 };
@@ -120,30 +120,30 @@ class ResearchPanel {
 
   constructor() {
     this.root = document.createElement('div');
-    this.root.dataset.dmeUi = 'research-root';
+    this.root.dataset.mlUi = 'research-root';
     this.root.innerHTML = `
-      <div class="dme-backdrop" data-backdrop hidden></div>
-      <aside class="dme-panel" data-panel role="dialog" aria-modal="true" aria-labelledby="dme-panel-company" aria-hidden="true">
-        <header class="dme-panel-header">
-          <div class="dme-extension-mark">${brandIcon}</div>
-          <div class="dme-panel-title"><span>Inside view</span><h2 id="dme-panel-company">Company</h2></div>
-          <div class="dme-header-actions">
-            <a class="dme-support" href="${SUPPORT_URL}" target="_blank" rel="noreferrer" aria-label="Support this project">${heartIcon}<span class="dme-visually-hidden">Support</span></a>
-            <button class="dme-icon-button" data-close type="button" aria-label="Close company research">${icon('<path d="m6 6 12 12M18 6 6 18"></path>')}</button>
+      <div class="ml-backdrop" data-backdrop hidden></div>
+      <aside class="ml-panel" data-panel role="dialog" aria-modal="true" aria-labelledby="ml-panel-company" aria-hidden="true">
+        <header class="ml-panel-header">
+          <div class="ml-extension-mark">${brandIcon}</div>
+          <div class="ml-panel-title"><span>Inside view</span><h2 id="ml-panel-company">Company</h2></div>
+          <div class="ml-header-actions">
+            <a class="ml-support" href="${SUPPORT_URL}" target="_blank" rel="noreferrer" aria-label="Support this project">${heartIcon}<span class="ml-visually-hidden">Support</span></a>
+            <button class="ml-icon-button" data-close type="button" aria-label="Close company research">${icon('<path d="m6 6 12 12M18 6 6 18"></path>')}</button>
           </div>
         </header>
-        <nav class="dme-nav" role="tablist" aria-label="Company research">
-          <button class="is-active" data-tab="brief" type="button" role="tab" aria-controls="dme-view-brief">Insights</button>
-          <button data-tab="jobs" type="button" role="tab" aria-controls="dme-view-jobs">Pay &amp; roles</button>
-          <button data-tab="stories" type="button" role="tab" aria-controls="dme-view-stories">Stories</button>
+        <nav class="ml-nav" role="tablist" aria-label="Company research">
+          <button class="is-active" data-tab="brief" type="button" role="tab" aria-controls="ml-view-brief">Insights</button>
+          <button data-tab="jobs" type="button" role="tab" aria-controls="ml-view-jobs">Pay &amp; roles</button>
+          <button data-tab="stories" type="button" role="tab" aria-controls="ml-view-stories">Stories</button>
         </nav>
-        <div class="dme-scroll" data-scroll>
-          <section class="dme-view is-active" id="dme-view-brief" data-view="brief" role="tabpanel"></section>
-          <section class="dme-view" id="dme-view-jobs" data-view="jobs" role="tabpanel" hidden></section>
-          <section class="dme-view" id="dme-view-stories" data-view="stories" role="tabpanel" hidden></section>
-          <section class="dme-view" id="dme-view-ask" data-view="ask" role="tabpanel" hidden></section>
+        <div class="ml-scroll" data-scroll>
+          <section class="ml-view is-active" id="ml-view-brief" data-view="brief" role="tabpanel"></section>
+          <section class="ml-view" id="ml-view-jobs" data-view="jobs" role="tabpanel" hidden></section>
+          <section class="ml-view" id="ml-view-stories" data-view="stories" role="tabpanel" hidden></section>
+          <section class="ml-view" id="ml-view-ask" data-view="ask" role="tabpanel" hidden></section>
         </div>
-        <footer class="dme-footer"><span><i></i><b data-snapshot>Loading published evidence</b></span><nav><a href="#" data-sources>Sources</a><a href="${B4JOIN_URL}" target="_blank" rel="noreferrer">Open b4join ↗</a></nav></footer>
+        <footer class="ml-footer"><span><i></i><b data-snapshot>Loading published evidence</b></span><nav><a href="#" data-sources>Sources</a><a href="${B4JOIN_URL}" target="_blank" rel="noreferrer">Open b4join ↗</a></nav></footer>
       </aside>`;
     document.body.append(this.root);
     this.panel = this.required('[data-panel]');
@@ -164,7 +164,7 @@ class ResearchPanel {
     this.company = undefined;
     this.jobs = undefined;
     this.consentedToAiRetention = await send<boolean>({ type: 'consent:get' });
-    this.required<HTMLElement>('#dme-panel-company').textContent =
+    this.required<HTMLElement>('#ml-panel-company').textContent =
       decodeLeetText(identity.sourceName || 'Company', identity.slug);
     this.select('brief');
     this.renderLoading();
@@ -173,7 +173,7 @@ class ResearchPanel {
     this.backdrop.hidden = false;
     requestAnimationFrame(() => this.backdrop.classList.add('is-open'));
     identity.trigger.setAttribute('aria-expanded', 'true');
-    document.documentElement.classList.add('dme-research-open');
+    document.documentElement.classList.add('ml-research-open');
     this.required<HTMLButtonElement>('[data-close]').focus();
 
     const companyTask = api<CompanyResearch>({
@@ -197,7 +197,7 @@ class ResearchPanel {
 
     if (company.status === 'fulfilled') {
       this.company = company.value;
-      this.required<HTMLElement>('#dme-panel-company').textContent =
+      this.required<HTMLElement>('#ml-panel-company').textContent =
         decodeLeetText(company.value.name, company.value.slug);
       this.required<HTMLElement>('[data-snapshot]').textContent =
         `Evidence updated ${company.value.snapshotDate}`;
@@ -225,7 +225,7 @@ class ResearchPanel {
     this.panel.classList.remove('is-open');
     this.panel.setAttribute('aria-hidden', 'true');
     this.backdrop.classList.remove('is-open');
-    document.documentElement.classList.remove('dme-research-open');
+    document.documentElement.classList.remove('ml-research-open');
     this.active?.trigger.setAttribute('aria-expanded', 'false');
     this.active?.trigger.focus();
     window.setTimeout(() => {
@@ -289,7 +289,7 @@ class ResearchPanel {
   private renderLoading() {
     (['brief', 'stories', 'jobs'] as const).forEach((view) => {
       this.required<HTMLElement>(`[data-view="${view}"]`).innerHTML =
-        '<div class="dme-state"><span class="dme-spinner"></span><strong>Reading published reports</strong><p>Building a company-specific view from the available evidence.</p></div>';
+        '<div class="ml-state"><span class="ml-spinner"></span><strong>Reading published reports</strong><p>Building a company-specific view from the available evidence.</p></div>';
     });
     this.required<HTMLElement>('[data-view="ask"]').innerHTML = '';
     this.required<HTMLElement>('[data-snapshot]').textContent = 'Loading published evidence';
@@ -298,7 +298,7 @@ class ResearchPanel {
   private renderError(view: string, reason: unknown) {
     const message = reason instanceof Error ? reason.message : 'Research is unavailable.';
     this.required<HTMLElement>(`[data-view="${view}"]`).innerHTML = `
-      <div class="dme-state dme-state--error">
+      <div class="ml-state ml-state--error">
         <strong>This section is unavailable</strong>
         <p>${escapeHtml(message)}</p>
         <small>The extension does not substitute stale or guessed data.</small>
@@ -381,7 +381,7 @@ class ResearchPanel {
       : 'Open Pay & roles to check the available evidence.';
 
     const questionMarkup = (question: NonNullable<CompanyResearch['questions']>[number]) => `
-      <button class="dme-question-card" type="button" data-evidence-question="${escapeHtml(question.title)}">
+      <button class="ml-question-card" type="button" data-evidence-question="${escapeHtml(question.title)}">
         <span><strong>${escapeHtml(question.title)}</strong><small>${escapeHtml(question.guidance)}</small></span>
         ${chevronIcon}
       </button>`;
@@ -392,7 +392,7 @@ class ResearchPanel {
     const links = company.links
       .map(
         (link) => `
-          <a class="dme-source-link" href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer">
+          <a class="ml-source-link" href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer">
             <span>${escapeHtml(link.label)}</span>${externalIcon}
           </a>`,
       )
@@ -400,27 +400,27 @@ class ResearchPanel {
 
     const glassdoor =
       company.metrics.rating !== null || company.metrics.recommendPercent !== null
-        ? `<p class="dme-context-line">Glassdoor context · ${company.metrics.rating === null ? 'rating unavailable' : `${company.metrics.rating}/5`} · ${company.metrics.recommendPercent === null ? 'recommendation unavailable' : `${company.metrics.recommendPercent}% recommend`}</p>`
+        ? `<p class="ml-context-line">Glassdoor context · ${company.metrics.rating === null ? 'rating unavailable' : `${company.metrics.rating}/5`} · ${company.metrics.recommendPercent === null ? 'recommendation unavailable' : `${company.metrics.recommendPercent}% recommend`}</p>`
         : '';
 
     this.required<HTMLElement>('[data-view="brief"]').innerHTML = `
-      <section class="dme-intro">
-        <p class="dme-eyebrow">Before you join</p>
+      <section class="ml-intro">
+        <p class="ml-eyebrow">Before you join</p>
         <h3>Know what employees report before you join.</h3>
         <p>A quick, company-specific read from ${company.metrics.stories} published workplace ${company.metrics.stories === 1 ? 'story' : 'stories'}.</p>
       </section>
 
-      <section class="dme-inside-view" aria-labelledby="dme-inside-view-title">
-        <div class="dme-inside-heading">
-          <div><span>Decision scan</span><h3 id="dme-inside-view-title">The inside view</h3></div>
+      <section class="ml-inside-view" aria-labelledby="ml-inside-view-title">
+        <div class="ml-inside-heading">
+          <div><span>Decision scan</span><h3 id="ml-inside-view-title">The inside view</h3></div>
           <em>Not a verdict</em>
         </div>
-        <div class="dme-signal-spine">
-          <button class="dme-signal-row" type="button" data-jump="stories">
-            <span class="dme-signal-key">Culture</span>
-            <span class="dme-signal-copy">
+        <div class="ml-signal-spine">
+          <button class="ml-signal-row" type="button" data-jump="stories">
+            <span class="ml-signal-key">Culture</span>
+            <span class="ml-signal-copy">
               <strong>${escapeHtml(cultureHeadline)}</strong>
-              <span class="dme-story-chart" aria-label="${escapeHtml(cultureDetail)}">
+              <span class="ml-story-chart" aria-label="${escapeHtml(cultureDetail)}">
                 <i class="is-positive" style="width:${(sentiment.positive / totalStories) * 100}%"></i>
                 <i class="is-mixed" style="width:${(sentiment.mixed / totalStories) * 100}%"></i>
                 <i class="is-concerning" style="width:${(sentiment.negative / totalStories) * 100}%"></i>
@@ -429,46 +429,46 @@ class ResearchPanel {
             </span>
             ${chevronIcon}
           </button>
-          <div class="dme-signal-row">
-            <span class="dme-signal-key">Work</span>
-            <span class="dme-signal-copy"><strong>${escapeHtml(modeLabel)}</strong><small>${escapeHtml(workDetails.join(' · ') || 'No schedule pattern was clear enough to summarize.')}</small></span>
+          <div class="ml-signal-row">
+            <span class="ml-signal-key">Work</span>
+            <span class="ml-signal-copy"><strong>${escapeHtml(modeLabel)}</strong><small>${escapeHtml(workDetails.join(' · ') || 'No schedule pattern was clear enough to summarize.')}</small></span>
           </div>
-          <button class="dme-signal-row" type="button" data-jump="jobs">
-            <span class="dme-signal-key">Pay</span>
-            <span class="dme-signal-copy"><strong>${escapeHtml(payHeadline)}</strong><small>${escapeHtml(payDetail)}</small></span>
+          <button class="ml-signal-row" type="button" data-jump="jobs">
+            <span class="ml-signal-key">Pay</span>
+            <span class="ml-signal-copy"><strong>${escapeHtml(payHeadline)}</strong><small>${escapeHtml(payDetail)}</small></span>
             ${chevronIcon}
           </button>
         </div>
         ${glassdoor}
       </section>
 
-      <section class="dme-questions">
-        <div class="dme-section-heading">
+      <section class="ml-questions">
+        <div class="ml-section-heading">
           <div><span>Interview prep</span><h3>Questions worth asking</h3></div>
           <strong>${questions.length}</strong>
         </div>
-        <p class="dme-section-copy">Built from themes that repeat in this company’s stories and comments.</p>
-        <div class="dme-question-list">
-          ${primaryQuestions || '<p class="dme-empty-row">No repeated theme had enough evidence to create a company-specific question.</p>'}
+        <p class="ml-section-copy">Built from themes that repeat in this company’s stories and comments.</p>
+        <div class="ml-question-list">
+          ${primaryQuestions || '<p class="ml-empty-row">No repeated theme had enough evidence to create a company-specific question.</p>'}
           ${
             moreQuestions
-              ? `<details class="dme-more-questions">
+              ? `<details class="ml-more-questions">
                   <summary>Show ${questions.length - 3} more ${questions.length - 3 === 1 ? 'question' : 'questions'}${chevronIcon}</summary>
                   <div>${moreQuestions}</div>
                 </details>`
               : ''
           }
         </div>
-        <button class="dme-primary dme-primary--wide" type="button" data-open-ask>
+        <button class="ml-primary ml-primary--wide" type="button" data-open-ask>
           <span>Ask your own question</span>${chevronIcon}
         </button>
       </section>
 
-      <details class="dme-trust" data-link-list>
+      <details class="ml-trust" data-link-list>
         <summary><span><strong>How to read this research</strong><small>Personal reports, dates, and source links</small></span>${chevronIcon}</summary>
         <div>
           <p>${escapeHtml(company.brief.disclaimer)}</p>
-          <nav aria-label="Company sources">${links || '<span class="dme-empty-row">No source links are available.</span>'}</nav>
+          <nav aria-label="Company sources">${links || '<span class="ml-empty-row">No source links are available.</span>'}</nav>
         </div>
       </details>`;
     this.bindInsightActions();
@@ -477,13 +477,13 @@ class ResearchPanel {
   private renderStories(response: StorySearchResponse) {
     const view = this.required<HTMLElement>('[data-view="stories"]');
     view.innerHTML = `
-      <section class="dme-intro dme-intro--compact">
-        <p class="dme-eyebrow">Published stories</p>
+      <section class="ml-intro ml-intro--compact">
+        <p class="ml-eyebrow">Published stories</p>
         <h3>Read the reports behind the insights.</h3>
         <p>Search by role or topic, then open any story on Deshi Mula for its full context and comments.</p>
       </section>
-      <label class="dme-search">${searchIcon}<input data-story-search type="search" placeholder="Search role, topic, or phrase" /></label>
-      <div class="dme-story-filters" aria-label="Filter stories"><button class="is-active" data-vibe="" type="button">All</button><button data-vibe="positive" type="button">Positive</button><button data-vibe="mixed" type="button">Mixed</button><button data-vibe="negative" type="button">Concerning</button></div>
+      <label class="ml-search">${searchIcon}<input data-story-search type="search" placeholder="Search role, topic, or phrase" /></label>
+      <div class="ml-story-filters" aria-label="Filter stories"><button class="is-active" data-vibe="" type="button">All</button><button data-vibe="positive" type="button">Positive</button><button data-vibe="mixed" type="button">Mixed</button><button data-vibe="negative" type="button">Concerning</button></div>
       <div data-story-results></div>`;
     this.paintStories(response);
     view.querySelector<HTMLInputElement>('[data-story-search]')?.addEventListener(
@@ -502,19 +502,19 @@ class ResearchPanel {
   private paintStories(response: StorySearchResponse) {
     const target = this.required<HTMLElement>('[data-story-results]');
     if (!response.items.length) {
-      target.innerHTML = '<div class="dme-state"><strong>No matching stories</strong><p>Try a shorter word or another vibe.</p></div>';
+      target.innerHTML = '<div class="ml-state"><strong>No matching stories</strong><p>Try a shorter word or another vibe.</p></div>';
       return;
     }
     target.innerHTML = `
-      <p class="dme-result-count">${response.total} matching ${response.total === 1 ? 'story' : 'stories'}</p>
-      <div class="dme-story-list">${response.items
+      <p class="ml-result-count">${response.total} matching ${response.total === 1 ? 'story' : 'stories'}</p>
+      <div class="ml-story-list">${response.items
         .map((story) => {
           const vibeLabel = story.vibe === 'negative' ? 'concerning' : story.vibe;
           return `
           <a href="${escapeHtml(story.url)}" target="_blank" rel="noreferrer">
             <strong>${escapeHtml(story.title || 'Untitled story')}</strong>
             <span>${escapeHtml(story.role || 'Anonymous')} · ${escapeHtml(story.date || 'Date unavailable')}</span>
-            <small><em class="dme-vibe dme-vibe--${escapeHtml(story.vibe)}">${escapeHtml(vibeLabel)}</em>${story.reactions} reactions · ${story.comments} comments</small>
+            <small><em class="ml-vibe ml-vibe--${escapeHtml(story.vibe)}">${escapeHtml(vibeLabel)}</em>${story.reactions} reactions · ${story.comments} comments</small>
             ${externalIcon}
           </a>`;
         })
@@ -533,7 +533,7 @@ class ResearchPanel {
     const vibe =
       this.root.querySelector<HTMLButtonElement>('[data-vibe].is-active')?.dataset.vibe || '';
     const target = this.required<HTMLElement>('[data-story-results]');
-    target.innerHTML = '<div class="dme-state"><span class="dme-spinner"></span><strong>Searching stories</strong></div>';
+    target.innerHTML = '<div class="ml-state"><span class="ml-spinner"></span><strong>Searching stories</strong></div>';
     try {
       const response = await api<StorySearchResponse>({
         method: 'GET',
@@ -541,7 +541,7 @@ class ResearchPanel {
       });
       this.paintStories(response);
     } catch (error) {
-      target.innerHTML = `<div class="dme-state dme-state--error"><strong>Search unavailable</strong><p>${escapeHtml(error instanceof Error ? error.message : String(error))}</p></div>`;
+      target.innerHTML = `<div class="ml-state ml-state--error"><strong>Search unavailable</strong><p>${escapeHtml(error instanceof Error ? error.message : String(error))}</p></div>`;
     }
   }
 
@@ -568,12 +568,12 @@ class ResearchPanel {
             2.5,
           );
           return `
-            <article class="dme-range-row ${className}">
-              <div class="dme-range-label">
+            <article class="ml-range-row ${className}">
+              <div class="ml-range-label">
                 <strong>${escapeHtml(role.role)}</strong>
                 <span>${escapeHtml(formatBdt(role.minimumBdt))}–${escapeHtml(formatBdt(role.maximumBdt))}</span>
               </div>
-              <div class="dme-range-track" role="img" aria-label="${escapeHtml(role.role)} reported range ${escapeHtml(formatBdt(role.minimumBdt))} to ${escapeHtml(formatBdt(role.maximumBdt))}">
+              <div class="ml-range-track" role="img" aria-label="${escapeHtml(role.role)} reported range ${escapeHtml(formatBdt(role.minimumBdt))} to ${escapeHtml(formatBdt(role.maximumBdt))}">
                 <i style="left:${left}%;width:${width}%"></i>
               </div>
               <small>${role.sampleSize ? `${role.sampleSize.toLocaleString()} contributor${role.sampleSize === 1 ? '' : 's'}` : 'Contributor count unavailable'}${role.bonus ? ` · ${role.bonus.reportedCount}/${role.bonus.answeredCount} reported a bonus` : ''}</small>
@@ -596,17 +596,17 @@ class ResearchPanel {
       ? specificJobs
           .map(
             (job) => `
-              <a class="dme-job" href="${escapeHtml(job.sourceUrl)}" target="_blank" rel="noreferrer">
+              <a class="ml-job" href="${escapeHtml(job.sourceUrl)}" target="_blank" rel="noreferrer">
                 <div><strong>${escapeHtml(job.title)}</strong><span>${escapeHtml(job.detail)}</span></div>
                 <em>${escapeHtml(job.source)}</em>${externalIcon}
               </a>`,
           )
           .join('')
       : response.careerUrl
-        ? `<a class="dme-career-cta" href="${escapeHtml(response.careerUrl)}" target="_blank" rel="noreferrer">
+        ? `<a class="ml-career-cta" href="${escapeHtml(response.careerUrl)}" target="_blank" rel="noreferrer">
             <span><strong>Check current openings</strong><small>Open the company’s careers page</small></span>${externalIcon}
           </a>`
-        : '<p class="dme-job-empty"><strong>No current opening found</strong><span>No sourced vacancy or careers page is available in this snapshot.</span></p>';
+        : '<p class="ml-job-empty"><strong>No current opening found</strong><span>No sourced vacancy or careers page is available in this snapshot.</span></p>';
 
     const checkedAt = response.checkedAt
       ? new Intl.DateTimeFormat('en-BD', {
@@ -616,33 +616,33 @@ class ResearchPanel {
         }).format(new Date(response.checkedAt))
       : 'Date unavailable';
     this.required<HTMLElement>('[data-view="jobs"]').innerHTML = `
-      <section class="dme-intro dme-intro--compact">
-        <p class="dme-eyebrow">Pay &amp; roles</p>
+      <section class="ml-intro ml-intro--compact">
+        <p class="ml-eyebrow">Pay &amp; roles</p>
         <h3>Compare reported pay before you negotiate.</h3>
         <p>Community-submitted ranges are shown on one scale. Confirm the amount and pay period in writing.</p>
       </section>
 
-      <section class="dme-pay-view">
-        <div class="dme-section-heading">
+      <section class="ml-pay-view">
+        <div class="ml-section-heading">
           <div><span>Reported salary</span><h3>${escapeHtml(response.salary.label)}</h3></div>
           <strong>${salaryRoleItems.length} ${salaryRoleItems.length === 1 ? 'role' : 'roles'}</strong>
         </div>
-        <p class="dme-section-copy">${escapeHtml(response.salary.summary)}</p>
+        <p class="ml-section-copy">${escapeHtml(response.salary.summary)}</p>
         ${
           salaryRoleItems.length
-            ? `<div class="dme-range-scale" aria-hidden="true"><span>৳0</span><i></i><span>${escapeHtml(formatBdt(maximumSalary))}</span></div>
-              <div class="dme-range-chart">${primarySalaryRows}</div>
+            ? `<div class="ml-range-scale" aria-hidden="true"><span>৳0</span><i></i><span>${escapeHtml(formatBdt(maximumSalary))}</span></div>
+              <div class="ml-range-chart">${primarySalaryRows}</div>
               ${
                 remainingSalaryRows
-                  ? `<details class="dme-more-ranges">
+                  ? `<details class="ml-more-ranges">
                       <summary>Show ${salaryRoleItems.length - 6} more ${salaryRoleItems.length - 6 === 1 ? 'role' : 'roles'}${chevronIcon}</summary>
-                      <div class="dme-range-chart">${remainingSalaryRows}</div>
+                      <div class="ml-range-chart">${remainingSalaryRows}</div>
                     </details>`
                   : ''
               }`
-            : '<div class="dme-empty-panel"><strong>No salary ranges yet</strong><p>The current dataset has no community-submitted pay evidence for this company.</p></div>'
+            : '<div class="ml-empty-panel"><strong>No salary ranges yet</strong><p>The current dataset has no community-submitted pay evidence for this company.</p></div>'
         }
-        <details class="dme-data-note">
+        <details class="ml-data-note">
           <summary>How to read these ranges${chevronIcon}</summary>
           <div>
             <p>${escapeHtml(response.salary.disclaimer || 'Salary evidence is not independently verified; confirm directly with the company.')}</p>
@@ -651,12 +651,12 @@ class ResearchPanel {
         </details>
       </section>
 
-      <section class="dme-openings">
-        <div class="dme-section-heading">
+      <section class="ml-openings">
+        <div class="ml-section-heading">
           <div><span>Hiring now</span><h3>Current openings</h3></div>
           <strong>Checked ${escapeHtml(checkedAt)}</strong>
         </div>
-        <div class="dme-job-card">${jobs}</div>
+        <div class="ml-job-card">${jobs}</div>
       </section>`;
   }
 
@@ -668,17 +668,17 @@ class ResearchPanel {
     const consented = this.consentedToAiRetention;
     const storyCount = this.company?.metrics.stories ?? 0;
     this.required<HTMLElement>('[data-view="ask"]').innerHTML = `
-      <button class="dme-back" type="button" data-ask-back>${icon('<path d="m15 18-6-6 6-6"></path>')}<span>Back to insights</span></button>
-      <section class="dme-intro dme-intro--ask">
-        <p class="dme-eyebrow">Ask the evidence</p>
+      <button class="ml-back" type="button" data-ask-back>${icon('<path d="m15 18-6-6 6-6"></path>')}<span>Back to insights</span></button>
+      <section class="ml-intro ml-intro--ask">
+        <p class="ml-eyebrow">Ask the evidence</p>
         <h3>What do you want to know about ${escapeHtml(companyName)}?</h3>
         <p>The answer searches ${storyCount || 'the available'} published ${storyCount === 1 ? 'story' : 'stories'} and comments, then links every supporting source.</p>
       </section>
-      <form class="dme-ask-form" data-ask-form>
-        <label for="dme-research-question">Question to verify</label>
-        <textarea id="dme-research-question" data-question rows="4" maxlength="800" placeholder="Example: How often is overtime mentioned?" aria-label="Ask about ${escapeHtml(companyName)}">${escapeHtml(prefill)}</textarea>
-        ${consented ? '' : `<label class="dme-consent"><input data-consent type="checkbox" /><span>Allow b4join to store this question, the cited excerpts, answer, and anonymous installation ID indefinitely.</span></label>`}
-        <button class="dme-primary dme-primary--wide" type="submit"><span>Search company evidence</span>${chevronIcon}</button>
+      <form class="ml-ask-form" data-ask-form>
+        <label for="ml-research-question">Question to verify</label>
+        <textarea id="ml-research-question" data-question rows="4" maxlength="800" placeholder="Example: How often is overtime mentioned?" aria-label="Ask about ${escapeHtml(companyName)}">${escapeHtml(prefill)}</textarea>
+        ${consented ? '' : `<label class="ml-consent"><input data-consent type="checkbox" /><span>Allow b4join to store this question, the cited excerpts, answer, and anonymous installation ID indefinitely.</span></label>`}
+        <button class="ml-primary ml-primary--wide" type="submit"><span>Search company evidence</span>${chevronIcon}</button>
       </form>
       <div data-answer></div>
     `;
@@ -701,11 +701,11 @@ class ResearchPanel {
     const consent = form.querySelector<HTMLInputElement>('[data-consent]');
     const answer = this.required<HTMLElement>('[data-answer]');
     if (question.length < 3) {
-      answer.innerHTML = '<p class="dme-inline-error">Enter a specific question first.</p>';
+      answer.innerHTML = '<p class="ml-inline-error">Enter a specific question first.</p>';
       return;
     }
     if (consent && !consent.checked) {
-      answer.innerHTML = '<p class="dme-inline-error">Confirm the storage choice before searching the evidence.</p>';
+      answer.innerHTML = '<p class="ml-inline-error">Confirm the storage choice before searching the evidence.</p>';
       return;
     }
     if (consent) {
@@ -716,7 +716,7 @@ class ResearchPanel {
     }
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     if (button) button.disabled = true;
-    answer.innerHTML = '<div class="dme-state"><span class="dme-spinner"></span><strong>Reading the evidence</strong><p>This can take a few seconds.</p></div>';
+    answer.innerHTML = '<div class="ml-state"><span class="ml-spinner"></span><strong>Reading the evidence</strong><p>This can take a few seconds.</p></div>';
     try {
       const response = await api<AskResponse>({
         method: 'POST',
@@ -724,19 +724,19 @@ class ResearchPanel {
         body: { company: this.active.slug, question },
       });
       answer.innerHTML = `
-        <article class="dme-answer">
-          <div class="dme-source-label"><span>Answer from published reports</span><em>${response.citations.length} ${response.citations.length === 1 ? 'source' : 'sources'}</em></div>
-          <div class="dme-answer-copy">${renderAnswerText(response.answer, response.citations)}</div>
-          <div class="dme-citations">${response.citations
+        <article class="ml-answer">
+          <div class="ml-source-label"><span>Answer from published reports</span><em>${response.citations.length} ${response.citations.length === 1 ? 'source' : 'sources'}</em></div>
+          <div class="ml-answer-copy">${renderAnswerText(response.answer, response.citations)}</div>
+          <div class="ml-citations">${response.citations
             .map(
               (citation) => `<a href="${escapeHtml(citation.url)}" target="_blank" rel="noreferrer" title="${escapeHtml(citation.title)}">[${escapeHtml(citation.id)}] <span>${escapeHtml(citation.title)}</span></a>`,
             )
             .join('')}</div>
           <small>This summarizes personal reports. Open the cited stories before drawing a conclusion.</small>
         </article>`;
-      consent?.closest('.dme-consent')?.remove();
+      consent?.closest('.ml-consent')?.remove();
     } catch (error) {
-      answer.innerHTML = `<div class="dme-state dme-state--error"><strong>Ask could not complete</strong><p>${escapeHtml(error instanceof Error ? error.message : String(error))}</p></div>`;
+      answer.innerHTML = `<div class="ml-state ml-state--error"><strong>Ask could not complete</strong><p>${escapeHtml(error instanceof Error ? error.message : String(error))}</p></div>`;
     } finally {
       if (button) button.disabled = false;
     }
@@ -769,22 +769,22 @@ const nameElementFor = (anchor: HTMLAnchorElement): HTMLElement | null => {
 const discover = (): Identity[] => {
   const found: Identity[] = [];
   document.querySelectorAll<HTMLAnchorElement>('a[href*="/companies/"]').forEach((anchor) => {
-    if (anchor.closest('[data-dme-ui]')) return;
+    if (anchor.closest('[data-ml-ui]')) return;
     const slug = slugFromCompanyUrl(anchor.href);
     const element = nameElementFor(anchor);
-    if (!slug || !element || element.dataset.dmeCompanySlug) return;
+    if (!slug || !element || element.dataset.mlCompanySlug) return;
     const sourceName = element.textContent?.trim() || slug;
     const displayName = decodeLeetText(sourceName, slug);
-    element.dataset.dmeCompanySlug = slug;
-    element.dataset.dmeSourceName = sourceName;
+    element.dataset.mlCompanySlug = slug;
+    element.dataset.mlSourceName = sourceName;
     element.textContent = displayName;
     if (displayName !== sourceName) {
       element.title = `Originally shown as ${sourceName}`;
     }
     const trigger = document.createElement('button');
     trigger.type = 'button';
-    trigger.className = 'dme-research-trigger';
-    trigger.dataset.dmeUi = 'trigger';
+    trigger.className = 'ml-research-trigger';
+    trigger.dataset.mlUi = 'trigger';
     trigger.setAttribute('aria-haspopup', 'dialog');
     trigger.setAttribute('aria-expanded', 'false');
     trigger.innerHTML = `${searchIcon}<span>Research</span>`;
@@ -849,7 +849,7 @@ const initialize = () => {
     if (
       mutations.some(
         (mutation) =>
-          !(mutation.target instanceof Element && mutation.target.closest('[data-dme-ui]')),
+          !(mutation.target instanceof Element && mutation.target.closest('[data-ml-ui]')),
       )
     ) {
       scheduleScan();

@@ -1,4 +1,4 @@
-# Deshi Mula Extended
+# MulaLens
 
 A Chrome extension that turns [Deshi Mula](https://deshimula.com/) company pages into a focused research workspace with company identities, workplace signals, reported salaries, jobs, stories, and cited answers.
 
@@ -10,11 +10,11 @@ A Chrome extension that turns [Deshi Mula](https://deshimula.com/) company pages
   <a href="https://www.supportkori.com/montasim"><img alt="Support on SupportKori" src="https://img.shields.io/badge/Support-SupportKori-FFDD00"></a>
 </p>
 
-![Deshi Mula Extended research panel showing company insights](./store-assets/deshi-mula-extended-1280x800.png)
+![MulaLens research panel showing company insights](./store-assets/mulalens-1280x800.png)
 
-**[Download the latest release](https://github.com/montasim/deshi-mula-extended/releases/latest) · [Report an issue](https://github.com/montasim/deshi-mula-extended/issues) · [Request privacy help or deletion](mailto:montasimmamun@gmail.com?subject=Deshi%20Mula%20Extended%20privacy%20or%20deletion%20request)**
+**[Download the latest release](https://github.com/montasim/deshi-mula-extended/releases/latest) · [Report an issue](https://github.com/montasim/deshi-mula-extended/issues) · [Request privacy help or deletion](mailto:montasimmamun@gmail.com?subject=MulaLens%20privacy%20or%20deletion%20request)**
 
-## Why Deshi Mula Extended?
+## Why MulaLens?
 
 Company research often means copying an obfuscated name into several tabs, reconciling inconsistent identities, and separating community reports from verified facts. The extension keeps that workflow beside the Deshi Mula page, returns source-linked evidence from one backend boundary, and labels salary and workplace signals as research inputs rather than company policy.
 
@@ -175,7 +175,7 @@ No open-source license file is currently included. Source visibility alone does 
 
 ## Funding
 
-If Deshi Mula Extended is useful to you, you can support its continued development through [SupportKori](https://www.supportkori.com/montasim).
+If MulaLens is useful to you, you can support its continued development through [SupportKori](https://www.supportkori.com/montasim).
 
 Bug reports, privacy feedback, citation corrections, and code contributions are equally valuable ways to help.
 

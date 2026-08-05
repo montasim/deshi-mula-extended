@@ -1,5 +1,5 @@
 {
-  "name": "@deshi-mula/web",
+  "name": "@mulalens/web",
   "private": true,
   "type": "module",
   "imports": {

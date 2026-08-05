@@ -7,13 +7,13 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Deshi Mula Extended | Research before you join' },
+      { title: 'MulaLens | Research before you join' },
       {
         name: 'description',
         content:
           'Research company culture, reported pay, open roles, and workplace stories without leaving Deshi Mula.',
       },
-      { property: 'og:title', content: 'Deshi Mula Extended' },
+      { property: 'og:title', content: 'MulaLens' },
       {
         property: 'og:description',
         content: 'Research the workplace before you accept the offer.',
@@ -30,7 +30,7 @@ export const Route = createRootRoute({
 
 const themeScript = `
   (() => {
-    const stored = localStorage.getItem('dm-theme');
+    const stored = localStorage.getItem('mulalens-theme');
     const theme = stored === 'light' || stored === 'dark'
       ? stored
       : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';

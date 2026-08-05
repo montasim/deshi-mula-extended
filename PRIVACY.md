@@ -1,8 +1,8 @@
-# Privacy Policy for Deshi Mula Extended
+# Privacy Policy for MulaLens
 
 Last updated: August 4, 2026
 
-Deshi Mula Extended adds company research to pages on
+MulaLens adds company research to pages on
 [deshimula.com](https://deshimula.com/). This policy explains the information
 the extension handles, why it is needed, and where it is sent.
 
@@ -79,7 +79,7 @@ including the Limited Use requirements.
 For privacy questions or deletion requests concerning information retained by
 the b4join service, email
 [montasimmamun@gmail.com](mailto:montasimmamun@gmail.com?subject=Deshi%20Mula%20Extended%20privacy%20or%20deletion%20request).
-Use the subject **Deshi Mula Extended privacy or deletion request** and include
+Use the subject **MulaLens privacy or deletion request** and include
 the approximate submission date, company page, and enough of the submitted
 question to locate the record. Do not send unrelated personal information.
 
@@ -89,5 +89,5 @@ The extension does not expose the anonymous installation identifier to the
 user, so it is not required in the request.
 
 For a suspected vulnerability, use the same email with the subject
-**Security: Deshi Mula Extended**. Send a minimal impact summary first and
+**Security: MulaLens**. Send a minimal impact summary first and
 coordinate privately before sharing exploit details or sensitive data.

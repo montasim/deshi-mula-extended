@@ -92,7 +92,7 @@ function Home() {
                 </div>
                 <img
                   src="/product/extension-screenshot.png"
-                  alt="Deshi Mula website with the Deshi Mula Extended company research panel open"
+                  alt="Deshi Mula website with the MulaLens company research panel open"
                   className="aspect-[16/10] w-full object-cover object-center"
                   width="1280"
                   height="800"
@@ -185,7 +185,7 @@ function Home() {
             </a>
           </div>
           <figure className="bg-accent p-5 sm:p-8">
-            <img src="/product/promo-tile.png" alt="Deshi Mula Extended promotional image showing the research panel" className="mx-auto w-full max-w-[660px] shadow-product" width="440" height="280" loading="lazy" />
+            <img src="/product/promo-tile.png" alt="MulaLens promotional image showing the research panel" className="mx-auto w-full max-w-[660px] shadow-product" width="440" height="280" loading="lazy" />
           </figure>
         </section>
 
@@ -221,7 +221,7 @@ function Home() {
           <div>
             <div className="flex items-center gap-3">
               <img src="/brand/logo.png" alt="" className="size-8 rounded-lg" width="32" height="32" loading="lazy" />
-              <span className="font-extrabold tracking-[-0.03em]">Deshi Mula Extended</span>
+              <span className="font-extrabold tracking-[-0.03em]">MulaLens</span>
             </div>
             <p className="mt-4 max-w-md text-sm leading-6 text-white/55">An independent research companion for deshimula.com. Not affiliated with Deshi Mula.</p>
           </div>
