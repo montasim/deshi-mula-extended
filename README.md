@@ -44,7 +44,7 @@ Salary and workplace information may be community-submitted. Treat it as researc
 
 ### Build from source
 
-Requires Node.js 20 or newer and pnpm 10.
+Requires Node.js 20.19.3 or newer and pnpm 10.
 
 ```bash
 git clone https://github.com/montasim/deshi-mula-extended.git
@@ -98,11 +98,13 @@ Read the complete [privacy policy](./PRIVACY.md).
 
 | Command | Purpose |
 | --- | --- |
-| `pnpm build` | Build the unpacked extension into `dist/extension/` |
-| `pnpm typecheck` | Check TypeScript without emitting files |
-| `pnpm lint` | Run ESLint |
-| `pnpm test` | Run the Vitest suite |
-| `pnpm check` | Run typecheck, lint, tests, and the production build |
+| `pnpm dev:web` | Run the TanStack Start landing page on `http://localhost:3000` |
+| `pnpm build:extension` | Build the unpacked extension into `dist/extension/` |
+| `pnpm build:web` | Build the landing page and Netlify SSR output |
+| `pnpm build` | Build both workspace applications |
+| `pnpm check:extension` | Run extension typecheck, lint, tests, and build |
+| `pnpm check:web` | Generate routes, lint, typecheck, and build the website |
+| `pnpm check` | Verify both workspace applications |
 
 No environment variables, credentials, or local backend are required. The hosted b4join API must be available for research results and cited answers to load.
 
@@ -112,20 +114,24 @@ No environment variables, credentials, or local backend are required. The hosted
 | --- | --- |
 | Browser platform | Chrome Manifest V3 |
 | Extension code | TypeScript, content script, background service worker |
-| Interface | Browser DOM, repository-owned styles and icons |
+| Extension interface | Browser DOM, repository-owned styles and icons |
+| Product website | TanStack Start, React, shadcn, Tailwind CSS |
 | API boundary | Typed HTTPS messages to the hosted b4join extension endpoint |
 | Validation and tests | TypeScript, ESLint, Vitest |
 | Packaging | Repository build scripts, ZIP archive, SHA-256 checksum |
+| Website deployment | Netlify SSR adapter |
 
 ## Project structure
 
-- `extension/` — content script, background API bridge, styles, manifest, and shipped icons
-- `src/` — shared browser-side contracts and text helpers
-- `tests/` — unit tests for browser-side helpers
-- `scripts/` — production build tooling
+- `apps/extension/` — content script, background API bridge, contracts, tests, and extension build
+- `apps/web/` — TanStack Start landing page built with shadcn and Tailwind CSS
 - `docs/` — architecture, decisions, and Chrome Web Store submission guidance
 - `store-assets/` — listing screenshot and promotional artwork
-- `prototype/` — retained static design reference
+- `prototypes/extention/` — retained extension-interface design reference
+- `prototypes/web/v1.html` — retained landing-page design reference
+- `netlify.toml` — landing-page build and deployment configuration
+
+The root `netlify.toml` builds and deploys `apps/web/dist/client`.
 
 ## Releases
 
@@ -148,7 +154,8 @@ The release archive is intended for Chrome's **Load unpacked** flow. Verify the 
 - [Privacy policy](PRIVACY.md)
 - [Chrome Web Store preparation](docs/CHROME_WEB_STORE.md)
 - [Architecture decision record](docs/adr/0001-use-a-thin-api-dependent-extension.md)
-- [Prototype reference](prototype/README.md)
+- [Extension prototype reference](prototypes/extention/README.md)
+- [Web prototype reference](prototypes/web/README.md)
 
 ## Contributing
 

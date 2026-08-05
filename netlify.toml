@@ -1,0 +1,12 @@
+[build]
+  command = "pnpm --filter @deshi-mula/web build"
+  publish = "/apps/web/dist/client"
+
+[build.environment]
+  NODE_VERSION = "20.19.3"
+  PNPM_VERSION = "10.10.0"
+
+[dev]
+  command = "pnpm --filter @deshi-mula/web dev"
+  targetPort = 3000
+  port = 8888

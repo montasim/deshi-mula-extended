@@ -1,29 +1,20 @@
 {
-  "name": "deshi-mula-extended",
+  "name": "deshi-mula-extended-workspace",
   "version": "3.0.7",
   "private": true,
   "type": "module",
-  "description": "Dataset-backed research companion for Deshi Mula.",
+  "description": "Deshi Mula Extended browser extension and product website workspace.",
   "scripts": {
-    "build": "tsx scripts/build.ts",
-    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
-    "lint": "eslint .",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.39.0",
-    "@types/chrome": "^0.1.32",
-    "@types/node": "^24.10.0",
-    "esbuild": "^0.27.0",
-    "eslint": "^9.39.0",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.3",
-    "vitest": "^4.0.8"
+    "dev:web": "pnpm --filter @deshi-mula/web dev",
+    "build:extension": "pnpm --filter @deshi-mula/extension build",
+    "build:web": "pnpm --filter @deshi-mula/web build",
+    "build": "pnpm build:extension && pnpm build:web",
+    "check:extension": "pnpm --filter @deshi-mula/extension check",
+    "check:web": "pnpm --filter @deshi-mula/web check",
+    "check": "pnpm check:extension && pnpm check:web"
   },
   "packageManager": "pnpm@10.10.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19.3"
   }
 }

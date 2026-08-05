@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Deshi Mula Extended adds company culture signals, reported pay, open roles, workplace stories, and cited answers to deshimula.com."
+        />
+        <meta name="theme-color" content="#f4f1ea" />
+        <title>Deshi Mula Extended | Research before you join</title>
+        <link rel="icon" href="../../apps/extension/extension/media/logo-32.png" sizes="32x32" />
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <style type="text/tailwindcss">
+            @custom-variant dark (&:where(.dark, .dark *));
+
+            @theme {
+                --color-paper: #f4f1ea;
+                --color-paper-deep: #e8e2d7;
+                --color-ink: #152623;
+                --color-brand: #187f73;
+                --color-brand-dark: #11655d;
+                --color-leaf: #187f73;
+                --font-sans: "Aptos", "Segoe UI Variable", "Noto Sans Bengali", system-ui, sans-serif;
+                --font-mono: "SFMono-Regular", "Cascadia Mono", "Roboto Mono", monospace;
+                --shadow-product: 0 32px 80px rgb(40 47 44 / 0.18);
+            }
+
+            :focus-visible {
+                outline: 3px solid #187f73;
+                outline-offset: 4px;
+            }
+
+            .page-grid {
+                background-image:
+                    linear-gradient(rgb(21 38 35 / 0.045) 1px, transparent 1px),
+                    linear-gradient(90deg, rgb(21 38 35 / 0.045) 1px, transparent 1px);
+                background-size: 42px 42px;
+            }
+
+            .dark .page-grid {
+                background-image:
+                    linear-gradient(rgb(244 241 234 / 0.045) 1px, transparent 1px),
+                    linear-gradient(90deg, rgb(244 241 234 / 0.045) 1px, transparent 1px);
+            }
+
+            .reveal {
+                opacity: 0;
+                transform: translateY(20px);
+                transition:
+                    opacity 650ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .reveal.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            dialog::backdrop {
+                background: rgb(9 18 17 / 0.72);
+                backdrop-filter: blur(6px);
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                html {
+                    scroll-behavior: auto;
+                }
+
+                .reveal {
+                    opacity: 1;
+                    transform: none;
+                    transition: none;
+                }
+            }
+        </style>
+        <script>
+            (() => {
+                const saved = localStorage.getItem("dm-theme");
+                const dark = saved
+                    ? saved === "dark"
+                    : window.matchMedia("(prefers-color-scheme: dark)").matches;
+                document.documentElement.classList.toggle("dark", dark);
+            })();
+        </script>
+    </head>
+    <body class="bg-paper font-sans text-ink antialiased selection:bg-brand/20 dark:bg-[#101715] dark:text-[#f1eee7]">
+        <a
+            href="#main"
+            class="fixed left-4 top-4 z-50 -translate-y-24 bg-ink px-4 py-3 text-sm font-bold text-paper transition-transform focus:translate-y-0 dark:bg-paper dark:text-ink"
+        >
+            Skip to content
+        </a>
+
+        <header class="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#101715]/90">
+            <nav class="mx-auto flex h-18 max-w-[1400px] items-center justify-between px-5 lg:px-10" aria-label="Main navigation">
+                <a href="#top" class="flex items-center gap-3" aria-label="Deshi Mula Extended home">
+                    <img src="../../apps/extension/extension/media/logo-48.png" alt="" class="size-9 rounded-xl" width="36" height="36" />
+                    <span class="text-[15px] font-extrabold tracking-[-0.03em] sm:text-base">Deshi Mula <span class="text-leaf dark:text-[#62bbae]">Extended</span></span>
+                </a>
+
+                <div class="hidden items-center gap-8 md:flex">
+                    <a href="#inside" class="text-sm font-semibold text-ink/65 transition-colors hover:text-ink dark:text-white/65 dark:hover:text-white">What you get</a>
+                    <a href="#how" class="text-sm font-semibold text-ink/65 transition-colors hover:text-ink dark:text-white/65 dark:hover:text-white">How it works</a>
+                    <a href="#faq" class="text-sm font-semibold text-ink/65 transition-colors hover:text-ink dark:text-white/65 dark:hover:text-white">FAQ</a>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button
+                        type="button"
+                        data-theme-toggle
+                        class="hidden min-h-10 border border-ink/15 px-3 text-xs font-bold transition-colors hover:bg-ink/5 active:translate-y-px sm:block dark:border-white/15 dark:hover:bg-white/10"
+                        aria-label="Switch color theme"
+                    >
+                        Theme
+                    </button>
+                    <a
+                        href="https://github.com/montasim/deshi-mula-extended/releases/latest"
+                        target="_blank"
+                        rel="noreferrer"
+                        class="hidden min-h-10 items-center bg-brand px-4 text-sm font-bold whitespace-nowrap text-white shadow-[0_6px_18px_rgb(24_127_115/0.18)] transition-colors hover:bg-brand-dark active:translate-y-px md:inline-flex"
+                    >
+                        Get extension
+                    </a>
+                    <button
+                        type="button"
+                        data-menu-button
+                        class="grid size-10 place-items-center border border-ink/15 md:hidden dark:border-white/15"
+                        aria-expanded="false"
+                        aria-controls="mobile-menu"
+                        aria-label="Open navigation"
+                    >
+                        <span class="flex w-4 flex-col gap-1" aria-hidden="true"><i class="block h-px bg-current"></i><i class="block h-px bg-current"></i><i class="block h-px bg-current"></i></span>
+                    </button>
+                </div>
+            </nav>
+
+            <div id="mobile-menu" data-mobile-menu class="hidden border-t border-ink/10 px-5 py-5 md:hidden dark:border-white/10">
+                <div class="mx-auto grid max-w-[1400px] gap-1">
+                    <a href="#inside" class="py-3 text-base font-bold">What you get</a>
+                    <a href="#how" class="py-3 text-base font-bold">How it works</a>
+                    <a href="#faq" class="py-3 text-base font-bold">FAQ</a>
+                    <a href="https://github.com/montasim/deshi-mula-extended/releases/latest" target="_blank" rel="noreferrer" class="mt-3 bg-brand px-4 py-3 text-left text-sm font-bold text-white hover:bg-brand-dark">Get extension</a>
+                </div>
+            </div>
+        </header>
+
+        <main id="main">
+            <section id="top" class="page-grid relative overflow-hidden border-b border-ink/10 dark:border-white/10">
+                <div class="mx-auto grid min-h-[calc(100dvh-4.5rem)] max-w-[1400px] items-center gap-10 px-5 py-12 md:grid-cols-[0.82fr_1.18fr] lg:gap-16 lg:px-10 lg:py-16">
+                    <div class="relative z-10 max-w-xl">
+                        <p class="mb-5 font-mono text-[11px] font-bold tracking-[0.18em] text-leaf uppercase dark:text-[#62bbae]">Built for Deshi Mula</p>
+                        <h1 class="max-w-[13ch] text-5xl leading-[0.95] font-black tracking-[-0.065em] text-balance sm:text-6xl lg:text-[4.1rem]">
+                            Research before you join.
+                        </h1>
+                        <p class="mt-6 max-w-[34rem] text-lg leading-7 text-ink/68 dark:text-white/68">
+                            Research company culture, reported pay, open roles, and workplace stories without leaving Deshi Mula.
+                        </p>
+                        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                            <a
+                                href="https://github.com/montasim/deshi-mula-extended/releases/latest"
+                                target="_blank"
+                                rel="noreferrer"
+                                class="inline-flex min-h-13 items-center justify-center bg-brand px-6 text-sm font-extrabold whitespace-nowrap text-white shadow-[0_10px_28px_rgb(24_127_115/0.22)] transition-transform hover:-translate-y-0.5 hover:bg-brand-dark active:translate-y-px"
+                            >
+                                Get extension
+                            </a>
+                            <a
+                                href="#how"
+                                class="inline-flex min-h-13 items-center justify-center border border-ink/20 px-6 text-sm font-extrabold whitespace-nowrap transition-colors hover:bg-ink hover:text-paper active:translate-y-px dark:border-white/25 dark:hover:bg-paper dark:hover:text-ink"
+                            >
+                                See how it works
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="relative mx-auto w-full max-w-[760px]">
+                        <div class="absolute -inset-6 -z-10 rotate-2 bg-brand/12 dark:bg-brand/16"></div>
+                        <figure class="overflow-hidden border border-ink/15 bg-[#dfe7e5] shadow-product dark:border-white/15 dark:bg-[#23302d]">
+                            <div class="flex h-10 items-center gap-2 border-b border-ink/10 bg-[#f8f7f3] px-4 dark:border-white/10 dark:bg-[#18211f]" aria-hidden="true">
+                                <span class="size-2.5 rounded-full bg-[#82908b]"></span>
+                                <span class="size-2.5 rounded-full bg-[#c69948]/70"></span>
+                                <span class="size-2.5 rounded-full bg-leaf/70"></span>
+                                <span class="ml-3 h-5 w-2/5 rounded-sm bg-ink/6 dark:bg-white/8"></span>
+                            </div>
+                            <img
+                                src="../../store-assets/deshi-mula-extended-1280x800.png"
+                                alt="Deshi Mula website with the Deshi Mula Extended company research panel open"
+                                class="aspect-[16/10] w-full object-cover object-center"
+                                width="1280"
+                                height="800"
+                                fetchpriority="high"
+                            />
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <section aria-label="Product facts" class="border-b border-ink/10 dark:border-white/10">
+                <div class="mx-auto grid max-w-[1400px] grid-cols-1 px-5 sm:grid-cols-3 lg:px-10">
+                    <div class="py-6 sm:border-r sm:border-ink/10 sm:pr-8 dark:sm:border-white/10">
+                        <strong class="block text-lg tracking-[-0.03em]">No account</strong>
+                        <span class="text-sm text-ink/58 dark:text-white/58">Install and research immediately</span>
+                    </div>
+                    <div class="border-t border-ink/10 py-6 sm:border-t-0 sm:border-r sm:px-8 dark:border-white/10">
+                        <strong class="block text-lg tracking-[-0.03em]">One-site focus</strong>
+                        <span class="text-sm text-ink/58 dark:text-white/58">Runs only on deshimula.com</span>
+                    </div>
+                    <div class="border-t border-ink/10 py-6 sm:border-t-0 sm:pl-8 dark:border-white/10">
+                        <strong class="block text-lg tracking-[-0.03em]">Sources stay visible</strong>
+                        <span class="text-sm text-ink/58 dark:text-white/58">Open the evidence behind a result</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="inside" class="mx-auto max-w-[1400px] px-5 py-20 lg:px-10 lg:py-28">
+                <div class="reveal max-w-3xl">
+                    <h2 class="text-4xl leading-[1.02] font-black tracking-[-0.055em] text-balance sm:text-5xl">The missing context, beside the story.</h2>
+                    <p class="mt-5 max-w-2xl text-lg leading-7 text-ink/65 dark:text-white/65">Turn a company entry into a focused research brief with community evidence and official links.</p>
+                </div>
+
+                <div class="mt-14 grid gap-5 md:grid-cols-12 md:grid-rows-2">
+                    <article class="reveal bg-ink p-7 text-paper md:col-span-7 md:row-span-2 md:p-10 dark:bg-[#e7e1d7] dark:text-ink">
+                        <div class="flex h-full flex-col justify-between gap-14">
+                            <div>
+                                <p class="font-mono text-[11px] font-bold tracking-[0.16em] text-[#75c7ba] uppercase dark:text-leaf">Company brief</p>
+                                <h3 class="mt-4 max-w-[14ch] text-3xl leading-tight font-black tracking-[-0.045em] sm:text-4xl">See the patterns before you make the move.</h3>
+                            </div>
+                            <div class="grid gap-6 sm:grid-cols-2">
+                                <p class="text-sm leading-6 text-paper/70 dark:text-ink/65">Scan workplace culture, reported work setup, and pay evidence in one readable view.</p>
+                                <p class="text-sm leading-6 text-paper/70 dark:text-ink/65">Follow citations back to Deshi Mula stories, comments, jobs, and official company pages.</p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="reveal border border-ink/14 bg-[#dcebe7] p-7 md:col-span-5 dark:border-white/12 dark:bg-[#1b2926]">
+                        <span class="font-mono text-xs font-bold text-leaf dark:text-[#62bbae]">ASK</span>
+                        <h3 class="mt-5 text-2xl font-black tracking-[-0.04em]">Ask a specific question.</h3>
+                        <p class="mt-3 max-w-md text-sm leading-6 text-ink/65 dark:text-white/65">Get a generated answer grounded in retrieved story excerpts, with citations attached.</p>
+                    </article>
+
+                    <article class="reveal border border-ink/14 bg-brand p-7 text-white md:col-span-5 dark:border-white/12">
+                        <span class="font-mono text-xs font-bold text-white/75">PAY + ROLES</span>
+                        <h3 class="mt-5 text-2xl font-black tracking-[-0.04em]">Check what is reported.</h3>
+                        <p class="mt-3 max-w-md text-sm leading-6 text-white/78">Review salary evidence, active hiring signals, and careers links without treating community reports as official policy.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="how" class="border-y border-ink/10 bg-[#ebe6dc] dark:border-white/10 dark:bg-[#151e1c]">
+                <div class="mx-auto max-w-[1400px] px-5 py-20 lg:px-10 lg:py-28">
+                    <div class="reveal max-w-2xl">
+                        <h2 class="text-4xl font-black tracking-[-0.055em] sm:text-5xl">Three moves. Better questions.</h2>
+                    </div>
+                    <div class="mt-14 grid md:grid-cols-3">
+                        <article class="reveal border-t-2 border-ink pt-6 md:pr-10 dark:border-paper">
+                            <span class="font-mono text-sm font-bold text-brand dark:text-[#62bbae]">Install</span>
+                            <h3 class="mt-7 text-2xl font-black tracking-[-0.04em]">Add it to Chrome</h3>
+                            <p class="mt-3 text-sm leading-6 text-ink/62 dark:text-white/62">The extension needs no account and keeps its interface out of your way.</p>
+                        </article>
+                        <article class="reveal border-t border-ink/20 pt-6 md:px-10 dark:border-white/20">
+                            <span class="font-mono text-sm font-bold text-brand dark:text-[#62bbae]">Open</span>
+                            <h3 class="mt-7 text-2xl font-black tracking-[-0.04em]">Visit Deshi Mula</h3>
+                            <p class="mt-3 text-sm leading-6 text-ink/62 dark:text-white/62">Choose a company entry and open its research panel beside the page.</p>
+                        </article>
+                        <article class="reveal border-t border-ink/20 pt-6 md:pl-10 dark:border-white/20">
+                            <span class="font-mono text-sm font-bold text-brand dark:text-[#62bbae]">Research</span>
+                            <h3 class="mt-7 text-2xl font-black tracking-[-0.04em]">Follow the evidence</h3>
+                            <p class="mt-3 text-sm leading-6 text-ink/62 dark:text-white/62">Compare themes, pay, roles, and stories. Open the source when context matters.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mx-auto grid max-w-[1400px] items-center gap-12 px-5 py-20 md:grid-cols-[0.8fr_1.2fr] lg:px-10 lg:py-28">
+                <div class="reveal md:pr-8">
+                    <p class="text-sm font-bold text-leaf dark:text-[#62bbae]">Designed for careful decisions</p>
+                    <h2 class="mt-5 text-4xl font-black tracking-[-0.055em] sm:text-5xl">Evidence first. Verdicts never.</h2>
+                    <p class="mt-5 max-w-xl text-base leading-7 text-ink/65 dark:text-white/65">Community stories can reveal patterns, but they are not verified company policy. The interface keeps source type and dates visible.</p>
+                    <a href="../../PRIVACY.md" class="mt-7 inline-block border-b-2 border-brand pb-1 text-sm font-extrabold hover:text-brand">Read the privacy policy</a>
+                </div>
+                <figure class="reveal bg-[#dcebe7] p-5 sm:p-8 dark:bg-[#1b2926]">
+                    <img
+                        src="../../store-assets/small-promo-tile-440x280.png"
+                        alt="Deshi Mula Extended promotional image showing the research panel"
+                        class="mx-auto w-full max-w-[660px] shadow-product"
+                        width="440"
+                        height="280"
+                        loading="lazy"
+                    />
+                </figure>
+            </section>
+
+            <section id="faq" class="border-t border-ink/10 dark:border-white/10">
+                <div class="mx-auto grid max-w-[1400px] gap-12 px-5 py-20 md:grid-cols-[0.65fr_1.35fr] lg:px-10 lg:py-28">
+                    <div class="reveal">
+                        <h2 class="text-4xl font-black tracking-[-0.055em] sm:text-5xl">Questions, answered plainly.</h2>
+                    </div>
+                    <div class="reveal" data-accordion>
+                        <details class="group border-b border-ink/16 py-5 dark:border-white/16" open>
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-extrabold marker:content-none">
+                                Does it work outside Deshi Mula?
+                                <span class="text-2xl font-light transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                            </summary>
+                            <p class="max-w-2xl pt-4 text-sm leading-6 text-ink/62 dark:text-white/62">No. It runs only on deshimula.com and adds research beside company entries found there.</p>
+                        </details>
+                        <details class="group border-b border-ink/16 py-5 dark:border-white/16">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-extrabold marker:content-none">
+                                Do I need an account?
+                                <span class="text-2xl font-light transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                            </summary>
+                            <p class="max-w-2xl pt-4 text-sm leading-6 text-ink/62 dark:text-white/62">No. There is no account, setup screen, or API key to configure.</p>
+                        </details>
+                        <details class="group border-b border-ink/16 py-5 dark:border-white/16">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-extrabold marker:content-none">
+                                Is every workplace claim verified?
+                                <span class="text-2xl font-light transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                            </summary>
+                            <p class="max-w-2xl pt-4 text-sm leading-6 text-ink/62 dark:text-white/62">No. Workplace stories are community-submitted. Verify important claims independently before making an employment decision.</p>
+                        </details>
+                        <details class="group border-b border-ink/16 py-5 dark:border-white/16">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-extrabold marker:content-none">
+                                What does the extension store?
+                                <span class="text-2xl font-light transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                            </summary>
+                            <p class="max-w-2xl pt-4 text-sm leading-6 text-ink/62 dark:text-white/62">Locally, it stores only whether you accepted the disclosure shown before your first Ask request.</p>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-brand text-white">
+                <div class="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-16 md:flex-row md:items-end lg:px-10 lg:py-20">
+                    <div class="max-w-3xl">
+                        <p class="font-mono text-[11px] font-bold tracking-[0.16em] text-white/72 uppercase">Before the next application</p>
+                        <h2 class="mt-4 text-4xl leading-[1.02] font-black tracking-[-0.055em] sm:text-5xl">Bring better context to the decision.</h2>
+                    </div>
+                    <a href="https://github.com/montasim/deshi-mula-extended/releases/latest" target="_blank" rel="noreferrer" class="inline-flex min-h-13 items-center bg-white px-6 text-sm font-extrabold whitespace-nowrap text-brand-dark transition-transform hover:-translate-y-0.5 active:translate-y-px">Get extension</a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-[#101715] text-[#f1eee7]">
+            <div class="mx-auto grid max-w-[1400px] gap-10 px-5 py-12 sm:grid-cols-[1fr_auto] lg:px-10">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <img src="../../apps/extension/extension/media/logo-48.png" alt="" class="size-8 rounded-lg" width="32" height="32" loading="lazy" />
+                        <span class="font-extrabold tracking-[-0.03em]">Deshi Mula Extended</span>
+                    </div>
+                    <p class="mt-4 max-w-md text-sm leading-6 text-white/55">An independent research companion for deshimula.com. Not affiliated with Deshi Mula.</p>
+                </div>
+                <nav class="flex flex-wrap gap-x-7 gap-y-3 text-sm font-bold" aria-label="Footer navigation">
+                    <a href="https://github.com/montasim/deshi-mula-extended" target="_blank" rel="noreferrer" class="hover:text-[#62bbae]">GitHub</a>
+                    <a href="../../PRIVACY.md" class="hover:text-[#62bbae]">Privacy</a>
+                    <a href="https://github.com/montasim/deshi-mula-extended/issues" target="_blank" rel="noreferrer" class="hover:text-[#62bbae]">Support</a>
+                </nav>
+            </div>
+        </footer>
+
+        <script>
+            const root = document.documentElement;
+            const menuButton = document.querySelector("[data-menu-button]");
+            const mobileMenu = document.querySelector("[data-mobile-menu]");
+            const themeButton = document.querySelector("[data-theme-toggle]");
+
+            const closeMenu = () => {
+                if (!menuButton || !mobileMenu) return;
+                mobileMenu.classList.add("hidden");
+                menuButton.setAttribute("aria-expanded", "false");
+                menuButton.setAttribute("aria-label", "Open navigation");
+            };
+
+            menuButton?.addEventListener("click", () => {
+                const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+                mobileMenu?.classList.toggle("hidden", isOpen);
+                menuButton.setAttribute("aria-expanded", String(!isOpen));
+                menuButton.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
+            });
+
+            mobileMenu?.querySelectorAll("a, button").forEach((item) => {
+                item.addEventListener("click", closeMenu);
+            });
+
+            themeButton?.addEventListener("click", () => {
+                const useDark = !root.classList.contains("dark");
+                root.classList.toggle("dark", useDark);
+                localStorage.setItem("dm-theme", useDark ? "dark" : "light");
+            });
+
+            const accordionItems = document.querySelectorAll("[data-accordion] details");
+            accordionItems.forEach((item) => {
+                item.addEventListener("toggle", () => {
+                    if (!item.open) return;
+                    accordionItems.forEach((other) => {
+                        if (other !== item) other.removeAttribute("open");
+                    });
+                });
+            });
+
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const revealItems = document.querySelectorAll(".reveal");
+
+            if (reducedMotion || !("IntersectionObserver" in window)) {
+                revealItems.forEach((item) => item.classList.add("is-visible"));
+            } else {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (!entry.isIntersecting) return;
+                            entry.target.classList.add("is-visible");
+                            observer.unobserve(entry.target);
+                        });
+                    },
+                    { threshold: 0.14 },
+                );
+
+                revealItems.forEach((item) => observer.observe(item));
+            }
+        </script>
+    </body>
+</html>

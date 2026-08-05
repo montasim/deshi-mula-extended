@@ -1,16 +1,17 @@
 import { cp, mkdir, rm } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { build } from 'esbuild';
 
-const root = process.cwd();
-const output = join(root, 'dist', 'extension');
+const appRoot = process.cwd();
+const workspaceRoot = resolve(appRoot, '../..');
+const output = join(workspaceRoot, 'dist', 'extension');
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 
 await Promise.all([
   build({
-    entryPoints: [join(root, 'extension/content.ts')],
+    entryPoints: [join(appRoot, 'extension/content.ts')],
     outfile: join(output, 'content.js'),
     bundle: true,
     format: 'iife',
@@ -18,7 +19,7 @@ await Promise.all([
     minify: true,
   }),
   build({
-    entryPoints: [join(root, 'extension/background.ts')],
+    entryPoints: [join(appRoot, 'extension/background.ts')],
     outfile: join(output, 'background.js'),
     bundle: true,
     format: 'esm',
@@ -36,7 +37,7 @@ await Promise.all(
     'media/logo-48.png',
     'media/logo-128.png',
   ].map((name) =>
-    cp(join(root, 'extension', name), join(output, name)),
+    cp(join(appRoot, 'extension', name), join(output, name)),
   ),
 );
 
