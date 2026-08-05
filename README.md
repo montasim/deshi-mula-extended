@@ -129,9 +129,9 @@ No environment variables, credentials, or local backend are required. The hosted
 - `store-assets/` — listing screenshot and promotional artwork
 - `prototypes/extention/` — retained extension-interface design reference
 - `prototypes/web/v1.html` — retained landing-page design reference
-- `netlify.toml` — landing-page build and deployment configuration
+- `apps/web/netlify.toml` — landing-page build and deployment configuration
 
-The root `netlify.toml` builds and deploys `apps/web/dist/client`.
+The web app's `netlify.toml` builds and deploys `apps/web/dist/client`, matching the workspace deployment setup used by VidQuery.
 
 ## Releases
 

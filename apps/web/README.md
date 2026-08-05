@@ -16,4 +16,4 @@ pnpm dev:web
 pnpm check:web
 ```
 
-Netlify deployment is configured by the repository root `netlify.toml`.
+Netlify deployment is configured by `apps/web/netlify.toml`.
